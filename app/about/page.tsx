@@ -15,19 +15,23 @@ const experience = [
 export default function AboutPage() {
   return (
     <PageShell active="about">
-      <main className="inner-page">
+      <main className="inner-page" id="main-content">
         <section className="about-hero">
-          <div className="about-hero-copy"><p className="eyebrow">About Edsun</p><h1>Curious by nature.<br /><em>Precise by practice.</em></h1><p>I&apos;m a graphic designer and video editor who brings together creative direction, technical detail, and practical production experience.</p></div>
+          <div className="about-hero-copy">
+            <p className="eyebrow">About Edsun</p>
+            <h1>Curious by nature.<br />Precise by practice.</h1>
+            <p>I’m a graphic designer and video editor who brings together creative direction, technical detail, and practical production experience.</p>
+          </div>
           <div className="about-hero-photo"><img src="/images/about-headshot.jpg" alt="Portrait of Edsun Caldoza" /></div>
         </section>
 
         <section className="about-story">
           <p className="section-label"><span>01</span>My story</p>
-          <div><h2>I make ideas easier to see, understand, and remember.</h2><p>My path began in print production, where every detail had to survive the move from screen to finished object. I carried that discipline into digital campaigns, landing pages, presentations, and now motion-led content.</p><p>Teaching design and technology sharpened another part of my process: explaining choices clearly. Whether I&apos;m collaborating with a client or a remote team, I aim to make feedback straightforward and the final work purposeful.</p></div>
+          <div><h2>I make ideas easier to see, understand, and remember.</h2><p>My path began in print production, where every detail had to survive the move from screen to finished object. I carried that discipline into digital campaigns, landing pages, presentations, and motion-led content.</p><p>Teaching design and technology sharpened another part of my process: explaining choices clearly. Whether I’m collaborating with a client or a remote team, I aim to make feedback straightforward and the final work purposeful.</p></div>
         </section>
 
         <section className="experience-section">
-          <div className="experience-head"><p className="section-label light"><span>02</span>Experience</p><h2>Seven years of<br /><em>making it work.</em></h2><a className="button button-light" href="/resume.pdf" target="_blank" rel="noreferrer">Download résumé <span>↗</span></a></div>
+          <div className="experience-head"><p className="section-label"><span>02</span>Experience</p><h2>Seven years of practical creative work.</h2><a className="button button-primary" href="/resume.pdf" target="_blank" rel="noreferrer">Download résumé</a></div>
           <div className="timeline">
             {experience.map((item) => <article key={item.role}><time>{item.date}</time><div><h3>{item.role}</h3><strong>{item.company}</strong><p>{item.detail}</p></div></article>)}
           </div>
@@ -38,7 +42,7 @@ export default function AboutPage() {
           <div className="principle-grid">
             <article><span>01</span><h3>Start with the message</h3><p>Before style, I clarify what the audience needs to understand, feel, and do.</p></article>
             <article><span>02</span><h3>Build a visual system</h3><p>I create rules that make the work consistent, adaptable, and easier to extend.</p></article>
-            <article><span>03</span><h3>Refine with purpose</h3><p>Feedback becomes focused iteration—not decoration for decoration&apos;s sake.</p></article>
+            <article><span>03</span><h3>Refine with purpose</h3><p>Feedback becomes focused iteration—not decoration for decoration’s sake.</p></article>
           </div>
         </section>
 

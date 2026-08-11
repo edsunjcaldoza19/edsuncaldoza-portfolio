@@ -22,7 +22,7 @@ test("home clearly positions Edsun and exposes recruiter and client paths", asyn
   assert.match(html, /Graphic Designer/);
   assert.match(html, /Video Editor/);
   assert.match(html, /View selected work/);
-  assert.match(html, /Let(?:&apos;|&#x27;|')s work together/);
+  assert.match(html, /Let(?:&apos;|&#x27;|'|’)s work together/);
   assert.match(html, /href="\/resume\.pdf"/);
   assert.match(html, /edsunjcaldoza@gmail\.com/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Alex Morgan/);
@@ -58,7 +58,7 @@ test("project routes render internal case-study content and navigation", async (
 test("social metadata uses the incoming host and bespoke card", async () => {
   const layout = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
   assert.match(layout, /x-forwarded-host/);
-  assert.match(layout, /new URL\("\/og\.png", metadataBase\)/);
+  assert.match(layout, /new URL\("\/og-clean\.png", metadataBase\)/);
   assert.match(layout, /summary_large_image/);
   assert.match(layout, /Edsun Caldoza/);
 });

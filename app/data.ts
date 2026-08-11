@@ -150,6 +150,7 @@ export const projects: Project[] = [
     approach: "Direct typography, a warm illustrated focal point, and a restrained red palette create clarity and empathy.",
     result: "A versatile cover concept designed to remain recognizable across digital thumbnails and print formats.",
     behance: "https://www.behance.net/gallery/226851791/Heart-Health-Book-Cover-Template",
+    featured: true,
   },
   {
     slug: "moonlight-car-rental-brochure",

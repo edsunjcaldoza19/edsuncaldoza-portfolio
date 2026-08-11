@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactNode } from "react";
 import type { Project } from "./data";
 
@@ -5,57 +6,64 @@ const email = "mailto:edsunjcaldoza@gmail.com";
 
 export function Navigation({ active = "" }: { active?: string }) {
   return (
-    <header className="site-header">
-      <a className="brand" href="/" aria-label="Edsun Caldoza, home">
-        <span className="brand-mark">EC</span>
-        <span className="brand-name">Edsun Caldoza</span>
-      </a>
-      <nav className="desktop-nav" aria-label="Main navigation">
-        <a className={active === "work" ? "active" : ""} href="/work">Work</a>
-        <a className={active === "about" ? "active" : ""} href="/about">About</a>
-        <a href="/#skills">Skills</a>
-        <a href="/#contact">Contact</a>
-        <a className="nav-resume" href="/resume.pdf" target="_blank" rel="noreferrer">Résumé ↗</a>
-      </nav>
-      <details className="mobile-nav">
-        <summary aria-label="Open navigation">Menu</summary>
-        <nav aria-label="Mobile navigation">
-          <a href="/work">Work</a>
-          <a href="/about">About</a>
-          <a href="/#skills">Skills</a>
-          <a href="/#contact">Contact</a>
-          <a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé ↗</a>
-        </nav>
-      </details>
-    </header>
+    <>
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <header className="site-header">
+        <div className="nav-inner">
+          <Link className="brand" href="/" aria-label="Edsun Caldoza, home">
+            <span className="brand-mark">EC</span>
+            <span className="brand-name">Edsun Caldoza</span>
+          </Link>
+          <nav className="desktop-nav" aria-label="Main navigation">
+            <Link className={active === "work" ? "active" : ""} href="/work">Work</Link>
+            <Link className={active === "about" ? "active" : ""} href="/about">About</Link>
+            <Link href="/#skills">Skills</Link>
+            <Link href="/#contact">Contact</Link>
+            <a className="nav-resume" href="/resume.pdf" target="_blank" rel="noreferrer">Résumé <span aria-hidden="true">↗</span></a>
+          </nav>
+          <details className="mobile-nav">
+            <summary aria-label="Open navigation menu">Menu</summary>
+            <nav aria-label="Mobile navigation">
+              <Link href="/work">Work</Link>
+              <Link href="/about">About</Link>
+              <Link href="/#skills">Skills</Link>
+              <Link href="/#contact">Contact</Link>
+              <a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé <span aria-hidden="true">↗</span></a>
+            </nav>
+          </details>
+        </div>
+      </header>
+    </>
   );
 }
 
 export function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-lead">
-        <div>
-          <p className="eyebrow light">Have a project in mind?</p>
-          <h2>Let&apos;s make something<br />worth noticing.</h2>
+      <div className="footer-inner">
+        <div className="footer-lead">
+          <div>
+            <p className="eyebrow light">Available for select projects</p>
+            <h2>Have something in mind?</h2>
+            <p>Let’s make it clear, useful, and worth remembering.</p>
+          </div>
+          <a className="footer-cta" href={email}>Start a conversation <span aria-hidden="true">→</span></a>
         </div>
-        <a className="circle-link" href={email} aria-label="Email Edsun">↗</a>
-      </div>
-      <div className="footer-bottom">
-        <div>
-          <strong>Edsun Caldoza</strong>
-          <span>Graphic Designer &amp; Video Editor</span>
+        <div className="footer-bottom">
+          <div className="footer-identity">
+            <strong>Edsun Caldoza</strong>
+            <span>Graphic Designer &amp; Video Editor</span>
+          </div>
+          <nav className="footer-links" aria-label="Footer navigation">
+            <Link href="/work">Work</Link>
+            <Link href="/about">About</Link>
+            <a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé</a>
+            <a href={email}>Email</a>
+            <a href="https://www.linkedin.com/in/edsun-caldoza/" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://www.behance.net/edsuncaldoza" target="_blank" rel="noreferrer">Behance</a>
+          </nav>
+          <p className="copyright">© {new Date().getFullYear()} Edsun Caldoza</p>
         </div>
-        <div className="footer-links">
-          <a href="/work">Work</a>
-          <a href="/about">About</a>
-          <a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé</a>
-          <a href={email}>Email</a>
-          <a href="https://www.linkedin.com/in/edsun-caldoza/" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a href="https://www.behance.net/edsuncaldoza" target="_blank" rel="noreferrer">Behance</a>
-        </div>
-        <div className="availability"><span /> Available for select projects</div>
-        <p className="copyright">© {new Date().getFullYear()} Edsun Caldoza</p>
       </div>
     </footer>
   );
@@ -67,19 +75,16 @@ export function PageShell({ children, active }: { children: ReactNode; active?: 
 
 export function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
   return (
-    <article className={`project-card project-${project.accent}`}>
-      <a className="project-image-wrap" href={`/work/${project.slug}`} aria-label={`View ${project.title} case study`}>
-        <span className="project-index">0{index + 1}</span>
-        {project.video && <span className="play-pill">▶ Reel</span>}
+    <article className="project-card">
+      <Link className="project-image-wrap" href={`/work/${project.slug}`} aria-label={`View ${project.title} case study`}>
+        {project.video && <span className="play-pill">Video project</span>}
         <img src={project.image} alt={`${project.title} project preview`} loading={index > 1 ? "lazy" : "eager"} />
-      </a>
+      </Link>
       <div className="project-meta">
-        <div>
-          <p>{project.category}</p>
-          <h3><a href={`/work/${project.slug}`}>{project.title}</a></h3>
-        </div>
+        <p className="project-category">{project.category}</p>
+        <h3><Link href={`/work/${project.slug}`}>{project.title}</Link></h3>
         <p className="project-summary">{project.summary}</p>
-        <a className="text-link" href={`/work/${project.slug}`}>View case study <span>↗</span></a>
+        <Link className="text-link" href={`/work/${project.slug}`}>View case study <span aria-hidden="true">→</span></Link>
       </div>
     </article>
   );
