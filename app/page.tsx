@@ -5,14 +5,14 @@ import { Footer, Navigation, ProjectCard, SectionIntro } from "./components";
 import { featuredProjects } from "./data";
 
 export const metadata: Metadata = {
-  title: "Edsun Caldoza — Graphic Designer & Video Editor",
-  description: "Graphic design, video editing, and digital experiences built with clarity, craft, and purpose.",
+  title: "Edsun Caldoza | Graphic Designer & Video Editor",
+  description: "Graphic design, video editing, presentation design, and web work by Edsun Caldoza.",
 };
 
 const expertise = [
-  { number: "01", title: "Graphic Design", text: "Campaign systems, presentations, social content, publishing, and print-ready collateral.", tools: "Photoshop · Canva · Google Slides" },
-  { number: "02", title: "Video Editing", text: "Short-form social, promotional cuts, branded titles, captions, rhythm, and visual transitions.", tools: "Editing · Motion graphics · Sound polish" },
-  { number: "03", title: "Web & Digital", text: "Landing pages, responsive visual systems, and interfaces that keep the action clear.", tools: "Figma · WordPress · HTML · CSS" },
+  { number: "01", title: "Graphic Design", text: "Campaign graphics, presentations, book covers, social content, and print materials built around a clear message.", tools: "Photoshop · Canva · Google Slides" },
+  { number: "02", title: "Video Editing", text: "Short-form edits, promotional videos, captions, titles, pacing, and simple motion graphics for digital platforms.", tools: "Short-form · Captions · Motion graphics" },
+  { number: "03", title: "Web & Digital", text: "Landing pages and responsive layouts that organize content and keep the next step easy to find.", tools: "Figma · WordPress · HTML · CSS" },
 ];
 
 const portfolioStats = [
@@ -61,12 +61,12 @@ export default function Home() {
         </section>
 
         <section className="home-about" id="skills">
-          <SectionIntro number="01" label="About & expertise" title={<>Ideas made visible.<br />Stories made memorable.</>} />
+          <SectionIntro number="01" label="About & expertise" title={<>Design that gets the<br />message across.</>} />
           <div className="about-expertise-grid">
             <div className="about-expertise-copy reveal">
-              <p className="about-lead">I’m Edsun, a multidisciplinary designer with roots in print production, digital design, and teaching.</p>
-              <p>That mix helps me connect creative ambition with the practical details that make work clear, adaptable, and ready to deliver.</p>
-              <Link className="text-link" href="/about">More about me <span aria-hidden="true">↗</span></Link>
+              <p className="about-lead">I’m Edsun, a graphic designer and video editor with seven years of experience across print, presentations, web design, and digital content.</p>
+              <p>I combine strong visual thinking with practical production skills. That means clear communication, organized files, thoughtful revisions, and work that is ready to use.</p>
+              <Link className="text-link" href="/about">Learn more about me <span aria-hidden="true">↗</span></Link>
             </div>
             <div className="expertise-list reveal">
               {expertise.map((item) => (
@@ -80,11 +80,11 @@ export default function Home() {
         </section>
 
         <section className="selected-work" id="selected-work">
-          <SectionIntro number="02" label="Selected work" title={<>Six projects.<br />One clear point of view.</>} />
+          <SectionIntro number="02" label="Selected work" title={<>Selected work across<br />design, video, and web.</>} />
           <div className="project-grid">
             {featuredProjects.map((project, index) => <ProjectCard key={project.slug} project={project} index={index} />)}
           </div>
-          <Link className="section-link" href="/work">Explore all projects <span aria-hidden="true">↗</span></Link>
+          <Link className="section-link" href="/work">View all projects <span aria-hidden="true">↗</span></Link>
         </section>
 
         <section className="testimonial reveal">
@@ -94,11 +94,11 @@ export default function Home() {
         </section>
 
         <section className="contact-close reveal" id="contact">
-          <div className="contact-topline"><p className="section-label"><span>04</span>Contact</p><span>Based in the Philippines · Working worldwide</span></div>
-          <h2>Let’s build<br /><span>something.</span></h2>
+          <div className="contact-topline"><p className="section-label"><span>04</span>Contact</p><span>Based in the Philippines · Available worldwide</span></div>
+          <h2>Let’s work<br /><span>together.</span></h2>
           <div className="contact-bottom">
-            <p>Available for freelance projects, remote roles, and thoughtful creative collaborations.</p>
-            <a className="contact-email" href="mailto:edsunjcaldoza@gmail.com">Email Edsun <span aria-hidden="true">↗</span></a>
+            <p>I’m available for freelance projects and remote roles in graphic design, video editing, and web design.</p>
+            <a className="contact-email" href="mailto:edsunjcaldoza@gmail.com">Email me <span aria-hidden="true">↗</span></a>
           </div>
         </section>
       </main>

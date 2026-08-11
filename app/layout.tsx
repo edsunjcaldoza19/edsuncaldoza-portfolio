@@ -19,20 +19,20 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase,
-    title: { default: "Edsun Caldoza — Graphic Designer & Video Editor", template: "%s" },
-    description: "Graphic design, video editing, and digital experiences built with clarity, craft, and purpose.",
+    title: { default: "Edsun Caldoza | Graphic Designer & Video Editor", template: "%s" },
+    description: "Graphic design, video editing, presentation design, and web work by Edsun Caldoza.",
     icons: { icon: "/images/ico.png", shortcut: "/images/ico.png" },
     openGraph: {
       type: "website",
       url: metadataBase,
-      title: "Edsun Caldoza — Graphic Designer & Video Editor",
-      description: "Designing visual stories for brands, audiences, and screens.",
-      images: [{ url: socialImage, width: 1536, height: 1024, alt: "Edsun Caldoza — Graphic Designer & Video Editor" }],
+      title: "Edsun Caldoza | Graphic Designer & Video Editor",
+      description: "Graphic design, video editing, presentation design, and web work by Edsun Caldoza.",
+      images: [{ url: socialImage, width: 1536, height: 1024, alt: "Edsun Caldoza | Graphic Designer & Video Editor" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Edsun Caldoza — Graphic Designer & Video Editor",
-      description: "Designing visual stories for brands, audiences, and screens.",
+      title: "Edsun Caldoza | Graphic Designer & Video Editor",
+      description: "Graphic design, video editing, presentation design, and web work by Edsun Caldoza.",
       images: [socialImage],
     },
   };

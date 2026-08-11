@@ -3,8 +3,8 @@ import { PageShell, ProjectCard } from "../components";
 import { projects } from "../data";
 
 export const metadata: Metadata = {
-  title: "Selected Work — Edsun Caldoza",
-  description: "Explore graphic design, video editing, presentation, publishing, and digital product work by Edsun Caldoza.",
+  title: "Selected Work | Edsun Caldoza",
+  description: "Graphic design, video editing, presentations, web pages, app concepts, and print work by Edsun Caldoza.",
 };
 
 const groups = ["Video Editing", "Graphic Design", "Web / Digital"] as const;
@@ -14,9 +14,9 @@ export default function WorkPage() {
     <PageShell active="work">
       <main className="inner-page work-page" id="main-content">
         <section className="work-hero reveal">
-          <p className="eyebrow">Project index · 2023—2026</p>
-          <h1>Work made to<br /><span>communicate clearly.</span></h1>
-          <p>Campaigns, edits, presentations, publishing, and digital experiences—designed with purpose and delivered with care.</p>
+          <p className="eyebrow">Project index · 2023 to 2026</p>
+          <h1>Graphic design, video,<br /><span>and digital work.</span></h1>
+          <p>A selection of campaigns, presentations, edits, web pages, app concepts, and print projects.</p>
         </section>
         <nav className="work-index reveal" aria-label="Project categories">
           {groups.map((group, index) => <a key={group} href={`#${group.toLowerCase().replaceAll(" ", "-").replace("/", "")}`}><span>0{index + 1}</span>{group}</a>)}

@@ -27,3 +27,12 @@
 - Place each homepage section number and label on its own row, followed by the display title on a new line with a `20–24px` vertical gap.
 - Feature six internal case studies in a two-column desktop grid and one column on mobile.
 - End with a full-width testimonial followed by an oversized contact statement.
+
+## Copy Voice
+
+- Keep the homepage hero copy unchanged.
+- Use direct, specific language everywhere else. Prefer concrete deliverables, decisions, and outcomes over abstract phrases about craft or purpose.
+- Present video editing through the existing reel and project work without adding unverified software, employers, or performance metrics.
+- Preserve approved statistics and client quotations exactly.
+- Use vertical bars in page titles, the word `to` in date ranges, and no em dashes in user-facing copy.
+- Lead every case study with a clear challenge and approach, then use a project-specific outcome heading rather than one generic result statement.

@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const project = projectBySlug(slug);
   if (!project) return {};
-  return { title: `${project.title} — Edsun Caldoza`, description: project.summary };
+  return { title: `${project.title} | Edsun Caldoza`, description: project.summary };
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -25,7 +25,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <PageShell active="work">
       <main className="case-study" id="main-content">
         <header className="case-header">
-          <Link className="case-back" href="/work">← All work</Link>
+          <Link className="case-back" href="/work">← All projects</Link>
           <div className="case-heading reveal"><p className="eyebrow">{projectNumber} · {project.category} · {project.year}</p><h1>{project.title}</h1><p>{project.summary}</p></div>
           <div className="case-hero-media reveal">
             {project.video ? <video controls muted playsInline preload="metadata" poster={project.image}><source src="/videos/edsun-reel.mp4" type="video/mp4" />Your browser does not support video playback.</video> : <img src={project.image} alt={`${project.title} final presentation`} />}
@@ -37,9 +37,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <div><span>Tools</span><strong>{project.tools}</strong></div>
           <div><span>Deliverables</span><strong>{project.deliverables}</strong></div>
         </section>
-        <section className="case-narrative reveal"><p className="section-label"><span>01</span>The brief</p><div><h2>{project.challenge}</h2><p>{project.approach}</p></div></section>
-        <section className={`case-art project-${project.accent} reveal`}><span>Selected outcome</span><img src={project.image} alt={`Detailed view of ${project.title}`} loading="lazy" /></section>
-        <section className="case-result reveal"><p className="section-label"><span>02</span>Outcome</p><div><h2>Designed to stay clear at every size.</h2><p>{project.result}</p>{project.behance && <a className="button button-primary" href={project.behance} target="_blank" rel="noreferrer">View full project on Behance</a>}</div></section>
+        <section className="case-narrative reveal"><p className="section-label"><span>01</span>Challenge and approach</p><div><h2>{project.challenge}</h2><p>{project.approach}</p></div></section>
+        <section className={`case-art project-${project.accent} reveal`}><span>Final work</span><img src={project.image} alt={`Detailed view of ${project.title}`} loading="lazy" /></section>
+        <section className="case-result reveal"><p className="section-label"><span>02</span>Outcome</p><div><h2>{project.outcomeHeading}</h2><p>{project.result}</p>{project.behance && <a className="button button-primary" href={project.behance} target="_blank" rel="noreferrer">View project on Behance</a>}</div></section>
         <Link className="next-project reveal" href={`/work/${next.slug}`}><span>Next project</span><strong>{next.title}</strong><i aria-hidden="true">↗</i></Link>
       </main>
     </PageShell>

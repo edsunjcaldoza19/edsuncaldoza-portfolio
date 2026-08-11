@@ -46,8 +46,15 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /data-count-suffix="\+ years"/);
   assert.doesNotMatch(html, /1,000\+|Cover templates designed|Worldwide|Remote collaboration|Professional creative work/);
   assert.match(html, /About &amp; expertise/);
+  assert.match(html, /Design that gets the[s\S]*message across\./);
+  assert.match(html, /graphic designer and video editor with seven years of experience/);
+  assert.match(html, /Learn more about me/);
+  assert.match(html, /Selected work across[s\S]*design, video, and web\./);
+  assert.match(html, /View all projects/);
   assert.match(html, /Client feedback/);
-  assert.match(html, /build/);
+  assert.match(html, /Such a great experience working with Edsun/);
+  assert.match(html, /Available worldwide/);
+  assert.match(html, /Email me/);
   assert.match(html, /aria-label="Switch to light theme"/);
   assert.match(html, /role="progressbar"/);
   assert.match(html, /aria-label="Page scroll progress"/);
@@ -56,6 +63,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /data-scrolled="false"/);
   assert.doesNotMatch(html, /<h1[^>]*>Designing/);
   assert.doesNotMatch(html, /I turn ideas into clear, memorable visuals/);
+  assert.doesNotMatch(html, /Ideas made visible|Six projects|Let(?:’|&apos;|&#x27;)s build/);
   assert.doesNotMatch(html, /class="about-portrait/);
   assert.doesNotMatch(html, /Available for select projects|Have something in mind\?|Start a conversation|footer-lead|footer-cta/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Alex Morgan/);
@@ -156,11 +164,16 @@ test("about and work pages expose the requested information architecture", async
   assert.equal(aboutResponse.status, 200);
   assert.equal(workResponse.status, 200);
   const [about, work] = await Promise.all([aboutResponse.text(), workResponse.text()]);
-  assert.match(about, /Seven years of/);
+  assert.match(about, /Designer, editor, and[\s\S]*practical problem-solver\./);
+  assert.match(about, /I learned design by making work that had to function in the real world\./);
+  assert.match(about, /Experience across print, digital, and education\./);
+  assert.match(about, /Understand the goal/);
+  assert.match(about, /Share and refine/);
   assert.match(about, /Unica Publications/);
   assert.match(about, /Bachelor of Science in Information Technology/);
   assert.match(about, /Philippines/);
   assert.match(about, /Worldwide remote/);
+  assert.doesNotMatch(about, /1,000\+|Curious by nature|Seven years of practical creative work/);
   assert.doesNotMatch(about, /about-hero-photo|about-headshot\.jpg/);
   assert.doesNotMatch(about, /Available for select projects|Have something in mind\?|Start a conversation/);
   assert.match(work, /Video Editing/);
@@ -168,18 +181,52 @@ test("about and work pages expose the requested information architecture", async
   assert.match(work, /Web \/ Digital/);
   assert.match(work, /motion-video-reel/);
   assert.match(work, /Project index/);
+  assert.match(work, /2023 to 2026/);
+  assert.match(work, /Graphic design, video,[\s\S]*and digital work\./);
+  assert.match(work, /A selection of campaigns, presentations, edits, web pages, app concepts, and print projects\./);
+  assert.doesNotMatch(work, /Work made to|built with clarity, craft, and purpose/);
   assert.doesNotMatch(work, /Available for select projects|Have something in mind\?|Start a conversation/);
 });
 
-test("project routes render internal case-study content and navigation", async () => {
-  const response = await render("/work/digital-marketing-campaign");
-  assert.equal(response.status, 200);
-  const html = await response.text();
-  assert.match(html, /Digital Marketing Mastery/);
-  assert.match(html, /The brief/);
-  assert.match(html, /Outcome/);
-  assert.match(html, /Next project/);
-  assert.match(html, /View full project on Behance/);
+test("project routes render direct case-study copy and navigation", async () => {
+  const caseStudies = [
+    ["motion-video-reel", "A reel that is easy to update."],
+    ["digital-marketing-campaign", "One system across every campaign asset."],
+    ["short-form-social-edits", "A repeatable format for short-form content."],
+    ["ai-business-model-landing-page", "A clearer route from offer to action."],
+    ["wealth-webinar-presentation", "A deck built for live delivery."],
+    ["page-whisper-mobile-app", "A smoother path from discovery to reading."],
+    ["heart-health-book-cover", "Clear at thumbnail and print size."],
+    ["moonlight-car-rental-brochure", "Service details that are easy to scan."],
+  ];
+
+  for (const [slug, outcomeHeading] of caseStudies) {
+    const response = await render(`/work/${slug}`);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    assert.match(html, /All projects/);
+    assert.match(html, /Challenge and approach/);
+    assert.match(html, /Final work/);
+    assert.match(html, /Outcome/);
+    assert.match(html, new RegExp(outcomeHeading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(html, /Next project/);
+    assert.doesNotMatch(html, /The brief|Selected outcome|Designed to stay clear at every size/);
+  }
+
+  const behanceResponse = await render("/work/digital-marketing-campaign");
+  assert.match(await behanceResponse.text(), /View project on Behance/);
+});
+
+test("user-facing copy avoids em dashes", async () => {
+  const copyFiles = await Promise.all([
+    "../app/page.tsx",
+    "../app/about/page.tsx",
+    "../app/work/page.tsx",
+    "../app/work/[slug]/page.tsx",
+    "../app/data.ts",
+    "../app/layout.tsx",
+  ].map((path) => readFile(new URL(path, import.meta.url), "utf8")));
+  assert.doesNotMatch(copyFiles.join("\n"), /—/);
 });
 
 test("social metadata uses the incoming host and bespoke card", async () => {
