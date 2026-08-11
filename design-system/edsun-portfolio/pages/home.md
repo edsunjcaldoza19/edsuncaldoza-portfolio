@@ -17,7 +17,9 @@
 - Build the role animation as a vertically clipped CSS track with a repeated first item for a seamless nine-second loop. Reserve the longest phrase’s dimensions and keep reduced-motion experiences static on “A Designer.”
 - Keep the animated phrase hidden from assistive technology, expose one stable text alternative containing the full introduction and all three identities, and use “I build Visuals that Connect and Convert.” as the page’s single H1.
 - Apply one synchronized, soft blue CSS gradient only to “Connect” and “Convert.” Stop the gradient motion for reduced-motion users and retain a readable cobalt fallback when text clipping is unsupported.
-- Keep the larger headline on two controlled lines through tablet widths. On phones, insert a mobile break after “Visuals” and allow the remaining phrase to wrap into no more than three total lines.
+- Keep the larger headline inside its grid column with a flexible `64–80px` desktop scale, a `54–64px` intermediate scale, and a `48–60px` stacked scale. Prefer two lines, permit a third line when the column narrows, and never force a line wider than the copy column.
+- On phones, insert a mobile break after “Visuals” and allow the remaining phrase to wrap into no more than three total lines. Keep individual gradient words intact.
+- Use a flexible copy column plus a portrait column capped at `480px`, separated by a responsive `40–64px` gap. Both columns remain vertically centered and the copy column must use `min-width: 0` to prevent overlap.
 - Use 54px hero CTA controls and increase the vertically centered desktop portrait to a 480px maximum without changing its 4:5 crop.
 - Stack the portrait below the complete CTA group on mobile.
 - Keep the portrait in the hero only; About sections use text and expertise content without repeated portraits.

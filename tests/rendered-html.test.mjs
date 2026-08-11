@@ -61,6 +61,8 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.hamburger-icon/);
   assert.match(css, /\.mobile-nav\[open\] \.hamburger-icon/);
   assert.doesNotMatch(css, /\.brand\.active::after/);
+  assert.match(css, /\.hero[^}]*grid-template-columns:\s*minmax\(0, 1fr\) minmax\(360px, 480px\)[^}]*gap:\s*clamp\(40px, 4vw, 64px\)/s);
+  assert.match(css, /\.hero-copy[^}]*min-width:\s*0[^}]*max-width:\s*100%/s);
   assert.match(css, /\.hero-portrait[^}]*align-self:\s*center/s);
   assert.match(css, /filter:\s*grayscale\(1\)\s+contrast\(1\.06\)/);
   assert.match(css, /\.role-viewport[^}]*width:\s*13ch[^}]*height:\s*1em[^}]*overflow:\s*hidden/s);
@@ -70,12 +72,15 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.role-track \{ animation:\s*none !important; transform:\s*none !important;/);
   assert.match(css, /\.hero-actions \.button[^}]*min-height:\s*54px[^}]*padding:\s*0 24px/s);
   assert.match(css, /\.hero-portrait[^}]*480px/s);
-  assert.match(css, /\.hero-title-line \{ white-space:\s*nowrap;/);
   assert.match(css, /\.hero-title-line \{ white-space:\s*normal;/);
+  assert.doesNotMatch(css, /\.hero-title-line \{ white-space:\s*nowrap;/);
   assert.match(css, /\.hero-title-break \{ display:\s*none;/);
   assert.match(css, /\.hero-title-mobile-break \{ display:\s*none;/);
   assert.match(css, /\.hero-title-mobile-break \{ display:\s*block;/);
-  assert.match(css, /\.hero-pitch[^}]*font-size:\s*clamp\(68px, 6vw, 88px\)/s);
+  assert.match(css, /\.hero-pitch[^}]*max-width:\s*100%[^}]*font-size:\s*clamp\(64px, 5\.2vw, 80px\)[^}]*line-height:\s*\.92/s);
+  assert.match(css, /@media \(max-width:\s*1200px\)[\s\S]*?\.hero-pitch \{ font-size:\s*clamp\(54px, 5\.2vw, 64px\)/);
+  assert.match(css, /\.role-heading-visual[^}]*flex-wrap:\s*nowrap/s);
+  assert.match(css, /\.role-viewport[^}]*flex:\s*0 0 13ch/s);
   assert.match(css, /\.hero-gradient-word/);
   assert.match(css, /background-clip:\s*text/);
   assert.match(css, /hero-gradient-shift 6s ease-in-out infinite alternate/);
