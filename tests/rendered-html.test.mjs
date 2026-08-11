@@ -87,6 +87,9 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /hero-gradient-shift 6s ease-in-out infinite alternate/);
   assert.match(css, /\.hero-gradient-word \{ animation:\s*none !important;/);
   assert.doesNotMatch(css, /\.hero-intro/);
+  assert.match(css, /\.section-intro \{ margin-bottom:\s*72px; display:\s*block; \}/);
+  assert.match(css, /\.section-intro \.section-label \{ margin-bottom:\s*24px; \}/);
+  assert.doesNotMatch(css, /\.section-intro[^}]*grid-template-columns:\s*220px 1fr/s);
 });
 
 test("navigation and rotating roles use the specified accessible behavior", async () => {
