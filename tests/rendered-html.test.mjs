@@ -33,6 +33,18 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /href="\/resume\.pdf"/);
   assert.match(html, /edsunjcaldoza@gmail\.com/);
   assert.match(html, /class="hero-pattern" aria-hidden="true"/);
+  assert.match(html, /500(?:<!-- -->)?\+/);
+  assert.match(html, /Graphic Design Projects/);
+  assert.match(html, /50(?:<!-- -->)?\+/);
+  assert.match(html, /Webinar Presentations/);
+  assert.match(html, /70(?:<!-- -->)?\+/);
+  assert.match(html, /Web Design Projects/);
+  assert.match(html, /7(?:<!-- -->)?\+ years/);
+  assert.match(html, /Professional experience/);
+  assert.match(html, /data-count-strip/);
+  assert.match(html, /data-count-to="500"/);
+  assert.match(html, /data-count-suffix="\+ years"/);
+  assert.doesNotMatch(html, /1,000\+|Cover templates designed|Worldwide|Remote collaboration|Professional creative work/);
   assert.match(html, /About &amp; expertise/);
   assert.match(html, /Client feedback/);
   assert.match(html, /build/);
@@ -95,6 +107,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.section-intro \{ margin-bottom:\s*72px; display:\s*block; \}/);
   assert.match(css, /\.section-intro \.section-label \{ margin-bottom:\s*24px; \}/);
   assert.doesNotMatch(css, /\.section-intro[^}]*grid-template-columns:\s*220px 1fr/s);
+  assert.match(css, /\.proof-strip \{ width:\s*min\(calc\(100% - 48px\), var\(--content\)\);[^}]*padding:\s*0;/s);
 });
 
 test("navigation and rotating roles use the specified accessible behavior", async () => {
@@ -114,6 +127,12 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.doesNotMatch(controls, /aria-live/);
   assert.match(controls, /\.\.\.portfolioRoles, portfolioRoles\[0\]/);
   assert.doesNotMatch(controls, /characterIndex|deleting|typing-cursor|setTimeout/);
+  assert.match(controls, /export function CountUpObserver/);
+  assert.match(controls, /\[data-count-strip\]/);
+  assert.match(controls, /\[data-count-value\]/);
+  assert.match(controls, /duration = 1200/);
+  assert.match(controls, /1 - Math\.pow\(1 - progress, 3\)/);
+  assert.match(controls, /observer\.unobserve\(strip\)/);
   const navigation = await readFile(new URL("../app/components.tsx", import.meta.url), "utf8");
   assert.match(navigation, /aria-current=\{active === "work" \? "page"/);
   assert.match(navigation, /hamburger-icon/);

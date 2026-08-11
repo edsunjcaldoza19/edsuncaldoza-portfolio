@@ -154,11 +154,11 @@ h1, h2, h3, .brand, .button, .section-label, .eyebrow, .project-overline, .theme
 .hero-status { margin-top: 24px; display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 11px; letter-spacing: .04em; }
 .status-dot { width: 7px; height: 7px; flex: 0 0 auto; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 18%, transparent); }
 
-.proof-strip { width: min(100%, var(--content)); margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); }
+.proof-strip { width: min(calc(100% - 48px), var(--content)); margin: 0 auto; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); }
 .proof-strip div { min-height: 156px; padding: 38px 26px; display: grid; align-content: center; gap: 4px; border-left: 1px solid var(--border); }
 .proof-strip div:last-child { border-right: 1px solid var(--border); }
 .proof-strip strong { font-family: var(--font-display), sans-serif; font-size: clamp(25px, 2.6vw, 38px); line-height: 1; letter-spacing: -.045em; }
-.proof-strip span { color: var(--muted); font-size: 12px; }
+.proof-strip > div > span { color: var(--muted); font-size: 12px; }
 
 .home-about, .selected-work, .testimonial, .contact-close, .principles, .education { width: min(calc(100% - 48px), var(--content)); margin-left: auto; margin-right: auto; }
 .home-about, .selected-work { padding: 144px 0; scroll-margin-top: 96px; }
@@ -406,7 +406,7 @@ html[data-motion="ready"] .reveal.is-visible { opacity: 1; transform: translateY
 @media (max-width: 420px) {
   .role-heading-visual { flex-wrap: wrap; row-gap: 6px; }
   .role-heading { font-size: clamp(20px, 5.2vw, 22px); }
-  .proof-strip span { font-size: 10px; }
+  .proof-strip > div > span { font-size: 10px; }
   .contact-close h2 { font-size: clamp(62px, 19.5vw, 82px); }
   .case-facts { grid-template-columns: 1fr; }
 }

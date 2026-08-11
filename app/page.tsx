@@ -15,6 +15,13 @@ const expertise = [
   { number: "03", title: "Web & Digital", text: "Landing pages, responsive visual systems, and interfaces that keep the action clear.", tools: "Figma · WordPress · HTML · CSS" },
 ];
 
+const portfolioStats = [
+  { value: 500, suffix: "+", label: "Graphic Design Projects" },
+  { value: 50, suffix: "+", label: "Webinar Presentations" },
+  { value: 70, suffix: "+", label: "Web Design Projects" },
+  { value: 7, suffix: "+ years", label: "Professional experience" },
+];
+
 export default function Home() {
   return (
     <>
@@ -41,11 +48,16 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="proof-strip reveal" aria-label="Selected career highlights">
-          <div><strong>1,000+</strong><span>Cover templates designed</span></div>
-          <div><strong>50+</strong><span>Webinar presentations</span></div>
-          <div><strong>7+ years</strong><span>Professional creative work</span></div>
-          <div><strong>Worldwide</strong><span>Remote collaboration</span></div>
+        <section className="proof-strip reveal" aria-label="Selected career highlights" data-count-strip>
+          {portfolioStats.map((stat) => (
+            <div key={stat.label}>
+              <strong>
+                <span className="sr-only">{stat.value}{stat.suffix}</span>
+                <span className="count-up-value" aria-hidden="true" data-count-value data-count-to={stat.value} data-count-suffix={stat.suffix}>{stat.value}{stat.suffix}</span>
+              </strong>
+              <span>{stat.label}</span>
+            </div>
+          ))}
         </section>
 
         <section className="home-about" id="skills">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Space_Grotesk } from "next/font/google";
-import { RevealObserver } from "./client-components";
+import { CountUpObserver, RevealObserver } from "./client-components";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -47,6 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={spaceGrotesk.variable}>
         {children}
         <RevealObserver />
+        <CountUpObserver />
       </body>
     </html>
   );

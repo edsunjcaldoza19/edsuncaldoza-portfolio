@@ -155,3 +155,54 @@ export function RevealObserver() {
 
   return null;
 }
+
+export function CountUpObserver() {
+  useEffect(() => {
+    const strip = document.querySelector<HTMLElement>("[data-count-strip]");
+    if (!strip) return;
+
+    const values = Array.from(strip.querySelectorAll<HTMLElement>("[data-count-value]"));
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion || !("IntersectionObserver" in window) || !("requestAnimationFrame" in window)) return;
+
+    const formatter = new Intl.NumberFormat("en-US");
+    let animationFrame = 0;
+
+    const renderValue = (element: HTMLElement, value: number) => {
+      element.textContent = `${formatter.format(value)}${element.dataset.countSuffix ?? ""}`;
+    };
+
+    const animate = (startTime: number) => {
+      const duration = 1200;
+      values.forEach((element) => renderValue(element, 0));
+
+      const step = (currentTime: number) => {
+        const progress = Math.min(1, (currentTime - startTime) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+
+        values.forEach((element) => {
+          const target = Number(element.dataset.countTo ?? 0);
+          renderValue(element, Math.round(target * eased));
+        });
+
+        if (progress < 1) animationFrame = window.requestAnimationFrame(step);
+      };
+
+      animationFrame = window.requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      animate(performance.now());
+      observer.unobserve(strip);
+    }, { threshold: 0.3 });
+
+    observer.observe(strip);
+    return () => {
+      observer.disconnect();
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+
+  return null;
+}

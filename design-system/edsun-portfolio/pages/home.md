@@ -23,6 +23,7 @@
 - Use 54px hero CTA controls and increase the vertically centered desktop portrait to a 480px maximum without changing its 4:5 crop.
 - Stack the portrait below the complete CTA group on mobile.
 - Keep the portrait in the hero only; About sections use text and expertise content without repeated portraits.
+- Use a padding-free, edge-aligned proof strip for `500+` graphic-design projects, `50+` webinar presentations, `70+` web-design projects, and `7+ years` of professional experience. Count numeric values once over 1.2 seconds when the strip enters view; reduced-motion and JavaScript-free experiences display the final values.
 - Place each homepage section number and label on its own row, followed by the display title on a new line with a `20–24px` vertical gap.
 - Feature six internal case studies in a two-column desktop grid and one column on mobile.
 - End with a full-width testimonial followed by an oversized contact statement.
