@@ -26,6 +26,7 @@ export default function Home() {
             <div className="hero-copy">
               <p className="eyebrow hero-greeting">Hi, I’m Edsun.</p>
               <RotatingRole />
+              <h1 className="hero-pitch">I make visuals that make an impact.</h1>
               <p className="hero-intro">I turn ideas into clear, memorable visuals—from campaign systems and presentations to social edits and digital experiences.</p>
               <div className="hero-actions-wrap">
                 <div className="hero-actions">
@@ -34,11 +35,11 @@ export default function Home() {
                 </div>
                 <a className="resume-link" href="/resume.pdf" target="_blank" rel="noreferrer">View résumé <span aria-hidden="true">↗</span></a>
               </div>
+              <div className="hero-status"><span className="status-dot" /> Available for freelance &amp; remote roles</div>
             </div>
             <figure className="hero-portrait">
               <img src="/images/hero-portrait-black-shirt.png" width="1121" height="1403" alt="Portrait of Edsun Caldoza wearing a black shirt" fetchPriority="high" />
             </figure>
-            <div className="hero-status"><span className="status-dot" /> Available for freelance &amp; remote roles</div>
           </div>
         </section>
 

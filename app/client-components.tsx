@@ -54,27 +54,53 @@ export function ThemeToggle() {
 export function NavigationController() {
   useEffect(() => {
     const header = document.querySelector<HTMLElement>(".site-header");
-    if (!header) return;
+    const progress = header?.querySelector<HTMLElement>(".scroll-progress");
+    if (!header || !progress) return;
 
     let frame = 0;
     let previousState: boolean | null = null;
+    let previousProgress = -1;
 
     const update = () => {
       frame = 0;
       const isScrolled = window.scrollY > 32;
-      if (isScrolled === previousState) return;
-      header.dataset.scrolled = String(isScrolled);
-      previousState = isScrolled;
+      if (isScrolled !== previousState) {
+        header.dataset.scrolled = String(isScrolled);
+        previousState = isScrolled;
+      }
+
+      const root = document.documentElement;
+      const scrollableHeight = Math.max(0, root.scrollHeight - window.innerHeight);
+      const ratio = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 1;
+      const clamped = Math.min(1, Math.max(0, ratio));
+      const percentage = Math.round(clamped * 100);
+
+      progress.style.setProperty("--scroll-progress", String(clamped));
+      if (percentage !== previousProgress) {
+        progress.setAttribute("aria-valuenow", String(percentage));
+        previousProgress = percentage;
+      }
     };
 
-    const onScroll = () => {
+    const scheduleUpdate = () => {
       if (!frame) frame = window.requestAnimationFrame(update);
     };
 
     update();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+    window.addEventListener("load", scheduleUpdate, { once: true });
+
+    const resizeObserver = "ResizeObserver" in window
+      ? new ResizeObserver(scheduleUpdate)
+      : null;
+    resizeObserver?.observe(document.documentElement);
+
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("load", scheduleUpdate);
+      resizeObserver?.disconnect();
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -132,12 +158,12 @@ export function RotatingRole() {
   }, []);
 
   return (
-    <h1 className="role-heading">
+    <p className="role-heading">
       <span className="sr-only">Graphic Designer, Web Designer, and Video Editor</span>
       <span className="role-heading-visual" aria-hidden="true">
         {role}<span className="typing-cursor" />
       </span>
-    </h1>
+    </p>
   );
 }
 

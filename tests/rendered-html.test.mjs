@@ -20,6 +20,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /Hi, I(?:&apos;|&#x27;|’)m Edsun\./);
+  assert.match(html, /<h1[^>]*class="hero-pitch"[^>]*>I make visuals that make an impact\.<\/h1>/);
   assert.match(html, /Graphic Designer, Web Designer, and Video Editor/);
   assert.match(html, /hero-portrait-black-shirt\.png/);
   assert.match(html, /fetchPriority="high"|fetchpriority="high"/i);
@@ -32,6 +33,10 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /Client feedback/);
   assert.match(html, /build/);
   assert.match(html, /aria-label="Switch to light theme"/);
+  assert.match(html, /role="progressbar"/);
+  assert.match(html, /aria-label="Page scroll progress"/);
+  assert.match(html, /aria-valuenow="0"/);
+  assert.match(html, /aria-label="Toggle navigation menu"/);
   assert.match(html, /data-scrolled="false"/);
   assert.doesNotMatch(html, /<h1[^>]*>Designing/);
   assert.doesNotMatch(html, /class="about-portrait/);
@@ -44,6 +49,14 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /html\[data-theme="light"\]/);
   assert.match(css, /html\[data-motion="ready"\] \.reveal/);
   assert.match(css, /\.site-header\[data-scrolled="true"\]/);
+  assert.match(css, /width:\s*min\(calc\(100% - 64px\), 960px\)/);
+  assert.match(css, /border-radius:\s*12px/);
+  assert.match(css, /\.scroll-progress/);
+  assert.match(css, /transform:\s*scaleX\(var\(--scroll-progress\)\)/);
+  assert.match(css, /\.hamburger-icon/);
+  assert.match(css, /\.mobile-nav\[open\] \.hamburger-icon/);
+  assert.doesNotMatch(css, /\.brand\.active::after/);
+  assert.match(css, /\.hero-portrait[^}]*align-self:\s*center/s);
   assert.match(css, /filter:\s*grayscale\(1\)\s+contrast\(1\.06\)/);
   assert.match(css, /\.typing-cursor/);
 });
@@ -54,10 +67,19 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.match(controls, /window\.scrollY > 32/);
   assert.match(controls, /requestAnimationFrame/);
   assert.match(controls, /passive: true/);
+  assert.match(controls, /scrollHeight - window\.innerHeight/);
+  assert.match(controls, /Math\.min\(1, Math\.max\(0, ratio\)\)/);
+  assert.match(controls, /--scroll-progress/);
+  assert.match(controls, /aria-valuenow/);
+  assert.match(controls, /ResizeObserver/);
   assert.match(controls, /3000 - typeDuration - deleteDuration/);
   assert.match(controls, /prefers-reduced-motion: reduce/);
   assert.match(controls, /aria-hidden="true"/);
   assert.doesNotMatch(controls, /aria-live/);
+  const navigation = await readFile(new URL("../app/components.tsx", import.meta.url), "utf8");
+  assert.match(navigation, /aria-current=\{active === "work" \? "page"/);
+  assert.match(navigation, /hamburger-icon/);
+  assert.doesNotMatch(navigation, />Menu<\/summary>/);
 });
 
 test("theme initializes before paint and persists the selected preference", async () => {

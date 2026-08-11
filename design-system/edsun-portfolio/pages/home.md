@@ -12,10 +12,10 @@
 
 ## Homepage Rhythm
 
-- Use a two-column first viewport with the role content on the left and Edsun’s grayscale portrait on the right.
-- Lead with “Hi, I’m Edsun.” and cycle the primary heading through “Graphic Designer,” “Web Designer,” and “Video Editor” every three seconds.
+- Use a vertically centered two-column first viewport with the pitch and supporting content on the left and Edsun’s grayscale portrait on the right.
+- Lead with “Hi, I’m Edsun.”, cycle a supporting role label through “Graphic Designer,” “Web Designer,” and “Video Editor” every three seconds, then present “I make visuals that make an impact.” as the primary heading.
 - Type, hold, and delete each role with a cobalt cursor; reduced-motion and JavaScript-disabled experiences remain static on “Graphic Designer.”
-- Keep the animated role hidden from assistive technology and expose one stable heading containing all three roles.
+- Keep the animated role hidden from assistive technology, expose one stable text alternative containing all three roles, and use the selling pitch as the page’s single H1.
 - Stack the portrait below the complete CTA group on mobile.
 - Keep the portrait in the hero only; About sections use text and expertise content without repeated portraits.
 - Feature six internal case studies in a two-column desktop grid and one column on mobile.

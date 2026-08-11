@@ -11,27 +11,32 @@ export function Navigation({ active = "home" }: { active?: string }) {
       <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="site-header" data-scrolled="false">
         <div className="nav-inner">
-          <Link className={`brand ${active === "home" ? "active" : ""}`} href="/" aria-label="Edsun Caldoza, home">
+          <Link className={`brand ${active === "home" ? "active" : ""}`} href="/" aria-label="Edsun Caldoza, home" aria-current={active === "home" ? "page" : undefined}>
             <span className="brand-mark">EC</span>
             <span className="brand-name">Edsun Caldoza</span>
           </Link>
           <nav className="desktop-nav" aria-label="Main navigation">
-            <Link className={active === "work" ? "active" : ""} href="/work">Work</Link>
-            <Link className={active === "about" ? "active" : ""} href="/about">About</Link>
+            <Link className={active === "work" ? "active" : ""} href="/work" aria-current={active === "work" ? "page" : undefined}>Work</Link>
+            <Link className={active === "about" ? "active" : ""} href="/about" aria-current={active === "about" ? "page" : undefined}>About</Link>
             <Link href="/#contact">Contact</Link>
             <ThemeToggle />
             <a className="nav-resume" href="/resume.pdf" target="_blank" rel="noreferrer">Résumé <span aria-hidden="true">↗</span></a>
           </nav>
           <details className="mobile-nav">
-            <summary aria-label="Open navigation menu">Menu</summary>
+            <summary aria-label="Toggle navigation menu">
+              <span className="hamburger-icon" aria-hidden="true"><span /><span /><span /></span>
+            </summary>
             <nav aria-label="Mobile navigation">
-              <Link href="/work">Work</Link>
-              <Link href="/about">About</Link>
+              <Link className={active === "work" ? "active" : ""} href="/work" aria-current={active === "work" ? "page" : undefined}>Work</Link>
+              <Link className={active === "about" ? "active" : ""} href="/about" aria-current={active === "about" ? "page" : undefined}>About</Link>
               <Link href="/#contact">Contact</Link>
               <a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé <span aria-hidden="true">↗</span></a>
               <ThemeToggle />
             </nav>
           </details>
+          <div className="scroll-progress" role="progressbar" aria-label="Page scroll progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={0}>
+            <span />
+          </div>
         </div>
         <NavigationController />
       </header>
