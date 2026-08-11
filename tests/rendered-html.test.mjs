@@ -45,6 +45,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.doesNotMatch(html, /<h1[^>]*>Designing/);
   assert.doesNotMatch(html, /I turn ideas into clear, memorable visuals/);
   assert.doesNotMatch(html, /class="about-portrait/);
+  assert.doesNotMatch(html, /Available for select projects|Have something in mind\?|Start a conversation|footer-lead|footer-cta/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Alex Morgan/);
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /prefers-reduced-motion/);
@@ -134,11 +135,13 @@ test("about and work pages expose the requested information architecture", async
   assert.match(about, /Philippines/);
   assert.match(about, /Worldwide remote/);
   assert.doesNotMatch(about, /about-hero-photo|about-headshot\.jpg/);
+  assert.doesNotMatch(about, /Available for select projects|Have something in mind\?|Start a conversation/);
   assert.match(work, /Video Editing/);
   assert.match(work, /Graphic Design/);
   assert.match(work, /Web \/ Digital/);
   assert.match(work, /motion-video-reel/);
   assert.match(work, /Project index/);
+  assert.doesNotMatch(work, /Available for select projects|Have something in mind\?|Start a conversation/);
 });
 
 test("project routes render internal case-study content and navigation", async () => {

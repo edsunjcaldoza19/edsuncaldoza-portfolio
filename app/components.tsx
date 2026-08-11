@@ -48,14 +48,6 @@ export function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
-        <div className="footer-lead reveal">
-          <div>
-            <p className="section-kicker">Available for select projects</p>
-            <h2>Have something in mind?</h2>
-            <p>Let’s make it clear, useful, and worth remembering.</p>
-          </div>
-          <a className="footer-cta" href={email}>Start a conversation <span aria-hidden="true">↗</span></a>
-        </div>
         <div className="footer-bottom">
           <div className="footer-identity">
             <strong>Edsun Caldoza</strong>
