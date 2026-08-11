@@ -31,7 +31,7 @@ Spacing follows an 8px rhythm. Primary content is capped at `1240px`; long-form 
 
 ## Components
 
-- Navigation: compact sticky bar, name/monogram, Work, About, Contact, theme toggle, résumé, and mobile disclosure menu.
+- Navigation: full-width sticky bar at the top that morphs into an inset floating pill after 32px, while preserving name/monogram, Work, About, Contact, theme toggle, résumé, and mobile disclosure menu.
 - Theme control: dark by default, persisted in `edsun-theme`, initialized before paint, and exposed as a labeled button.
 - Buttons: 48px minimum height, square editorial edges, cobalt primary and bordered secondary styles.
 - Cards: two-column project grid, 4:3 media, project index, category, outcome, and internal case-study link.
@@ -40,7 +40,7 @@ Spacing follows an 8px rhythm. Primary content is capped at `1240px`; long-form 
 
 ## Page Pattern
 
-1. Text-led hero
+1. Role-led hero with a grayscale portrait
 2. Compact proof strip
 3. About and core expertise
 4. Six selected projects

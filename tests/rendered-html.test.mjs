@@ -14,14 +14,15 @@ async function render(path = "/") {
   );
 }
 
-test("home presents the dark editorial portfolio and recruiter/client paths", async () => {
+test("home presents the role-focused hero and recruiter/client paths", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  assert.match(html, /Graphic Designer &amp; Video Editor/);
-  assert.match(html, /Designing/);
-  assert.match(html, /visual stories\./);
+  assert.match(html, /Hi, I(?:&apos;|&#x27;|’)m Edsun\./);
+  assert.match(html, /Graphic Designer, Web Designer, and Video Editor/);
+  assert.match(html, /hero-portrait-black-shirt\.png/);
+  assert.match(html, /fetchPriority="high"|fetchpriority="high"/i);
   assert.match(html, /View selected work/);
   assert.match(html, /work together/);
   assert.match(html, /href="\/resume\.pdf"/);
@@ -31,6 +32,9 @@ test("home presents the dark editorial portfolio and recruiter/client paths", as
   assert.match(html, /Client feedback/);
   assert.match(html, /build/);
   assert.match(html, /aria-label="Switch to light theme"/);
+  assert.match(html, /data-scrolled="false"/);
+  assert.doesNotMatch(html, /<h1[^>]*>Designing/);
+  assert.doesNotMatch(html, /class="about-portrait/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Alex Morgan/);
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /prefers-reduced-motion/);
@@ -39,6 +43,21 @@ test("home presents the dark editorial portfolio and recruiter/client paths", as
   assert.match(css, /background-size:\s*32px 32px/);
   assert.match(css, /html\[data-theme="light"\]/);
   assert.match(css, /html\[data-motion="ready"\] \.reveal/);
+  assert.match(css, /\.site-header\[data-scrolled="true"\]/);
+  assert.match(css, /filter:\s*grayscale\(1\)\s+contrast\(1\.06\)/);
+  assert.match(css, /\.typing-cursor/);
+});
+
+test("navigation and rotating roles use the specified accessible behavior", async () => {
+  const controls = await readFile(new URL("../app/client-components.tsx", import.meta.url), "utf8");
+  assert.match(controls, /\["Graphic Designer", "Web Designer", "Video Editor"\]/);
+  assert.match(controls, /window\.scrollY > 32/);
+  assert.match(controls, /requestAnimationFrame/);
+  assert.match(controls, /passive: true/);
+  assert.match(controls, /3000 - typeDuration - deleteDuration/);
+  assert.match(controls, /prefers-reduced-motion: reduce/);
+  assert.match(controls, /aria-hidden="true"/);
+  assert.doesNotMatch(controls, /aria-live/);
 });
 
 test("theme initializes before paint and persists the selected preference", async () => {
@@ -61,6 +80,9 @@ test("about and work pages expose the requested information architecture", async
   assert.match(about, /Seven years of/);
   assert.match(about, /Unica Publications/);
   assert.match(about, /Bachelor of Science in Information Technology/);
+  assert.match(about, /Philippines/);
+  assert.match(about, /Worldwide remote/);
+  assert.doesNotMatch(about, /about-hero-photo|about-headshot\.jpg/);
   assert.match(work, /Video Editing/);
   assert.match(work, /Graphic Design/);
   assert.match(work, /Web \/ Digital/);

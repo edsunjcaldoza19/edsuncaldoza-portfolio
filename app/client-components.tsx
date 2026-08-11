@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 type Theme = "dark" | "light";
 
 const themeEvent = "edsun-theme-change";
+export const portfolioRoles = ["Graphic Designer", "Web Designer", "Video Editor"] as const;
 
 function currentTheme(): Theme {
   if (typeof document === "undefined") return "dark";
@@ -47,6 +48,96 @@ export function ThemeToggle() {
       <span className="theme-toggle-track" aria-hidden="true"><span /></span>
       <span className="theme-toggle-label" suppressHydrationWarning>{target}</span>
     </button>
+  );
+}
+
+export function NavigationController() {
+  useEffect(() => {
+    const header = document.querySelector<HTMLElement>(".site-header");
+    if (!header) return;
+
+    let frame = 0;
+    let previousState: boolean | null = null;
+
+    const update = () => {
+      frame = 0;
+      const isScrolled = window.scrollY > 32;
+      if (isScrolled === previousState) return;
+      header.dataset.scrolled = String(isScrolled);
+      previousState = isScrolled;
+    };
+
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return null;
+}
+
+export function RotatingRole() {
+  const [role, setRole] = useState<string>(portfolioRoles[0]);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let roleIndex = 0;
+    let characterIndex = 0;
+    let deleting = false;
+    let timer = 0;
+
+    const tick = () => {
+      const current = portfolioRoles[roleIndex];
+      const typeDuration = current.length * 55;
+      const deleteDuration = current.length * 32;
+      const holdDuration = Math.max(700, 3000 - typeDuration - deleteDuration - 140);
+
+      if (!deleting && characterIndex < current.length) {
+        characterIndex += 1;
+        setRole(current.slice(0, characterIndex));
+        timer = window.setTimeout(tick, 55);
+        return;
+      }
+
+      if (!deleting) {
+        deleting = true;
+        timer = window.setTimeout(tick, holdDuration);
+        return;
+      }
+
+      if (characterIndex > 0) {
+        characterIndex -= 1;
+        setRole(current.slice(0, characterIndex));
+        timer = window.setTimeout(tick, 32);
+        return;
+      }
+
+      deleting = false;
+      roleIndex = (roleIndex + 1) % portfolioRoles.length;
+      timer = window.setTimeout(tick, 140);
+    };
+
+    timer = window.setTimeout(() => {
+      setRole("");
+      timer = window.setTimeout(tick, 120);
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  return (
+    <h1 className="role-heading">
+      <span className="sr-only">Graphic Designer, Web Designer, and Video Editor</span>
+      <span className="role-heading-visual" aria-hidden="true">
+        {role}<span className="typing-cursor" />
+      </span>
+    </h1>
   );
 }
 

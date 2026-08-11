@@ -22,7 +22,11 @@ export default function AboutPage() {
             <h1>Curious by nature.<br /><span>Precise by practice.</span></h1>
             <p>I’m a graphic designer and video editor who brings together creative direction, technical detail, and practical production experience.</p>
           </div>
-          <div className="about-hero-photo reveal"><img src="/images/about-headshot.jpg" alt="Portrait of Edsun Caldoza" /></div>
+          <div className="about-facts reveal" aria-label="Professional overview">
+            <div><span>Based in</span><strong>Philippines</strong></div>
+            <div><span>Experience</span><strong>7+ years</strong></div>
+            <div><span>Availability</span><strong>Worldwide remote</strong></div>
+          </div>
         </section>
 
         <section className="about-story reveal">

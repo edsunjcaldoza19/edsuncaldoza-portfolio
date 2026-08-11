@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { RotatingRole } from "./client-components";
 import { Footer, Navigation, ProjectCard, SectionIntro } from "./components";
 import { featuredProjects } from "./data";
 
@@ -22,21 +23,21 @@ export default function Home() {
         <section className="hero-shell">
           <div className="hero-pattern" aria-hidden="true" />
           <div className="hero">
-            <p className="hero-index" aria-hidden="true">00 / 04</p>
             <div className="hero-copy">
-              <p className="eyebrow">Graphic Designer &amp; Video Editor</p>
-              <h1>Designing<br /><span>visual stories.</span></h1>
-              <div className="hero-lower">
-                <p className="hero-intro">I turn ideas into clear, memorable visuals—from campaign systems and presentations to social edits and digital experiences.</p>
-                <div className="hero-actions-wrap">
-                  <div className="hero-actions">
-                    <a className="button button-primary" href="#selected-work">View selected work</a>
-                    <a className="button button-secondary" href="mailto:edsunjcaldoza@gmail.com">Let’s work together</a>
-                  </div>
-                  <a className="resume-link" href="/resume.pdf" target="_blank" rel="noreferrer">View résumé <span aria-hidden="true">↗</span></a>
+              <p className="eyebrow hero-greeting">Hi, I’m Edsun.</p>
+              <RotatingRole />
+              <p className="hero-intro">I turn ideas into clear, memorable visuals—from campaign systems and presentations to social edits and digital experiences.</p>
+              <div className="hero-actions-wrap">
+                <div className="hero-actions">
+                  <a className="button button-primary" href="#selected-work">View selected work</a>
+                  <a className="button button-secondary" href="mailto:edsunjcaldoza@gmail.com">Let’s work together</a>
                 </div>
+                <a className="resume-link" href="/resume.pdf" target="_blank" rel="noreferrer">View résumé <span aria-hidden="true">↗</span></a>
               </div>
             </div>
+            <figure className="hero-portrait">
+              <img src="/images/hero-portrait-black-shirt.png" width="1121" height="1403" alt="Portrait of Edsun Caldoza wearing a black shirt" fetchPriority="high" />
+            </figure>
             <div className="hero-status"><span className="status-dot" /> Available for freelance &amp; remote roles</div>
           </div>
         </section>
@@ -51,7 +52,6 @@ export default function Home() {
         <section className="home-about" id="skills">
           <SectionIntro number="01" label="About & expertise" title={<>Ideas made visible.<br />Stories made memorable.</>} />
           <div className="about-expertise-grid">
-            <div className="about-portrait reveal"><img src="/images/about-headshot.jpg" alt="Portrait of Edsun Caldoza" loading="lazy" /></div>
             <div className="about-expertise-copy reveal">
               <p className="about-lead">I’m Edsun, a multidisciplinary designer with roots in print production, digital design, and teaching.</p>
               <p>That mix helps me connect creative ambition with the practical details that make work clear, adaptable, and ready to deliver.</p>

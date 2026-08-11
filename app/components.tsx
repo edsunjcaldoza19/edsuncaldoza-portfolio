@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { ReactNode } from "react";
-import { ThemeToggle } from "./client-components";
+import { NavigationController, ThemeToggle } from "./client-components";
 import type { Project } from "./data";
 
 const email = "mailto:edsunjcaldoza@gmail.com";
 
-export function Navigation({ active = "" }: { active?: string }) {
+export function Navigation({ active = "home" }: { active?: string }) {
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <header className="site-header">
+      <header className="site-header" data-scrolled="false">
         <div className="nav-inner">
-          <Link className="brand" href="/" aria-label="Edsun Caldoza, home">
+          <Link className={`brand ${active === "home" ? "active" : ""}`} href="/" aria-label="Edsun Caldoza, home">
             <span className="brand-mark">EC</span>
             <span className="brand-name">Edsun Caldoza</span>
           </Link>
@@ -33,6 +33,7 @@ export function Navigation({ active = "" }: { active?: string }) {
             </nav>
           </details>
         </div>
+        <NavigationController />
       </header>
     </>
   );
