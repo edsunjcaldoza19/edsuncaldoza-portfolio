@@ -56,9 +56,14 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /html\[data-motion="ready"\] \.reveal/);
   assert.match(css, /\.site-header\[data-scrolled="true"\]/);
   assert.match(css, /width:\s*min\(calc\(100% - 64px\), 960px\)/);
-  assert.match(css, /border-radius:\s*12px/);
+  assert.match(css, /\.site-header\[data-scrolled="true"\] \.nav-inner[^}]*--nav-corner-radius:\s*12px;[^}]*--progress-edge-inset:\s*11px/s);
   assert.match(css, /\.scroll-progress/);
+  assert.match(css, /\.scroll-progress[^}]*right:\s*var\(--progress-edge-inset\)[^}]*bottom:\s*0[^}]*left:\s*var\(--progress-edge-inset\)/s);
   assert.match(css, /transform:\s*scaleX\(var\(--scroll-progress\)\)/);
+  assert.match(css, /\.site-header\[data-scrolled="true"\] \.nav-resume \{ border-radius:\s*8px; \}/);
+  assert.match(css, /\.site-header\[data-scrolled="true"\] \.mobile-nav summary \{ border-radius:\s*7px; \}/);
+  assert.match(css, /--nav-corner-radius:\s*10px; --progress-edge-inset:\s*9px;/);
+  assert.doesNotMatch(css, /\.nav-inner\s*\{[^}]*overflow:\s*(?:hidden|clip)/s);
   assert.match(css, /\.hamburger-icon/);
   assert.match(css, /\.mobile-nav\[open\] \.hamburger-icon/);
   assert.doesNotMatch(css, /\.brand\.active::after/);

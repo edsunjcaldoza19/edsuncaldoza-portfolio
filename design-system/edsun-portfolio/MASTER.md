@@ -31,7 +31,7 @@ Spacing follows an 8px rhythm. Primary content is capped at `1240px`; long-form 
 
 ## Components
 
-- Navigation: full-width sticky bar at the top that morphs into a compact 960px rectangular bar after 32px, while preserving name/monogram, Work, About, Contact, theme toggle, résumé, and mobile disclosure menu. A 2px cobalt bar along its bottom edge reports document scroll progress; active routes use text emphasis rather than a competing underline.
+- Navigation: full-width sticky bar at the top that morphs into a compact 960px rectangular bar after 32px, while preserving name/monogram, Work, About, Contact, theme toggle, résumé, and mobile disclosure menu. A 2px cobalt bar along its bottom edge reports document scroll progress; in the rounded state, inset the track by the corner radius so it never crosses the shell edge. Use an 8px nested radius for the résumé control and 7px for the mobile disclosure control; active routes use text emphasis rather than a competing underline.
 - Theme control: dark by default, persisted in `edsun-theme`, initialized before paint, and exposed as a labeled button.
 - Buttons: 48px minimum height, square editorial edges, cobalt primary and bordered secondary styles.
 - Cards: two-column project grid, 4:3 media, project index, category, outcome, and internal case-study link.
