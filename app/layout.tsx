@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import { Space_Grotesk } from "next/font/google";
+import { RevealObserver } from "./client-components";
 import "./globals.css";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -14,11 +22,32 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: "Edsun Caldoza — Graphic Designer & Video Editor", template: "%s" },
     description: "Graphic design, video editing, and digital experiences built with clarity, craft, and purpose.",
     icons: { icon: "/images/ico.png", shortcut: "/images/ico.png" },
-    openGraph: { type: "website", url: metadataBase, title: "Edsun Caldoza — Graphic Designer & Video Editor", description: "Design that looks sharp, works hard, and moves the message forward.", images: [{ url: socialImage, width: 1732, height: 908, alt: "Edsun Caldoza — Graphic Designer & Video Editor" }] },
-    twitter: { card: "summary_large_image", title: "Edsun Caldoza — Graphic Designer & Video Editor", description: "Design that looks sharp, works hard, and moves the message forward.", images: [socialImage] },
+    openGraph: {
+      type: "website",
+      url: metadataBase,
+      title: "Edsun Caldoza — Graphic Designer & Video Editor",
+      description: "Designing visual stories for brands, audiences, and screens.",
+      images: [{ url: socialImage, width: 1536, height: 1024, alt: "Edsun Caldoza — Graphic Designer & Video Editor" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Edsun Caldoza — Graphic Designer & Video Editor",
+      description: "Designing visual stories for brands, audiences, and screens.",
+      images: [socialImage],
+    },
   };
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}</body></html>;
+  return (
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('edsun-theme');document.documentElement.dataset.theme=t==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}})();` }} />
+      </head>
+      <body className={spaceGrotesk.variable}>
+        {children}
+        <RevealObserver />
+      </body>
+    </html>
+  );
 }

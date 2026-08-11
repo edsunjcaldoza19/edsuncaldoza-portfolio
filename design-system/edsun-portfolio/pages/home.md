@@ -2,12 +2,17 @@
 
 ## Hero Grid
 
-- The homepage hero uses one regular square grid as its only decorative motif.
+- The homepage hero uses one low-contrast square grid as its only decorative motif.
 - Build the grid from two CSS linear gradients rather than an image, SVG, canvas, or JavaScript.
-- Use 1px pale-cobalt lines over the existing `#FAFAFA` background.
-- Use 32px cells on desktop and 40px cells below the mobile breakpoint.
-- Keep grid-line opacity below 7% and fade the grid to transparent at the hero edges and bottom.
-- Keep the grid static, non-interactive, excluded from the accessibility tree, and behind all hero content.
-- Preserve WCAG AA contrast for the headline, body copy, links, and buttons.
+- Use 1px cobalt-family lines, 32px cells on desktop, and 40px cells at the mobile breakpoint.
+- Fade the grid to transparent with an elliptical standard and `-webkit-` mask.
+- Keep the grid static, non-interactive, `aria-hidden`, and behind all hero content.
 - Do not add dots, circles, diamonds, diagonal marks, perspective, animation, or extra overlays.
-- Do not repeat the grid in other homepage sections; project imagery remains the primary visual focus.
+- The grid adapts through semantic theme tokens and never appears outside the homepage hero.
+
+## Homepage Rhythm
+
+- Keep the first viewport text-led; the portrait belongs in About & Expertise.
+- Use the headline “Designing visual stories.” exactly.
+- Feature six internal case studies in a two-column desktop grid and one column on mobile.
+- End with a full-width testimonial followed by an oversized contact statement.

@@ -1,66 +1,65 @@
 # Edsun Portfolio — Design System
 
-**Direction:** Clean, content-first personal portfolio  
-**Audience:** Recruiters, hiring managers, and creative clients  
-**Design dials:** Variance 3/10 · Motion 2/10 · Density 3/10
+**Direction:** Dark editorial, work-led personal portfolio
+
+**Audience:** Recruiters, hiring managers, and creative clients
+
+**Design dials:** Variance 7/10 · Motion 3/10 · Density 3/10
 
 ## Principles
 
-1. The work leads; decoration stays quiet.
-2. One blue accent supports hierarchy and action.
-3. Sections use generous whitespace, consistent widths, and restrained type scales.
-4. Motion is limited to 150–250ms interaction feedback and respects reduced-motion settings.
+1. Oversized editorial type establishes a distinctive point of view without competing with project media.
+2. Cobalt is the only accent; all other surfaces remain charcoal or neutral.
+3. Numbered sections, thin borders, and generous whitespace create rhythm across every route.
+4. Motion is limited to a 12px fade-and-rise reveal plus direct interaction feedback, with a full reduced-motion fallback.
 5. Every interactive control is keyboard accessible, visibly focused, and at least 44px tall.
 
-## Tokens
+## Theme Tokens
 
-| Role | Value |
-|---|---|
-| Background | `#FAFAFA` |
-| Surface | `#FFFFFF` |
-| Subtle surface | `#F4F4F5` |
-| Primary text | `#18181B` |
-| Muted text | `#52525B` |
-| Accent / CTA | `#2563EB` |
-| Accent soft | `#EFF6FF` |
-| Border | `#E4E4E7` |
-| Focus ring | `#2563EB` |
+| Role | Dark default | Light alternative |
+|---|---|---|
+| Background | `#0B0D10` | `#F7F7F4` |
+| Surface | `#11151A` | `#FFFFFF` |
+| Primary text | `#F5F7FA` | `#111317` |
+| Muted text | `#A4ABB5` | `#565E68` |
+| Accent / CTA | `#2563EB` | `#1D4ED8` |
+| Border | `rgba(255,255,255,.12)` | `rgba(17,19,23,.14)` |
 
-Typography uses the native system sans-serif stack for fast rendering and a neutral professional tone. Headings use 650–720 weight with restrained negative tracking; body copy uses 400–500 weight and at least 1.6 line-height.
+Space Grotesk is the display face and is loaded with `next/font/google`; body copy uses the native sans-serif stack. Headings use 580–650 weight, tight editorial tracking, and fluid `clamp()` sizing. Body copy remains at least 16px on mobile with 1.6–1.8 line-height.
 
-Spacing scale: `4, 8, 12, 16, 24, 32, 48, 64, 96px`. Content width is capped at `1180px`; reading copy is capped near `680px`.
+Spacing follows an 8px rhythm. Primary content is capped at `1240px`; long-form copy stays near `720px`.
 
 ## Components
 
-- Buttons: 48px minimum height, 10px radius, blue primary and white secondary styles.
-- Cards: white surfaces, 1px neutral border, 18px radius, no heavy shadows.
-- Project media: consistent 4:3 frames, 18px radius, subtle image zoom only on pointer hover.
-- Navigation: sticky 72px bar, five destinations maximum, visible active state, mobile disclosure menu.
-- Focus: 3px blue outline with 3px offset on every interactive element.
+- Navigation: compact sticky bar, name/monogram, Work, About, Contact, theme toggle, résumé, and mobile disclosure menu.
+- Theme control: dark by default, persisted in `edsun-theme`, initialized before paint, and exposed as a labeled button.
+- Buttons: 48px minimum height, square editorial edges, cobalt primary and bordered secondary styles.
+- Cards: two-column project grid, 4:3 media, project index, category, outcome, and internal case-study link.
+- Sections: visible two-digit numbering, thin dividers, and large display headings.
+- Focus: 3px cobalt-family outline with 4px offset on every interactive element.
 
 ## Page Pattern
 
-1. Clear role and value proposition
-2. Career proof
-3. Curated work
-4. Video reel
-5. Services and capabilities
-6. About and testimonial proof
-7. Direct contact CTA
+1. Text-led hero
+2. Compact proof strip
+3. About and core expertise
+4. Six selected projects
+5. Full-width client testimonial
+6. Oversized contact close
 
 ## Avoid
 
-- Oversized display type that dominates the work
-- Tilted labels, spinning text, ornamental grids, and acid color blocks
-- Multiple competing accent colors
-- Hover-only meaning, layout-shifting hover effects, and hidden focus rings
-- Dense borders, excessive section numbering, and long resume content on the homepage
+- Decorative color beyond cobalt
+- Heavy shadows, glass effects, pill-heavy UI, and excessive rounding
+- Parallax, cursor tracking, animation libraries, or motion without meaning
+- Hover-only meaning, layout-shifting effects, and hidden focus rings
+- Long résumé content on the homepage
 
 ## Delivery Checks
 
-- Contrast meets WCAG AA.
+- Contrast meets WCAG AA in both themes.
 - Keyboard order follows the visual order and a skip link is present.
 - Touch targets are at least 44×44px.
 - Images reserve space and below-fold media is lazy-loaded.
 - Layouts hold at 375px, 768px, 1024px, and 1440px without horizontal scrolling.
-- `prefers-reduced-motion` is respected.
+- `prefers-reduced-motion` removes transforms and reveals content immediately.

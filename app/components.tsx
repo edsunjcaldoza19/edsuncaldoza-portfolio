@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { ThemeToggle } from "./client-components";
 import type { Project } from "./data";
 
 const email = "mailto:edsunjcaldoza@gmail.com";
@@ -17,8 +18,8 @@ export function Navigation({ active = "" }: { active?: string }) {
           <nav className="desktop-nav" aria-label="Main navigation">
             <Link className={active === "work" ? "active" : ""} href="/work">Work</Link>
             <Link className={active === "about" ? "active" : ""} href="/about">About</Link>
-            <Link href="/#skills">Skills</Link>
             <Link href="/#contact">Contact</Link>
+            <ThemeToggle />
             <a className="nav-resume" href="/resume.pdf" target="_blank" rel="noreferrer">Résumé <span aria-hidden="true">↗</span></a>
           </nav>
           <details className="mobile-nav">
@@ -26,9 +27,9 @@ export function Navigation({ active = "" }: { active?: string }) {
             <nav aria-label="Mobile navigation">
               <Link href="/work">Work</Link>
               <Link href="/about">About</Link>
-              <Link href="/#skills">Skills</Link>
               <Link href="/#contact">Contact</Link>
               <a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé <span aria-hidden="true">↗</span></a>
+              <ThemeToggle />
             </nav>
           </details>
         </div>
@@ -41,13 +42,13 @@ export function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
-        <div className="footer-lead">
+        <div className="footer-lead reveal">
           <div>
-            <p className="eyebrow light">Available for select projects</p>
+            <p className="section-kicker">Available for select projects</p>
             <h2>Have something in mind?</h2>
             <p>Let’s make it clear, useful, and worth remembering.</p>
           </div>
-          <a className="footer-cta" href={email}>Start a conversation <span aria-hidden="true">→</span></a>
+          <a className="footer-cta" href={email}>Start a conversation <span aria-hidden="true">↗</span></a>
         </div>
         <div className="footer-bottom">
           <div className="footer-identity">
@@ -74,17 +75,19 @@ export function PageShell({ children, active }: { children: ReactNode; active?: 
 }
 
 export function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
+  const number = String(index + 1).padStart(2, "0");
   return (
-    <article className="project-card">
+    <article className="project-card reveal">
       <Link className="project-image-wrap" href={`/work/${project.slug}`} aria-label={`View ${project.title} case study`}>
-        {project.video && <span className="play-pill">Video project</span>}
+        {project.video && <span className="play-pill">Video</span>}
         <img src={project.image} alt={`${project.title} project preview`} loading={index > 1 ? "lazy" : "eager"} />
+        <span className="project-open" aria-hidden="true">↗</span>
       </Link>
       <div className="project-meta">
-        <p className="project-category">{project.category}</p>
+        <div className="project-overline"><span>{number}</span><span>{project.category}</span></div>
         <h3><Link href={`/work/${project.slug}`}>{project.title}</Link></h3>
         <p className="project-summary">{project.summary}</p>
-        <Link className="text-link" href={`/work/${project.slug}`}>View case study <span aria-hidden="true">→</span></Link>
+        <Link className="text-link" href={`/work/${project.slug}`}>View case study <span aria-hidden="true">↗</span></Link>
       </div>
     </article>
   );
@@ -92,7 +95,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
 
 export function SectionIntro({ number, label, title }: { number: string; label: string; title: ReactNode }) {
   return (
-    <div className="section-intro">
+    <div className="section-intro reveal">
       <p className="section-label"><span>{number}</span>{label}</p>
       <h2>{title}</h2>
     </div>

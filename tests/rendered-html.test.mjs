@@ -14,27 +14,43 @@ async function render(path = "/") {
   );
 }
 
-test("home clearly positions Edsun and exposes recruiter and client paths", async () => {
+test("home presents the dark editorial portfolio and recruiter/client paths", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  assert.match(html, /Graphic Designer/);
-  assert.match(html, /Video Editor/);
+  assert.match(html, /Graphic Designer &amp; Video Editor/);
+  assert.match(html, /Designing/);
+  assert.match(html, /visual stories\./);
   assert.match(html, /View selected work/);
-  assert.match(html, /Let(?:&apos;|&#x27;|'|’)s work together/);
+  assert.match(html, /work together/);
   assert.match(html, /href="\/resume\.pdf"/);
   assert.match(html, /edsunjcaldoza@gmail\.com/);
-  assert.match(html, /class="hero-pattern"/);
   assert.match(html, /class="hero-pattern" aria-hidden="true"/);
+  assert.match(html, /About &amp; expertise/);
+  assert.match(html, /Client feedback/);
+  assert.match(html, /build/);
+  assert.match(html, /aria-label="Switch to light theme"/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Alex Morgan/);
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /\.hero-pattern/);
   assert.match(css, /-webkit-mask-image/);
   assert.match(css, /background-size:\s*32px 32px/);
-  assert.doesNotMatch(css, /radial-gradient\(circle at 7px 7px/);
-  assert.doesNotMatch(css, /\.hero-shell::after/);
+  assert.match(css, /html\[data-theme="light"\]/);
+  assert.match(css, /html\[data-motion="ready"\] \.reveal/);
+});
+
+test("theme initializes before paint and persists the selected preference", async () => {
+  const [layout, controls] = await Promise.all([
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/client-components.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(layout, /data-theme="dark"/);
+  assert.match(layout, /localStorage\.getItem\('edsun-theme'\)/);
+  assert.match(controls, /localStorage\.setItem\("edsun-theme"/);
+  assert.match(controls, /aria-pressed/);
+  assert.match(controls, /Switch to \$\{target\} theme/);
 });
 
 test("about and work pages expose the requested information architecture", async () => {
@@ -49,6 +65,7 @@ test("about and work pages expose the requested information architecture", async
   assert.match(work, /Graphic Design/);
   assert.match(work, /Web \/ Digital/);
   assert.match(work, /motion-video-reel/);
+  assert.match(work, /Project index/);
 });
 
 test("project routes render internal case-study content and navigation", async () => {
