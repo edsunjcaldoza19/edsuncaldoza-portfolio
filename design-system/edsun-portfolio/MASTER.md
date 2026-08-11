@@ -29,6 +29,16 @@ Space Grotesk is the display face and is loaded with `next/font/google`; body co
 
 Spacing follows an 8px rhythm. Primary content is capped at `1240px`; long-form copy stays near `720px`.
 
+Use semantic responsive spacing tokens rather than route-specific values:
+
+- Page inset: `48px` total on desktop and tablet, `32px` total on mobile.
+- Primary section spacing: `clamp(112px, 10vw, 144px)`, reduced to `88px` on mobile.
+- Compact section spacing: `clamp(88px, 8vw, 112px)`, reduced to `72px` on mobile.
+- Section-heading gap: `clamp(48px, 5vw, 72px)`, reduced to `40px` on mobile.
+- Project-card row gap: `clamp(64px, 6vw, 88px)`, reduced to `56px` on mobile.
+
+Display typography scales continuously between breakpoints. Homepage section headings use `48–80px` on larger screens and `36–48px` on mobile. Work and About page headings use `56–112px`, case-study headings use `56–124px`, and both reduce to `44–56px` on mobile. Descriptive body copy remains at least `16px` with a `1.6–1.75` line-height.
+
 ## Components
 
 - Navigation: full-width sticky bar at the top that morphs into a compact 960px rectangular bar after 32px, while preserving name/monogram, Work, About, Contact, theme toggle, résumé, and mobile disclosure menu. A 2px cobalt bar along its bottom edge reports document scroll progress; in the rounded state, inset the track by the corner radius so it never crosses the shell edge. Use an 8px nested radius for the résumé control and 7px for the mobile disclosure control; active routes use text emphasis rather than a competing underline.

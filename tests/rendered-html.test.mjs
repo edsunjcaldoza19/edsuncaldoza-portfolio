@@ -105,6 +105,8 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.hero-title-mobile-break \{ display:\s*block;/);
   assert.match(css, /\.hero-pitch[^}]*max-width:\s*100%[^}]*font-size:\s*clamp\(64px, 5\.2vw, 80px\)[^}]*line-height:\s*\.92/s);
   assert.match(css, /@media \(max-width:\s*1200px\)[\s\S]*?\.hero-pitch \{ font-size:\s*clamp\(54px, 5\.2vw, 64px\)/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.hero-pitch \{[^}]*font-size:\s*clamp\(48px, 6\.8vw, 52px\)/);
+  assert.doesNotMatch(css, /clamp\(48px, 11\.5vw, 60px\)/);
   assert.match(css, /\.role-heading-visual[^}]*flex-wrap:\s*nowrap/s);
   assert.match(css, /\.role-viewport[^}]*flex:\s*0 0 13ch/s);
   assert.match(css, /\.hero-gradient-word/);
@@ -112,10 +114,28 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /hero-gradient-shift 6s ease-in-out infinite alternate/);
   assert.match(css, /\.hero-gradient-word \{ animation:\s*none !important;/);
   assert.doesNotMatch(css, /\.hero-intro/);
-  assert.match(css, /\.section-intro \{ margin-bottom:\s*72px; display:\s*block; \}/);
+  assert.match(css, /--page-inset:\s*48px;/);
+  assert.match(css, /--space-section:\s*clamp\(112px, 10vw, 144px\)/);
+  assert.match(css, /--space-compact:\s*clamp\(88px, 8vw, 112px\)/);
+  assert.match(css, /--space-heading:\s*clamp\(48px, 5vw, 72px\)/);
+  assert.match(css, /--space-card-row:\s*clamp\(64px, 6vw, 88px\)/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?--page-inset:\s*32px;[^}]*--space-section:\s*88px;[^}]*--space-compact:\s*72px;[^}]*--space-heading:\s*40px;[^}]*--space-card-row:\s*56px;/);
+  assert.match(css, /\.nav-inner[^}]*width:\s*min\(calc\(100% - var\(--page-inset\)\), var\(--content\)\)/s);
+  assert.match(css, /\.section-intro \{ margin-bottom:\s*var\(--space-heading\); display:\s*block; \}/);
   assert.match(css, /\.section-intro \.section-label \{ margin-bottom:\s*24px; \}/);
+  assert.match(css, /\.section-intro h2[^}]*font-size:\s*clamp\(48px, 6vw, 80px\)/s);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.section-intro h2 \{ font-size:\s*clamp\(36px, 8\.5vw, 48px\)/);
   assert.doesNotMatch(css, /\.section-intro[^}]*grid-template-columns:\s*220px 1fr/s);
-  assert.match(css, /\.proof-strip \{ width:\s*min\(calc\(100% - 48px\), var\(--content\)\);[^}]*padding:\s*0;/s);
+  assert.match(css, /\.proof-strip \{ width:\s*min\(calc\(100% - var\(--page-inset\)\), var\(--content\)\);[^}]*padding:\s*0;/s);
+  assert.match(css, /\.home-about, \.selected-work \{ padding:\s*var\(--space-section\) 0/);
+  assert.match(css, /\.project-grid[^}]*gap:\s*var\(--space-card-row\) 28px/s);
+  assert.match(css, /\.work-hero h1, \.about-hero h1[^}]*font-size:\s*clamp\(56px, 8vw, 112px\)/s);
+  assert.match(css, /\.case-heading h1[^}]*font-size:\s*clamp\(56px, 8vw, 124px\)/s);
+  assert.match(css, /\.about-story div p, \.case-narrative div > p[^}]*max-width:\s*var\(--reading\)[^}]*font-size:\s*clamp\(16px, 1\.4vw, 17px\)/s);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.work-hero h1, \.about-hero h1 \{ font-size:\s*clamp\(44px, 10vw, 56px\)/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.case-heading h1 \{ font-size:\s*clamp\(44px, 10vw, 56px\)/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.contact-close h2 \{ font-size:\s*clamp\(60px, 17vw, 88px\)/);
+  assert.doesNotMatch(css, /\.section-intro h2 \{ font-size:\s*48px; \}/);
 });
 
 test("navigation and rotating roles use the specified accessible behavior", async () => {
