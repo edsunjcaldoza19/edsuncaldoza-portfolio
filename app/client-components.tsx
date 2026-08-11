@@ -109,60 +109,18 @@ export function NavigationController() {
 }
 
 export function RotatingRole() {
-  const [role, setRole] = useState<string>(portfolioRoles[0]);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let roleIndex = 0;
-    let characterIndex = 0;
-    let deleting = false;
-    let timer = 0;
-
-    const tick = () => {
-      const current = portfolioRoles[roleIndex];
-      const typeDuration = current.length * 55;
-      const deleteDuration = current.length * 32;
-      const holdDuration = Math.max(700, 3000 - typeDuration - deleteDuration - 140);
-
-      if (!deleting && characterIndex < current.length) {
-        characterIndex += 1;
-        setRole(current.slice(0, characterIndex));
-        timer = window.setTimeout(tick, 55);
-        return;
-      }
-
-      if (!deleting) {
-        deleting = true;
-        timer = window.setTimeout(tick, holdDuration);
-        return;
-      }
-
-      if (characterIndex > 0) {
-        characterIndex -= 1;
-        setRole(current.slice(0, characterIndex));
-        timer = window.setTimeout(tick, 32);
-        return;
-      }
-
-      deleting = false;
-      roleIndex = (roleIndex + 1) % portfolioRoles.length;
-      timer = window.setTimeout(tick, 140);
-    };
-
-    timer = window.setTimeout(() => {
-      setRole("");
-      timer = window.setTimeout(tick, 120);
-    }, 0);
-    return () => window.clearTimeout(timer);
-  }, []);
+  const carouselRoles = [...portfolioRoles, portfolioRoles[0]];
 
   return (
     <p className="role-heading">
       <span className="sr-only">Hi, I’m Edsun. A Designer, Video Editor, and Creator.</span>
       <span className="role-heading-visual" aria-hidden="true">
-        <span className="role-prefix">Hi, I’m Edsun... </span>
-        <span className="role-slot">{role}<span className="typing-cursor" /></span>
+        <span className="role-prefix">Hi, I’m Edsun -</span>
+        <span className="role-viewport">
+          <span className="role-track">
+            {carouselRoles.map((role, index) => <span className="role-track-item" key={`${role}-${index}`}>{role}</span>)}
+          </span>
+        </span>
       </span>
     </p>
   );
