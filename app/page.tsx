@@ -25,7 +25,7 @@ export default function Home() {
           <div className="hero">
             <div className="hero-copy">
               <RotatingRole />
-              <h1 className="hero-pitch"><span className="hero-title-line">I build Visual Experiences</span><br className="hero-title-break" />{" "}<span className="hero-title-line">that <span className="hero-gradient-word">Connect</span> and <span className="hero-gradient-word">Convert</span>.</span></h1>
+              <h1 className="hero-pitch"><span className="hero-title-line">I build Visuals<br className="hero-title-mobile-break" />{" "}that</span><br className="hero-title-break" />{" "}<span className="hero-title-line"><span className="hero-gradient-word">Connect</span> and <span className="hero-gradient-word">Convert</span>.</span></h1>
               <div className="hero-actions-wrap">
                 <div className="hero-actions">
                   <a className="button button-primary" href="#selected-work">View selected work</a>

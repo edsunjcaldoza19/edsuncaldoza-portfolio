@@ -20,7 +20,8 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /Hi, I(?:&apos;|&#x27;|’)m Edsun -/);
-  assert.match(html, /I build Visual Experiences[\s\S]*that/);
+  assert.match(html, /I build Visuals[\s\S]*that/);
+  assert.doesNotMatch(html, /Visual Experiences/);
   assert.match(html, /class="hero-gradient-word">Connect<\/span> and <span class="hero-gradient-word">Convert<\/span>\./);
   assert.match(html, /Hi, I(?:&apos;|&#x27;|’)m Edsun\. A Designer, Video Editor, and Creator\./);
   assert.match(html, /class="hero-title-break"/);
@@ -72,6 +73,9 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.hero-title-line \{ white-space:\s*nowrap;/);
   assert.match(css, /\.hero-title-line \{ white-space:\s*normal;/);
   assert.match(css, /\.hero-title-break \{ display:\s*none;/);
+  assert.match(css, /\.hero-title-mobile-break \{ display:\s*none;/);
+  assert.match(css, /\.hero-title-mobile-break \{ display:\s*block;/);
+  assert.match(css, /\.hero-pitch[^}]*font-size:\s*clamp\(68px, 6vw, 88px\)/s);
   assert.match(css, /\.hero-gradient-word/);
   assert.match(css, /background-clip:\s*text/);
   assert.match(css, /hero-gradient-shift 6s ease-in-out infinite alternate/);
