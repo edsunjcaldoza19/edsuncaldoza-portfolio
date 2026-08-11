@@ -24,10 +24,8 @@ export default function Home() {
           <div className="hero-pattern" aria-hidden="true" />
           <div className="hero">
             <div className="hero-copy">
-              <p className="eyebrow hero-greeting">Hi, I’m Edsun.</p>
               <RotatingRole />
-              <h1 className="hero-pitch">I make visuals that make an impact.</h1>
-              <p className="hero-intro">I turn ideas into clear, memorable visuals—from campaign systems and presentations to social edits and digital experiences.</p>
+              <h1 className="hero-pitch">I build Visual Experiences that <span className="hero-gradient-word">Connect</span> and <span className="hero-gradient-word">Convert</span>.</h1>
               <div className="hero-actions-wrap">
                 <div className="hero-actions">
                   <a className="button button-primary" href="#selected-work">View selected work</a>

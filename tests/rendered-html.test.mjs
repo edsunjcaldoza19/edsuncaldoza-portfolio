@@ -19,9 +19,10 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  assert.match(html, /Hi, I(?:&apos;|&#x27;|’)m Edsun\./);
-  assert.match(html, /<h1[^>]*class="hero-pitch"[^>]*>I make visuals that make an impact\.<\/h1>/);
-  assert.match(html, /Graphic Designer, Web Designer, and Video Editor/);
+  assert.match(html, /Hi, I(?:&apos;|&#x27;|’)m Edsun\.\.\./);
+  assert.match(html, /I build Visual Experiences that/);
+  assert.match(html, /class="hero-gradient-word">Connect<\/span> and <span class="hero-gradient-word">Convert<\/span>\./);
+  assert.match(html, /Hi, I(?:&apos;|&#x27;|’)m Edsun\. A Designer, Video Editor, and Creator\./);
   assert.match(html, /hero-portrait-black-shirt\.png/);
   assert.match(html, /fetchPriority="high"|fetchpriority="high"/i);
   assert.match(html, /View selected work/);
@@ -39,6 +40,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /aria-label="Toggle navigation menu"/);
   assert.match(html, /data-scrolled="false"/);
   assert.doesNotMatch(html, /<h1[^>]*>Designing/);
+  assert.doesNotMatch(html, /I turn ideas into clear, memorable visuals/);
   assert.doesNotMatch(html, /class="about-portrait/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Alex Morgan/);
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
@@ -59,11 +61,18 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.hero-portrait[^}]*align-self:\s*center/s);
   assert.match(css, /filter:\s*grayscale\(1\)\s+contrast\(1\.06\)/);
   assert.match(css, /\.typing-cursor/);
+  assert.match(css, /\.role-slot[^}]*min-width:\s*13ch/s);
+  assert.match(css, /\.hero-gradient-word/);
+  assert.match(css, /background-clip:\s*text/);
+  assert.match(css, /hero-gradient-shift 6s ease-in-out infinite alternate/);
+  assert.match(css, /\.hero-gradient-word \{ animation:\s*none !important;/);
+  assert.doesNotMatch(css, /\.hero-intro/);
 });
 
 test("navigation and rotating roles use the specified accessible behavior", async () => {
   const controls = await readFile(new URL("../app/client-components.tsx", import.meta.url), "utf8");
-  assert.match(controls, /\["Graphic Designer", "Web Designer", "Video Editor"\]/);
+  assert.match(controls, /\["A Designer\.", "Video Editor\.", "Creator\."\]/);
+  assert.doesNotMatch(controls, /"Graphic Designer"|"Web Designer"/);
   assert.match(controls, /window\.scrollY > 32/);
   assert.match(controls, /requestAnimationFrame/);
   assert.match(controls, /passive: true/);

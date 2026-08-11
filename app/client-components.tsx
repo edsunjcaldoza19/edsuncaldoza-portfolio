@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 type Theme = "dark" | "light";
 
 const themeEvent = "edsun-theme-change";
-export const portfolioRoles = ["Graphic Designer", "Web Designer", "Video Editor"] as const;
+export const portfolioRoles = ["A Designer.", "Video Editor.", "Creator."] as const;
 
 function currentTheme(): Theme {
   if (typeof document === "undefined") return "dark";
@@ -159,9 +159,10 @@ export function RotatingRole() {
 
   return (
     <p className="role-heading">
-      <span className="sr-only">Graphic Designer, Web Designer, and Video Editor</span>
+      <span className="sr-only">Hi, I’m Edsun. A Designer, Video Editor, and Creator.</span>
       <span className="role-heading-visual" aria-hidden="true">
-        {role}<span className="typing-cursor" />
+        <span className="role-prefix">Hi, I’m Edsun... </span>
+        <span className="role-slot">{role}<span className="typing-cursor" /></span>
       </span>
     </p>
   );
