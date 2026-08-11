@@ -1,12 +1,13 @@
 # Homepage Override
 
-## Hero Pattern
+## Hero Grid
 
-- The homepage hero may use one low-contrast geometric pattern as a decorative brand motif.
-- Build the motif with CSS gradients rather than an external image, inline SVG, canvas, or JavaScript.
-- Use pale cobalt and neutral charcoal shapes over the existing `#FAFAFA` background.
-- Keep the maximum visible pattern opacity below 10% and fade it to transparent at the hero edges and bottom.
-- Keep the pattern static, non-interactive, excluded from the accessibility tree, and behind all hero content.
-- Reduce both opacity and visual density below the mobile breakpoint.
+- The homepage hero uses one regular square grid as its only decorative motif.
+- Build the grid from two CSS linear gradients rather than an image, SVG, canvas, or JavaScript.
+- Use 1px pale-cobalt lines over the existing `#FAFAFA` background.
+- Use 32px cells on desktop and 40px cells below the mobile breakpoint.
+- Keep grid-line opacity below 7% and fade the grid to transparent at the hero edges and bottom.
+- Keep the grid static, non-interactive, excluded from the accessibility tree, and behind all hero content.
 - Preserve WCAG AA contrast for the headline, body copy, links, and buttons.
-- Do not repeat the motif in other homepage sections; project imagery remains the primary visual focus.
+- Do not add dots, circles, diamonds, diagonal marks, perspective, animation, or extra overlays.
+- Do not repeat the grid in other homepage sections; project imagery remains the primary visual focus.

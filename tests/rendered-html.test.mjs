@@ -32,6 +32,9 @@ test("home clearly positions Edsun and exposes recruiter and client paths", asyn
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /\.hero-pattern/);
   assert.match(css, /-webkit-mask-image/);
+  assert.match(css, /background-size:\s*32px 32px/);
+  assert.doesNotMatch(css, /radial-gradient\(circle at 7px 7px/);
+  assert.doesNotMatch(css, /\.hero-shell::after/);
 });
 
 test("about and work pages expose the requested information architecture", async () => {
