@@ -25,9 +25,13 @@ test("home clearly positions Edsun and exposes recruiter and client paths", asyn
   assert.match(html, /Let(?:&apos;|&#x27;|'|’)s work together/);
   assert.match(html, /href="\/resume\.pdf"/);
   assert.match(html, /edsunjcaldoza@gmail\.com/);
+  assert.match(html, /class="hero-pattern"/);
+  assert.match(html, /class="hero-pattern" aria-hidden="true"/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Alex Morgan/);
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /prefers-reduced-motion/);
+  assert.match(css, /\.hero-pattern/);
+  assert.match(css, /-webkit-mask-image/);
 });
 
 test("about and work pages expose the requested information architecture", async () => {
@@ -58,7 +62,7 @@ test("project routes render internal case-study content and navigation", async (
 test("social metadata uses the incoming host and bespoke card", async () => {
   const layout = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
   assert.match(layout, /x-forwarded-host/);
-  assert.match(layout, /new URL\("\/og-clean\.png", metadataBase\)/);
+  assert.match(layout, /new URL\("\/og\.png", metadataBase\)/);
   assert.match(layout, /summary_large_image/);
   assert.match(layout, /Edsun Caldoza/);
 });

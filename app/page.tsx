@@ -13,20 +13,23 @@ export default function Home() {
     <>
       <Navigation />
       <main id="main-content">
-        <section className="hero">
-          <div className="hero-copy">
-            <p className="eyebrow"><span className="status-dot" /> Based in the Philippines · Working worldwide</p>
-            <h1>Graphic Designer<br />&amp; Video Editor.</h1>
-            <p className="hero-intro">I turn ideas into clear, memorable visuals—from campaign systems and presentations to social edits and digital experiences.</p>
-            <div className="hero-actions">
-              <a className="button button-primary" href="#selected-work">View selected work</a>
-              <a className="button button-secondary" href="mailto:edsunjcaldoza@gmail.com">Let’s work together</a>
+        <section className="hero-shell">
+          <div className="hero-pattern" aria-hidden="true" />
+          <div className="hero">
+            <div className="hero-copy">
+              <p className="eyebrow"><span className="status-dot" /> Based in the Philippines · Working worldwide</p>
+              <h1>Graphic Designer<br />&amp; Video Editor.</h1>
+              <p className="hero-intro">I turn ideas into clear, memorable visuals—from campaign systems and presentations to social edits and digital experiences.</p>
+              <div className="hero-actions">
+                <a className="button button-primary" href="#selected-work">View selected work</a>
+                <a className="button button-secondary" href="mailto:edsunjcaldoza@gmail.com">Let’s work together</a>
+              </div>
+              <a className="resume-link" href="/resume.pdf" target="_blank" rel="noreferrer">View résumé <span aria-hidden="true">↗</span></a>
             </div>
-            <a className="resume-link" href="/resume.pdf" target="_blank" rel="noreferrer">View résumé <span aria-hidden="true">↗</span></a>
-          </div>
-          <div className="hero-art">
-            <div className="portrait-frame"><img src="/images/hero-headshot.jpg" alt="Portrait of Edsun Caldoza" /></div>
-            <div className="hero-note"><span>Currently available</span><strong>Freelance · Remote roles</strong></div>
+            <div className="hero-art">
+              <div className="portrait-frame"><img src="/images/hero-headshot.jpg" alt="Portrait of Edsun Caldoza" /></div>
+              <div className="hero-note"><span>Currently available</span><strong>Freelance · Remote roles</strong></div>
+            </div>
           </div>
         </section>
 
