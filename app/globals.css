@@ -222,6 +222,7 @@ html[data-motion="ready"] .hero-portrait { animation: hero-portrait-enter var(--
 .project-meta h3 a:hover { color: var(--accent-readable); }
 .project-summary { max-width: 560px; margin: 16px 0; color: var(--muted); font-size: 16px; line-height: 1.7; }
 .section-link { margin-top: clamp(48px, 5vw, 64px); color: var(--accent-readable); }
+.selected-work-cta { width: fit-content; margin-top: clamp(48px, 5vw, 64px); gap: 12px; }
 
 .testimonial { margin-bottom: var(--space-section); padding: clamp(40px, 5vw, 72px) clamp(24px, 5vw, 72px); background: var(--surface); border: 1px solid var(--border); }
 .testimonial blockquote { max-width: 1040px; margin: clamp(32px, 4vw, 48px) 0; font-family: var(--font-display), sans-serif; font-size: clamp(30px, 4.2vw, 56px); line-height: 1.18; letter-spacing: -.045em; font-weight: 500; text-wrap: balance; }

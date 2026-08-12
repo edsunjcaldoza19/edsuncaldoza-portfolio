@@ -13,8 +13,8 @@
 ## Homepage Rhythm
 
 - Use a vertically centered two-column first viewport with the pitch and supporting content on the left and Edsun’s grayscale portrait on the right.
-- Combine “Hi, I’m Edsun -” with a smaller same-size role phrase that cycles upward through “A Designer.”, “Video Editor.”, and “Creator.” every three seconds. Keep the role intact when it wraps on narrow screens.
-- Build the role animation as a vertically clipped CSS track with a repeated first item for a seamless nine-second loop. Reserve the longest phrase’s dimensions and keep reduced-motion experiences static on “A Designer.”
+- Combine “Hi, I’m Edsun -” with a smaller same-size role phrase that cycles upward through “Designer”, “Video Editor”, and “Creator” every three seconds. Keep the role intact when it wraps on narrow screens.
+- Build the role animation as a vertically clipped CSS track with a repeated first item for a seamless nine-second loop. Reserve the longest phrase’s dimensions and keep reduced-motion experiences static on “Designer”.
 - Keep the animated phrase hidden from assistive technology, expose one stable text alternative containing the full introduction and all three identities, and use “I build Visuals that Connect and Convert.” as the page’s single H1.
 - Apply one synchronized, soft blue CSS gradient only to “Connect” and “Convert.” Stop the gradient motion for reduced-motion users and retain a readable cobalt fallback when text clipping is unsupported.
 - Keep the larger headline inside its grid column with a flexible `64–80px` desktop scale, a `54–64px` intermediate scale, and a `48–52px` stacked scale, with a `46px` fallback at `360px`. Prefer two lines, permit a third line when the column narrows, and never force a line wider than the copy column.
@@ -26,6 +26,7 @@
 - Use a padding-free, edge-aligned proof strip for `500+` graphic-design projects, `50+` webinar presentations, `70+` web-design projects, and `7+ years` of professional experience. Count numeric values once over 1.2 seconds when the strip enters view; reduced-motion and JavaScript-free experiences display the final values.
 - Place each homepage section number and label on its own row, followed by the display title on a new line with a `20–24px` vertical gap. Use the shared responsive section and heading spacing tokens so tablet spacing does not inherit the full desktop rhythm.
 - Feature six internal case studies in a two-column desktop grid and one column on mobile.
+- Close Selected Work with a primary “View all Projects” button linking to Edsun’s Behance profile; retain each card’s internal case-study link.
 - End with a full-width testimonial followed by an oversized contact statement.
 
 ## Motion Override

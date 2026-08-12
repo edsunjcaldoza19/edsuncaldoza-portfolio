@@ -23,7 +23,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /I build Visuals[\s\S]*that/);
   assert.doesNotMatch(html, /Visual Experiences/);
   assert.match(html, /class="hero-gradient-word">Connect<\/span> and <span class="hero-gradient-word">Convert<\/span>\./);
-  assert.match(html, /Hi, I(?:&apos;|&#x27;|’)m Edsun\. A Designer, Video Editor, and Creator\./);
+  assert.match(html, /Hi, I(?:&apos;|&#x27;|’)m Edsun\. Designer, Video Editor, and Creator\./);
   assert.match(html, /class="hero-title-break"/);
   assert.equal((html.match(/class="role-track-item"/g) ?? []).length, 4);
   assert.match(html, /hero-portrait-black-shirt\.png/);
@@ -51,7 +51,8 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /graphic designer and video editor with seven years of experience/);
   assert.match(html, /Learn more about me/);
   assert.match(html, /Selected work across[s\S]*design, video, and web\./);
-  assert.match(html, /View all projects/);
+  assert.match(html, /View all Projects/);
+  assert.match(html, /class="button button-primary selected-work-cta" href="https:\/\/www\.behance\.net\/edsuncaldoza"/);
   assert.match(html, /Client feedback/);
   assert.match(html, /Such a great experience working with Edsun/);
   assert.match(html, /Available worldwide/);
@@ -162,8 +163,8 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
 
 test("navigation and rotating roles use the specified accessible behavior", async () => {
   const controls = await readFile(new URL("../app/client-components.tsx", import.meta.url), "utf8");
-  assert.match(controls, /\["A Designer\.", "Video Editor\.", "Creator\."\]/);
-  assert.doesNotMatch(controls, /"Graphic Designer"|"Web Designer"/);
+  assert.match(controls, /\["Designer", "Video Editor", "Creator"\]/);
+  assert.doesNotMatch(controls, /"A Designer\."|"Graphic Designer"|"Web Designer"/);
   assert.match(controls, /window\.scrollY > 32/);
   assert.match(controls, /requestAnimationFrame/);
   assert.match(controls, /passive: true/);

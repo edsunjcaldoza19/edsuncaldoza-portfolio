@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 type Theme = "dark" | "light";
 
 const themeEvent = "edsun-theme-change";
-export const portfolioRoles = ["A Designer.", "Video Editor.", "Creator."] as const;
+export const portfolioRoles = ["Designer", "Video Editor", "Creator"] as const;
 
 function currentTheme(): Theme {
   if (typeof document === "undefined") return "dark";
@@ -139,7 +139,7 @@ export function RotatingRole() {
 
   return (
     <p className="role-heading">
-      <span className="sr-only">Hi, I’m Edsun. A Designer, Video Editor, and Creator.</span>
+      <span className="sr-only">Hi, I’m Edsun. Designer, Video Editor, and Creator.</span>
       <span className="role-heading-visual" aria-hidden="true">
         <span className="role-prefix">Hi, I’m Edsun -</span>
         <span className="role-viewport">

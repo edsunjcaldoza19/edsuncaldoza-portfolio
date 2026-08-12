@@ -85,7 +85,7 @@ export default function Home() {
           <div className="project-grid">
             {featuredProjects.map((project, index) => <ProjectCard key={project.slug} project={project} index={index} />)}
           </div>
-          <Link className="section-link" href="/work">View all projects <span aria-hidden="true">↗</span></Link>
+          <a className="button button-primary selected-work-cta" href="https://www.behance.net/edsuncaldoza" target="_blank" rel="noreferrer">View all Projects <span aria-hidden="true">↗</span></a>
         </section>
 
         <section className="testimonial reveal" data-stagger>
