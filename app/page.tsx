@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { RotatingRole } from "./client-components";
+import { HeroPointerGlow, RotatingRole } from "./client-components";
 import { Footer, Navigation, ProjectCard, SectionIntro } from "./components";
 import { featuredProjects } from "./data";
 
@@ -29,6 +29,7 @@ export default function Home() {
       <main id="main-content">
         <section className="hero-shell">
           <div className="hero-pattern" aria-hidden="true" />
+          <HeroPointerGlow />
           <div className="hero">
             <div className="hero-copy">
               <RotatingRole />

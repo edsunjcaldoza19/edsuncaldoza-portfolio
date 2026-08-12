@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 type Theme = "dark" | "light";
@@ -125,6 +125,60 @@ export function RotatingRole() {
       </span>
     </p>
   );
+}
+
+export function HeroPointerGlow() {
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const glow = glowRef.current;
+    const hero = glow?.closest<HTMLElement>(".hero-shell");
+    if (!glow || !hero) return;
+
+    const precisePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!precisePointer.matches || reducedMotion.matches || !("requestAnimationFrame" in window)) return;
+
+    let frame = 0;
+    let pointerX = 0;
+    let pointerY = 0;
+
+    const renderGlow = () => {
+      frame = 0;
+      const bounds = hero.getBoundingClientRect();
+      const x = Math.min(bounds.width, Math.max(0, pointerX - bounds.left));
+      const y = Math.min(bounds.height, Math.max(0, pointerY - bounds.top));
+      glow.style.setProperty("--hero-glow-x", `${x}px`);
+      glow.style.setProperty("--hero-glow-y", `${y}px`);
+      glow.dataset.active = "true";
+    };
+
+    const scheduleGlow = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return;
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (!frame) frame = window.requestAnimationFrame(renderGlow);
+    };
+
+    const hideGlow = () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      frame = 0;
+      delete glow.dataset.active;
+    };
+
+    hero.addEventListener("pointerenter", scheduleGlow, { passive: true });
+    hero.addEventListener("pointermove", scheduleGlow, { passive: true });
+    hero.addEventListener("pointerleave", hideGlow, { passive: true });
+
+    return () => {
+      hero.removeEventListener("pointerenter", scheduleGlow);
+      hero.removeEventListener("pointermove", scheduleGlow);
+      hero.removeEventListener("pointerleave", hideGlow);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return <div ref={glowRef} className="hero-pointer-glow" aria-hidden="true" />;
 }
 
 export function RevealObserver() {

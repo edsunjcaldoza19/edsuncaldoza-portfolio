@@ -33,6 +33,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /href="\/resume\.pdf"/);
   assert.match(html, /edsunjcaldoza@gmail\.com/);
   assert.match(html, /class="hero-pattern" aria-hidden="true"/);
+  assert.match(html, /class="hero-pointer-glow" aria-hidden="true"/);
   assert.match(html, /500(?:<!-- -->)?\+/);
   assert.match(html, /Graphic Design Projects/);
   assert.match(html, /50(?:<!-- -->)?\+/);
@@ -70,6 +71,13 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /\.hero-pattern/);
+  assert.match(css, /\.hero-pointer-glow/);
+  assert.match(css, /--hero-glow-center/);
+  assert.match(css, /radial-gradient\(circle at center/);
+  assert.match(css, /width:\s*clamp\(380px, 34vw, 520px\)/);
+  assert.match(css, /pointer-events:\s*none/);
+  assert.match(css, /translate3d\(var\(--hero-glow-x\), var\(--hero-glow-y\), 0\)/);
+  assert.match(css, /@media \(hover: none\), \(pointer: coarse\)/);
   assert.match(css, /-webkit-mask-image/);
   assert.match(css, /background-size:\s*32px 32px/);
   assert.match(css, /html\[data-theme="light"\]/);
@@ -160,6 +168,14 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.match(controls, /aria-valuenow/);
   assert.match(controls, /ResizeObserver/);
   assert.match(controls, /prefers-reduced-motion: reduce/);
+  assert.match(controls, /export function HeroPointerGlow/);
+  assert.match(controls, /\(hover: hover\) and \(pointer: fine\)/);
+  assert.match(controls, /pointerenter/);
+  assert.match(controls, /pointermove/);
+  assert.match(controls, /pointerleave/);
+  assert.match(controls, /getBoundingClientRect/);
+  assert.match(controls, /--hero-glow-x/);
+  assert.match(controls, /--hero-glow-y/);
   assert.match(controls, /element\.hasAttribute\("data-stagger"\)/);
   assert.match(controls, /--motion-order/);
   assert.match(controls, /usePathname/);

@@ -34,6 +34,7 @@
 - Stagger the proof points, expertise rows, testimonial content, and contact close using the shared `55ms` motion rhythm.
 - Project cards reveal in each grid row with a short offset between columns. Media lifts by no more than `4px` on precise-pointer hover.
 - Keep the role carousel and blue headline gradient as the only looping motion. Disable both, all entrance transforms, and interaction transforms under reduced motion.
+- A homepage-only pointer spotlight may sit above the grid and behind all content. Use a `380–520px` feathered cobalt radial gradient, direct `requestAnimationFrame`-throttled pointer tracking, and a short opacity fade. Enable it only for fine hover pointers, disable it for touch and reduced motion, and keep its theme-specific opacity low enough that text and portrait contrast remain unchanged.
 
 ## Copy Voice
 

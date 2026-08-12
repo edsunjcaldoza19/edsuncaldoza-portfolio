@@ -54,7 +54,7 @@ Display typography scales continuously between breakpoints. Homepage section hea
 - Use the shared enter curve `cubic-bezier(0.16, 1, 0.3, 1)` so incoming content settles quickly without overshoot.
 - Stagger related children by `55ms`, keeping groups short enough that their complete reveal remains responsive.
 - Reveal standard content from `12px`, project cards from `16px`, and large media with a subtle `.988` to `1` scale. Animate only opacity and transform.
-- Run entrance sequences once when content enters the viewport. Preserve native scrolling and never pin sections, add parallax, or track the cursor.
+- Run entrance sequences once when content enters the viewport. Preserve native scrolling and never pin sections or add parallax. The homepage hero may use the single documented low-opacity pointer spotlight as an exception to the general cursor-tracking restriction.
 - Give buttons and linked project media short hover or press feedback without changing layout bounds.
 - Server-render all content visible by default. Motion activates only when the client observer is ready, and reduced-motion users receive the final state immediately.
 
@@ -71,7 +71,7 @@ Display typography scales continuously between breakpoints. Homepage section hea
 
 - Decorative color beyond cobalt
 - Heavy shadows, glass effects, pill-heavy UI, and excessive rounding
-- Parallax, cursor tracking, scroll-jacking, animation libraries, or motion without meaning
+- Parallax, cursor tracking outside the homepage hero spotlight, scroll-jacking, animation libraries, or motion without meaning
 - Hover-only meaning, layout-shifting effects, and hidden focus rings
 - Long résumé content on the homepage
 
