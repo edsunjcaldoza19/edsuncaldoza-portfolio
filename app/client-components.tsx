@@ -58,6 +58,15 @@ export function NavigationController() {
     const progress = header?.querySelector<HTMLElement>(".scroll-progress");
     if (!header || !progress) return;
 
+    const sectionLinks = Array.from(header.querySelectorAll<HTMLAnchorElement>("[data-nav-section]"));
+    const sections = Array.from(new Set(sectionLinks.map((link) => link.dataset.navSection)))
+      .map((id) => id ? document.getElementById(id) : null)
+      .filter((section): section is HTMLElement => section !== null);
+    const mobileMenu = header.querySelector<HTMLDetailsElement>(".mobile-nav");
+    const mobileLinks = Array.from(mobileMenu?.querySelectorAll<HTMLAnchorElement>("a") ?? []);
+    const closeMobileMenu = () => mobileMenu?.removeAttribute("open");
+    mobileLinks.forEach((link) => link.addEventListener("click", closeMobileMenu));
+
     let frame = 0;
     let previousState: boolean | null = null;
     let previousProgress = -1;
@@ -81,6 +90,21 @@ export function NavigationController() {
         progress.setAttribute("aria-valuenow", String(percentage));
         previousProgress = percentage;
       }
+
+      let activeSection = "";
+      const sectionMarker = Math.min(window.innerHeight * 0.38, 320);
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= sectionMarker) activeSection = section.id;
+      });
+      if (sections.length && window.scrollY + window.innerHeight >= root.scrollHeight - 2) {
+        activeSection = sections.at(-1)?.id ?? activeSection;
+      }
+      sectionLinks.forEach((link) => {
+        const isActive = link.dataset.navSection === activeSection;
+        link.classList.toggle("active", isActive);
+        if (isActive) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
     };
 
     const scheduleUpdate = () => {
@@ -101,6 +125,7 @@ export function NavigationController() {
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
       window.removeEventListener("load", scheduleUpdate);
+      mobileLinks.forEach((link) => link.removeEventListener("click", closeMobileMenu));
       resizeObserver?.disconnect();
       if (frame) window.cancelAnimationFrame(frame);
     };

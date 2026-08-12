@@ -61,7 +61,7 @@ export default function Home() {
           ))}
         </section>
 
-        <section className="home-about" id="skills">
+        <section className="home-about" id="about">
           <SectionIntro number="01" label="About & expertise" title={<>Design that gets the<br />message across.</>} />
           <div className="about-expertise-grid">
             <div className="about-expertise-copy reveal">

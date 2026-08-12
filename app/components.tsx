@@ -4,6 +4,11 @@ import { NavigationController, ThemeToggle } from "./client-components";
 import type { Project } from "./data";
 
 const email = "mailto:edsunjcaldoza@gmail.com";
+const navigationSections = [
+  { label: "About", href: "/#about", section: "about" },
+  { label: "Work", href: "/#selected-work", section: "selected-work" },
+  { label: "Contact", href: "/#contact", section: "contact" },
+] as const;
 
 export function Navigation({ active = "home" }: { active?: string }) {
   return (
@@ -16,9 +21,7 @@ export function Navigation({ active = "home" }: { active?: string }) {
             <span className="brand-name">Edsun Caldoza</span>
           </Link>
           <nav className="desktop-nav" aria-label="Main navigation">
-            <Link className={active === "work" ? "active" : ""} href="/work" aria-current={active === "work" ? "page" : undefined}>Work</Link>
-            <Link className={active === "about" ? "active" : ""} href="/about" aria-current={active === "about" ? "page" : undefined}>About</Link>
-            <Link href="/#contact">Contact</Link>
+            {navigationSections.map((item) => <Link key={item.section} href={item.href} data-nav-section={item.section}>{item.label}</Link>)}
             <ThemeToggle />
             <a className="nav-resume" href="/resume.pdf" target="_blank" rel="noreferrer">Résumé <span aria-hidden="true">↗</span></a>
           </nav>
@@ -27,9 +30,7 @@ export function Navigation({ active = "home" }: { active?: string }) {
               <span className="hamburger-icon" aria-hidden="true"><span /><span /><span /></span>
             </summary>
             <nav aria-label="Mobile navigation">
-              <Link className={active === "work" ? "active" : ""} href="/work" aria-current={active === "work" ? "page" : undefined}>Work</Link>
-              <Link className={active === "about" ? "active" : ""} href="/about" aria-current={active === "about" ? "page" : undefined}>About</Link>
-              <Link href="/#contact">Contact</Link>
+              {navigationSections.map((item) => <Link key={item.section} href={item.href} data-nav-section={item.section}>{item.label}</Link>)}
               <a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé <span aria-hidden="true">↗</span></a>
               <ThemeToggle />
             </nav>

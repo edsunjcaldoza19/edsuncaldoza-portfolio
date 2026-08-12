@@ -62,6 +62,11 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /aria-valuenow="0"/);
   assert.match(html, /aria-label="Toggle navigation menu"/);
   assert.match(html, /data-scrolled="false"/);
+  assert.equal((html.match(/href="\/#about"/g) ?? []).length, 2);
+  assert.equal((html.match(/href="\/#selected-work"/g) ?? []).length, 2);
+  assert.equal((html.match(/href="\/#contact"/g) ?? []).length, 2);
+  assert.match(html, /id="about"/);
+  assert.doesNotMatch(html, /id="skills"/);
   assert.doesNotMatch(html, /<h1[^>]*>Designing/);
   assert.doesNotMatch(html, /I turn ideas into clear, memorable visuals/);
   assert.doesNotMatch(html, /Ideas made visible|Six projects|Let(?:’|&apos;|&#x27;)s build/);
@@ -166,6 +171,9 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.match(controls, /Math\.min\(1, Math\.max\(0, ratio\)\)/);
   assert.match(controls, /--scroll-progress/);
   assert.match(controls, /aria-valuenow/);
+  assert.match(controls, /\[data-nav-section\]/);
+  assert.match(controls, /aria-current", "location"/);
+  assert.match(controls, /mobileMenu\?\.removeAttribute\("open"\)/);
   assert.match(controls, /ResizeObserver/);
   assert.match(controls, /prefers-reduced-motion: reduce/);
   assert.match(controls, /export function HeroPointerGlow/);
@@ -193,7 +201,11 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.match(controls, /1 - Math\.pow\(1 - progress, 3\)/);
   assert.match(controls, /observer\.unobserve\(strip\)/);
   const navigation = await readFile(new URL("../app/components.tsx", import.meta.url), "utf8");
-  assert.match(navigation, /aria-current=\{active === "work" \? "page"/);
+  assert.match(navigation, /href: "\/#about"/);
+  assert.match(navigation, /href: "\/#selected-work"/);
+  assert.match(navigation, /href: "\/#contact"/);
+  assert.match(navigation, /data-nav-section=\{item\.section\}/);
+  assert.doesNotMatch(navigation, /href="\/work" aria-current|href="\/about" aria-current/);
   assert.match(navigation, /hamburger-icon/);
   assert.doesNotMatch(navigation, />Menu<\/summary>/);
 });
