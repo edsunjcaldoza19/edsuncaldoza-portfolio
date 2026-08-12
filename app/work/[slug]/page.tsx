@@ -26,20 +26,20 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <main className="case-study" id="main-content">
         <header className="case-header">
           <Link className="case-back" href="/work">← All projects</Link>
-          <div className="case-heading reveal"><p className="eyebrow">{projectNumber} · {project.category} · {project.year}</p><h1>{project.title}</h1><p>{project.summary}</p></div>
-          <div className="case-hero-media reveal">
+          <div className="case-heading reveal" data-stagger><p className="eyebrow">{projectNumber} · {project.category} · {project.year}</p><h1>{project.title}</h1><p>{project.summary}</p></div>
+          <div className="case-hero-media reveal" data-reveal="media">
             {project.video ? <video controls muted playsInline preload="metadata" poster={project.image}><source src="/videos/edsun-reel.mp4" type="video/mp4" />Your browser does not support video playback.</video> : <img src={project.image} alt={`${project.title} final presentation`} />}
           </div>
         </header>
-        <section className="case-facts reveal" aria-label="Project details">
+        <section className="case-facts reveal" data-stagger aria-label="Project details">
           <div><span>Client / context</span><strong>{project.client}</strong></div>
           <div><span>Role</span><strong>{project.role}</strong></div>
           <div><span>Tools</span><strong>{project.tools}</strong></div>
           <div><span>Deliverables</span><strong>{project.deliverables}</strong></div>
         </section>
-        <section className="case-narrative reveal"><p className="section-label"><span>01</span>Challenge and approach</p><div><h2>{project.challenge}</h2><p>{project.approach}</p></div></section>
-        <section className={`case-art project-${project.accent} reveal`}><span>Final work</span><img src={project.image} alt={`Detailed view of ${project.title}`} loading="lazy" /></section>
-        <section className="case-result reveal"><p className="section-label"><span>02</span>Outcome</p><div><h2>{project.outcomeHeading}</h2><p>{project.result}</p>{project.behance && <a className="button button-primary" href={project.behance} target="_blank" rel="noreferrer">View project on Behance</a>}</div></section>
+        <section className="case-narrative reveal" data-stagger><p className="section-label"><span>01</span>Challenge and approach</p><div><h2>{project.challenge}</h2><p>{project.approach}</p></div></section>
+        <section className={`case-art project-${project.accent} reveal`} data-reveal="media"><span>Final work</span><img src={project.image} alt={`Detailed view of ${project.title}`} loading="lazy" /></section>
+        <section className="case-result reveal" data-stagger><p className="section-label"><span>02</span>Outcome</p><div><h2>{project.outcomeHeading}</h2><p>{project.result}</p>{project.behance && <a className="button button-primary" href={project.behance} target="_blank" rel="noreferrer">View project on Behance</a>}</div></section>
         <Link className="next-project reveal" href={`/work/${next.slug}`}><span>Next project</span><strong>{next.title}</strong><i aria-hidden="true">↗</i></Link>
       </main>
     </PageShell>

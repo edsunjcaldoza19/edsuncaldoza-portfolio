@@ -28,6 +28,13 @@
 - Feature six internal case studies in a two-column desktop grid and one column on mobile.
 - End with a full-width testimonial followed by an oversized contact statement.
 
+## Motion Override
+
+- Introduce the hero copy in reading order with short `60ms` steps, then settle the portrait with a subtle fade and scale. Keep the entire sequence under one second.
+- Stagger the proof points, expertise rows, testimonial content, and contact close using the shared `55ms` motion rhythm.
+- Project cards reveal in each grid row with a short offset between columns. Media lifts by no more than `4px` on precise-pointer hover.
+- Keep the role carousel and blue headline gradient as the only looping motion. Disable both, all entrance transforms, and interaction transforms under reduced motion.
+
 ## Copy Voice
 
 - Keep the homepage hero copy unchanged.

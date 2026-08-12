@@ -48,7 +48,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="proof-strip reveal" aria-label="Selected career highlights" data-count-strip>
+        <section className="proof-strip reveal" aria-label="Selected career highlights" data-count-strip data-stagger>
           {portfolioStats.map((stat) => (
             <div key={stat.label}>
               <strong>
@@ -68,7 +68,7 @@ export default function Home() {
               <p>I combine strong visual thinking with practical production skills. That means clear communication, organized files, thoughtful revisions, and work that is ready to use.</p>
               <Link className="text-link" href="/about">Learn more about me <span aria-hidden="true">↗</span></Link>
             </div>
-            <div className="expertise-list reveal">
+            <div className="expertise-list reveal" data-stagger>
               {expertise.map((item) => (
                 <article key={item.title}>
                   <span>{item.number}</span>
@@ -87,13 +87,13 @@ export default function Home() {
           <Link className="section-link" href="/work">View all projects <span aria-hidden="true">↗</span></Link>
         </section>
 
-        <section className="testimonial reveal">
+        <section className="testimonial reveal" data-stagger>
           <p className="section-label"><span>03</span>Client feedback</p>
           <blockquote>“Such a great experience working with Edsun. He never hesitated to provide a revision, no matter how small the detail. I would love to work with him again.”</blockquote>
           <div className="quote-person"><img src="/images/testimonial-1.jpg" alt="William Meyer" loading="lazy" /><div><strong>William Meyer</strong><span>Client · United States</span></div></div>
         </section>
 
-        <section className="contact-close reveal" id="contact">
+        <section className="contact-close reveal" data-stagger id="contact">
           <div className="contact-topline"><p className="section-label"><span>04</span>Contact</p><span>Based in the Philippines · Available worldwide</span></div>
           <h2>Let’s work<br /><span>together.</span></h2>
           <div className="contact-bottom">

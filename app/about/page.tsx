@@ -17,7 +17,7 @@ export default function AboutPage() {
     <PageShell active="about">
       <main className="inner-page" id="main-content">
         <section className="about-hero">
-          <div className="about-hero-copy reveal">
+          <div className="about-hero-copy reveal" data-stagger>
             <p className="eyebrow">About Edsun · 01</p>
             <h1>Designer, editor, and<br /><span>practical problem-solver.</span></h1>
             <p>I’m a graphic designer and video editor based in the Philippines. I create campaign assets, presentations, web pages, print materials, and digital content for clients and remote teams.</p>
@@ -29,28 +29,28 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="about-story reveal">
+        <section className="about-story reveal" data-stagger>
           <p className="section-label"><span>02</span>Background</p>
           <div><h2>I learned design by making work that had to function in the real world.</h2><p>I started in print production, designing shirts, mugs, invitations, brochures, and other custom materials. That experience taught me to pay attention to size, color, deadlines, and the details that separate a good file from a finished product.</p><p>Since then, I’ve worked on landing pages, book covers, webinar presentations, campaign graphics, and video content. Teaching Photoshop, Figma, PHP, and web development also made me better at explaining decisions and working through feedback.</p></div>
         </section>
 
-        <section className="experience-section reveal">
+        <section className="experience-section reveal" data-stagger>
           <div className="experience-head"><p className="section-label"><span>03</span>Experience</p><h2>Experience across print, digital, and education.</h2><a className="button button-primary" href="/resume.pdf" target="_blank" rel="noreferrer">Download résumé</a></div>
-          <div className="timeline">
+          <div className="timeline reveal" data-stagger>
             {experience.map((item) => <article key={item.role}><time>{item.date}</time><div><h3>{item.role}</h3><strong>{item.company}</strong><p>{item.detail}</p></div></article>)}
           </div>
         </section>
 
-        <section className="principles reveal">
+        <section className="principles reveal" data-stagger>
           <p className="section-label"><span>04</span>How I work</p>
-          <div className="principle-grid">
+          <div className="principle-grid reveal" data-stagger>
             <article><span>01</span><h3>Understand the goal</h3><p>I start with the audience, the message, and what the final piece needs to do.</p></article>
             <article><span>02</span><h3>Build a clear system</h3><p>I set the hierarchy, layout, type, color, and motion rules before refining the details.</p></article>
             <article><span>03</span><h3>Share and refine</h3><p>I explain decisions, listen to feedback, and make revisions that improve the work.</p></article>
           </div>
         </section>
 
-        <section className="education reveal">
+        <section className="education reveal" data-stagger>
           <p className="section-label"><span>05</span>Education</p>
           <div><article><h3>Bachelor of Science in Information Technology</h3><p>Leyte Normal University · 2018 to 2022</p><strong>Competence in Practicum Awardee</strong></article><article><h3>Information &amp; Communication Technology</h3><p>Holy Trinity College · 2016 to 2018</p><strong>High Honors · CSS NC II Certificate</strong></article></div>
         </section>

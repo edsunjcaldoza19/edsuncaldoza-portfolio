@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { NavigationController, ThemeToggle } from "./client-components";
 import type { Project } from "./data";
 
@@ -75,7 +75,7 @@ export function PageShell({ children, active }: { children: ReactNode; active?: 
 export function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
   const number = String(index + 1).padStart(2, "0");
   return (
-    <article className="project-card reveal">
+    <article className="project-card reveal" data-reveal="card" style={{ "--motion-order": index % 2 } as CSSProperties}>
       <Link className="project-image-wrap" href={`/work/${project.slug}`} aria-label={`View ${project.title} case study`}>
         {project.video && <span className="play-pill">Video</span>}
         <img src={project.image} alt={`${project.title} project preview`} loading={index > 1 ? "lazy" : "eager"} />
@@ -93,7 +93,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
 
 export function SectionIntro({ number, label, title }: { number: string; label: string; title: ReactNode }) {
   return (
-    <div className="section-intro reveal">
+    <div className="section-intro reveal" data-stagger>
       <p className="section-label"><span>{number}</span>{label}</p>
       <h2>{title}</h2>
     </div>

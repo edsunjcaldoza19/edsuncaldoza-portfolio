@@ -11,7 +11,7 @@
 1. Oversized editorial type establishes a distinctive point of view without competing with project media.
 2. Cobalt is the only accent; all other surfaces remain charcoal or neutral.
 3. Numbered sections, thin borders, and generous whitespace create rhythm across every route.
-4. Motion is limited to a 12px fade-and-rise reveal plus direct interaction feedback, with a full reduced-motion fallback.
+4. Motion follows a restrained editorial system: a coordinated hero entrance, 12–16px section and card reveals, short child staggers, subtle media scaling, and direct interaction feedback. Every effect has a full reduced-motion fallback.
 5. Every interactive control is keyboard accessible, visibly focused, and at least 44px tall.
 
 ## Theme Tokens
@@ -48,6 +48,16 @@ Display typography scales continuously between breakpoints. Homepage section hea
 - Sections: visible two-digit numbering, thin dividers, and large display headings.
 - Focus: 3px cobalt-family outline with 4px offset on every interactive element.
 
+## Motion System
+
+- Use `180ms` for hover and press feedback, `360ms` for section and card entrances, and `480ms` for the coordinated hero entrance.
+- Use the shared enter curve `cubic-bezier(0.16, 1, 0.3, 1)` so incoming content settles quickly without overshoot.
+- Stagger related children by `55ms`, keeping groups short enough that their complete reveal remains responsive.
+- Reveal standard content from `12px`, project cards from `16px`, and large media with a subtle `.988` to `1` scale. Animate only opacity and transform.
+- Run entrance sequences once when content enters the viewport. Preserve native scrolling and never pin sections, add parallax, or track the cursor.
+- Give buttons and linked project media short hover or press feedback without changing layout bounds.
+- Server-render all content visible by default. Motion activates only when the client observer is ready, and reduced-motion users receive the final state immediately.
+
 ## Page Pattern
 
 1. Impact-led hero with a supporting rotating role and grayscale portrait
@@ -61,7 +71,7 @@ Display typography scales continuously between breakpoints. Homepage section hea
 
 - Decorative color beyond cobalt
 - Heavy shadows, glass effects, pill-heavy UI, and excessive rounding
-- Parallax, cursor tracking, animation libraries, or motion without meaning
+- Parallax, cursor tracking, scroll-jacking, animation libraries, or motion without meaning
 - Hover-only meaning, layout-shifting effects, and hidden focus rings
 - Long résumé content on the homepage
 

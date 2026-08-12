@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 type Theme = "dark" | "light";
 
@@ -127,16 +128,28 @@ export function RotatingRole() {
 }
 
 export function RevealObserver() {
+  const pathname = usePathname();
+
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
+    elements.forEach((element) => {
+      if (!element.hasAttribute("data-stagger")) return;
+      Array.from(element.children).forEach((child, index) => {
+        if (child instanceof HTMLElement) child.style.setProperty("--motion-order", String(index));
+      });
+    });
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
       elements.forEach((element) => element.classList.add("is-visible"));
       return;
     }
 
     document.documentElement.dataset.motion = "ready";
-    elements.forEach((element) => {
-      if (element.getBoundingClientRect().top < window.innerHeight * 0.95) element.classList.add("is-visible");
+    const initiallyVisible = new Set(elements.filter(
+      (element) => element.getBoundingClientRect().top < window.innerHeight * 0.95,
+    ));
+    const initialFrame = window.requestAnimationFrame(() => {
+      initiallyVisible.forEach((element) => element.classList.add("is-visible"));
     });
 
     const observer = new IntersectionObserver((entries) => {
@@ -148,10 +161,13 @@ export function RevealObserver() {
     }, { rootMargin: "0px 0px -8%", threshold: 0.08 });
 
     elements.forEach((element) => {
-      if (!element.classList.contains("is-visible")) observer.observe(element);
+      if (!initiallyVisible.has(element)) observer.observe(element);
     });
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(initialFrame);
+    };
+  }, [pathname]);
 
   return null;
 }
