@@ -55,6 +55,16 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /class="button button-primary selected-work-cta" href="https:\/\/www\.behance\.net\/edsuncaldoza"/);
   assert.match(html, /Client feedback/);
   assert.match(html, /Such a great experience working with Edsun/);
+  assert.match(html, /Tools &amp; workflow/);
+  assert.match(html, /Tools I use to get[\s\S]*the work done\./);
+  assert.match(html, /From first layouts to final edits, I use these tools to design, build, and deliver work across print, video, and web\./);
+  for (const tool of ["Adobe Photoshop", "Figma", "Canva", "CapCut", "WordPress", "HTML", "CSS", "JavaScript", "PHP", "MySQL", "Microsoft Office Suite", "Google Workspace", "Google Slides"]) {
+    assert.match(html, new RegExp(tool));
+  }
+  assert.match(html, /aria-label="Workflow tools"/);
+  assert.match(html, /class="tools-list" aria-hidden="true"/);
+  assert.match(html, /aria-label="Pause tools carousel"/);
+  assert.match(html, /<span>05<\/span>Contact/);
   assert.match(html, /Available worldwide/);
   assert.match(html, /Email me/);
   assert.match(html, /aria-label="Switch to light theme"/);
@@ -65,8 +75,10 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /data-scrolled="false"/);
   assert.equal((html.match(/href="\/#about"/g) ?? []).length, 2);
   assert.equal((html.match(/href="\/#selected-work"/g) ?? []).length, 2);
+  assert.equal((html.match(/href="\/#tools"/g) ?? []).length, 2);
   assert.equal((html.match(/href="\/#contact"/g) ?? []).length, 2);
   assert.match(html, /id="about"/);
+  assert.match(html, /id="tools"/);
   assert.doesNotMatch(html, /id="skills"/);
   assert.doesNotMatch(html, /<h1[^>]*>Designing/);
   assert.doesNotMatch(html, /I turn ideas into clear, memorable visuals/);
@@ -152,6 +164,12 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.proof-strip \{ width:\s*min\(calc\(100% - var\(--page-inset\)\), var\(--content\)\);[^}]*padding:\s*0;/s);
   assert.match(css, /\.home-about, \.selected-work \{ padding:\s*var\(--space-section\) 0/);
   assert.match(css, /\.project-grid[^}]*gap:\s*var\(--space-card-row\) 28px/s);
+  assert.match(css, /\.tools-track[^}]*animation:\s*tools-marquee-scroll 48s linear infinite/s);
+  assert.match(css, /@keyframes tools-marquee-scroll[^}]*translate3d\(0, 0, 0\)[\s\S]*?translate3d\(-50%, 0, 0\)/s);
+  assert.match(css, /\.tools-marquee[^}]*overflow:\s*hidden[^}]*-webkit-mask-image:\s*linear-gradient/s);
+  assert.match(css, /\.tool-tile[^}]*width:\s*72px[^}]*height:\s*72px/s);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.tool-tile \{ width:\s*60px; height:\s*60px;/);
+  assert.match(css, /\.tools-list\[aria-hidden="true"\], \.tools-marquee-toggle \{ display:\s*none;/);
   assert.match(css, /\.work-hero h1, \.about-hero h1[^}]*font-size:\s*clamp\(56px, 8vw, 112px\)/s);
   assert.match(css, /\.case-heading h1[^}]*font-size:\s*clamp\(56px, 8vw, 124px\)/s);
   assert.match(css, /\.about-story div p, \.case-narrative div > p[^}]*max-width:\s*var\(--reading\)[^}]*font-size:\s*clamp\(16px, 1\.4vw, 17px\)/s);
@@ -196,6 +214,9 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.doesNotMatch(controls, /characterIndex|deleting|typing-cursor|setTimeout/);
   assert.doesNotMatch(controls, /gsap|framer-motion|motion\/react/i);
   assert.match(controls, /export function CountUpObserver/);
+  assert.match(controls, /export function WorkflowToolsMarquee/);
+  assert.match(controls, /visibilitychange/);
+  assert.match(controls, /data-paused/);
   assert.match(controls, /\[data-count-strip\]/);
   assert.match(controls, /\[data-count-value\]/);
   assert.match(controls, /duration = 1200/);
@@ -204,6 +225,7 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   const navigation = await readFile(new URL("../app/components.tsx", import.meta.url), "utf8");
   assert.match(navigation, /href: "\/#about"/);
   assert.match(navigation, /href: "\/#selected-work"/);
+  assert.match(navigation, /href: "\/#tools"/);
   assert.match(navigation, /href: "\/#contact"/);
   assert.match(navigation, /data-nav-section=\{item\.section\}/);
   assert.doesNotMatch(navigation, /href="\/work" aria-current|href="\/about" aria-current/);

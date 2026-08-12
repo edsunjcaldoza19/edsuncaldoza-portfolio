@@ -27,14 +27,15 @@
 - Place each homepage section number and label on its own row, followed by the display title on a new line with a `20–24px` vertical gap. Use the shared responsive section and heading spacing tokens so tablet spacing does not inherit the full desktop rhythm.
 - Feature six internal case studies in a two-column desktop grid and one column on mobile.
 - Close Selected Work with a primary “View all Projects” button linking to Edsun’s Behance profile; retain each card’s internal case-study link.
-- End with a full-width testimonial followed by an oversized contact statement.
+- Follow the testimonial with section 04, Tools & workflow. Use the heading “Tools I use to get the work done.” and a slow right-to-left carousel of locally stored, full-color workflow icons. Keep one semantic tool list, mark the duplicate loop group as hidden from assistive technology, provide a pause control, and replace the marquee with a static wrapping grid under reduced motion.
+- Renumber the oversized Contact close to section 05.
 
 ## Motion Override
 
 - Introduce the hero copy in reading order with short `60ms` steps, then settle the portrait with a subtle fade and scale. Keep the entire sequence under one second.
 - Stagger the proof points, expertise rows, testimonial content, and contact close using the shared `55ms` motion rhythm.
 - Project cards reveal in each grid row with a short offset between columns. Media lifts by no more than `4px` on precise-pointer hover.
-- Keep the role carousel and blue headline gradient as the only looping motion. Disable both, all entrance transforms, and interaction transforms under reduced motion.
+- Keep the role carousel, blue headline gradient, and slow tools marquee as the only looping motion. Disable all three, all entrance transforms, and interaction transforms under reduced motion.
 - A homepage-only pointer spotlight may sit above the grid and behind all content. Use a `380–520px` feathered cobalt radial gradient, direct `requestAnimationFrame`-throttled pointer tracking, and a short opacity fade. Enable it only for fine hover pointers, disable it for touch and reduced motion, and keep its theme-specific opacity low enough that text and portrait contrast remain unchanged.
 
 ## Copy Voice

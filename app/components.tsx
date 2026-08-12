@@ -7,6 +7,7 @@ const email = "mailto:edsunjcaldoza@gmail.com";
 const navigationSections = [
   { label: "About", href: "/#about", section: "about" },
   { label: "Work", href: "/#selected-work", section: "selected-work" },
+  { label: "Tools", href: "/#tools", section: "tools" },
   { label: "Contact", href: "/#contact", section: "contact" },
 ] as const;
 

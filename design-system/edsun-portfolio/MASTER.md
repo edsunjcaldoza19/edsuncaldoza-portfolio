@@ -41,7 +41,7 @@ Display typography scales continuously between breakpoints. Homepage section hea
 
 ## Components
 
-- Navigation: full-width sticky bar at the top that morphs into a compact 960px rectangular bar after 32px. Its About, Work, and Contact links point to the matching homepage sections from every route; full About and Work pages remain available through content links. The mobile disclosure closes after navigation. A 2px cobalt bar along the bottom edge reports document scroll progress; in the rounded state, inset the track by the corner radius so it never crosses the shell edge. Use an 8px nested radius for the résumé control and 7px for the mobile disclosure control; the current section uses text emphasis and `aria-current="location"` rather than a competing underline.
+- Navigation: full-width sticky bar at the top that morphs into a compact 960px rectangular bar after 32px. Its About, Work, Tools, and Contact links point to the matching homepage sections from every route; full About and Work pages remain available through content links. The mobile disclosure closes after navigation. A 2px cobalt bar along the bottom edge reports document scroll progress; in the rounded state, inset the track by the corner radius so it never crosses the shell edge. Use an 8px nested radius for the résumé control and 7px for the mobile disclosure control; the current section uses text emphasis and `aria-current="location"` rather than a competing underline.
 - Theme control: dark by default, persisted in `edsun-theme`, initialized before paint, and exposed as a labeled button.
 - Buttons: 48px minimum height, square editorial edges, cobalt primary and bordered secondary styles.
 - Cards: two-column project grid, 4:3 media, project index, category, outcome, and internal case-study link.
@@ -65,7 +65,8 @@ Display typography scales continuously between breakpoints. Homepage section hea
 3. About and core expertise
 4. Six selected projects
 5. Full-width client testimonial
-6. Oversized contact close
+6. Workflow tools marquee
+7. Oversized contact close
 
 ## Avoid
 

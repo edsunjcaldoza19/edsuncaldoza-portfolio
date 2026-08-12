@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { HeroPointerGlow, RotatingRole } from "./client-components";
+import { HeroPointerGlow, RotatingRole, WorkflowToolsMarquee } from "./client-components";
 import { Footer, Navigation, ProjectCard, SectionIntro } from "./components";
 import { featuredProjects } from "./data";
 
@@ -94,8 +94,16 @@ export default function Home() {
           <div className="quote-person"><img src="/images/testimonial-1.jpg" alt="William Meyer" loading="lazy" /><div><strong>William Meyer</strong><span>Client · United States</span></div></div>
         </section>
 
+        <section className="tools-section" id="tools">
+          <SectionIntro number="04" label="Tools & workflow" title={<>Tools I use to get<br />the work done.</>} />
+          <div className="tools-copy-row reveal">
+            <p>From first layouts to final edits, I use these tools to design, build, and deliver work across print, video, and web.</p>
+          </div>
+          <WorkflowToolsMarquee />
+        </section>
+
         <section className="contact-close reveal" data-stagger id="contact">
-          <div className="contact-topline"><p className="section-label"><span>04</span>Contact</p><span>Based in the Philippines · Available worldwide</span></div>
+          <div className="contact-topline"><p className="section-label"><span>05</span>Contact</p><span>Based in the Philippines · Available worldwide</span></div>
           <h2>Let’s work<br /><span>together.</span></h2>
           <div className="contact-bottom">
             <p>I’m available for freelance projects and remote roles in graphic design, video editing, and web design.</p>
