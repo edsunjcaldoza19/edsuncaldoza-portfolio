@@ -27,7 +27,7 @@
 - Place each homepage section number and label on its own row, followed by the display title on a new line with a `20–24px` vertical gap. Use the shared responsive section and heading spacing tokens so tablet spacing does not inherit the full desktop rhythm.
 - Feature six internal case studies in a two-column desktop grid and one column on mobile.
 - Close Selected Work with a primary “View all Projects” button linking to Edsun’s Behance profile; retain each card’s internal case-study link.
-- Follow the testimonial with section 04, Tools & workflow. Use the heading “Tools I use to get the work done.” and a continuous slow right-to-left carousel of locally stored, full-color workflow icons on transparent backgrounds. Keep one semantic tool list, mark the duplicate loop group as hidden from assistive technology, do not pause on hover or expose a pause control, and replace the marquee with a static wrapping grid under reduced motion.
+- Follow the testimonial with section 04, Tools & workflow. Use the heading “Tools I use to get the work done.” and a continuous slow right-to-left carousel of locally stored, full-color workflow icons. Place each icon in a flat 72px circle on desktop and a 60px circle on mobile, using white circles in dark mode and charcoal circles in light mode. Invert only dark monochrome marks in light mode. Keep one semantic tool list, mark the duplicate loop group as hidden from assistive technology, do not pause on hover or expose a pause control, and replace the marquee with a static wrapping grid under reduced motion.
 - Renumber the oversized Contact close to section 05.
 
 ## Motion Override
