@@ -87,7 +87,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   }
   assert.match(html, /aria-label="Workflow tools"/);
   assert.match(html, /class="tools-list" aria-hidden="true"/);
-  assert.match(html, /aria-label="Pause tools carousel"/);
+  assert.doesNotMatch(html, /Pause tools carousel|Resume tools carousel|tools-marquee-toggle|data-paused/);
   assert.match(html, /<span>05<\/span>Contact/);
   assert.match(html, /Available worldwide/);
   assert.match(html, /Email me/);
@@ -191,9 +191,11 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.tools-track[^}]*animation:\s*tools-marquee-scroll 48s linear infinite/s);
   assert.match(css, /@keyframes tools-marquee-scroll[^}]*translate3d\(0, 0, 0\)[\s\S]*?translate3d\(-50%, 0, 0\)/s);
   assert.match(css, /\.tools-marquee[^}]*overflow:\s*hidden[^}]*-webkit-mask-image:\s*linear-gradient/s);
-  assert.match(css, /\.tool-tile[^}]*width:\s*72px[^}]*height:\s*72px/s);
-  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.tool-tile \{ width:\s*60px; height:\s*60px;/);
-  assert.match(css, /\.tools-list\[aria-hidden="true"\], \.tools-marquee-toggle \{ display:\s*none;/);
+  assert.match(css, /\.tool-tile[^}]*width:\s*72px[^}]*height:\s*72px[^}]*background:\s*transparent[^}]*border:\s*0[^}]*border-radius:\s*0[^}]*box-shadow:\s*none/s);
+  assert.match(css, /\.tool-tile img \{ width:\s*48px; height:\s*48px;/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.tool-tile \{ width:\s*60px; height:\s*60px;[^}]*padding:\s*10px;[^}]*\}[\s\S]*?\.tool-tile img \{ width:\s*40px; height:\s*40px;/);
+  assert.match(css, /\.tools-list\[aria-hidden="true"\] \{ display:\s*none;/);
+  assert.doesNotMatch(css, /tools-marquee-toggle|tools-marquee-wrap|pause-icon|play-icon|data-paused|animation-play-state|\.tools-marquee:hover|--tool-tile/);
   assert.match(css, /\.work-hero h1, \.about-hero h1[^}]*font-size:\s*clamp\(56px, 8vw, 112px\)/s);
   assert.match(css, /\.case-heading h1[^}]*font-size:\s*clamp\(56px, 8vw, 124px\)/s);
   assert.match(css, /\.about-story div p, \.case-narrative div > p[^}]*max-width:\s*var\(--reading\)[^}]*font-size:\s*clamp\(16px, 1\.4vw, 17px\)/s);
@@ -238,15 +240,16 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.doesNotMatch(controls, /characterIndex|deleting|typing-cursor|setTimeout/);
   assert.doesNotMatch(controls, /gsap|framer-motion|motion\/react/i);
   assert.match(controls, /export function CountUpObserver/);
-  assert.match(controls, /export function WorkflowToolsMarquee/);
-  assert.match(controls, /visibilitychange/);
-  assert.match(controls, /data-paused/);
+  assert.doesNotMatch(controls, /WorkflowToolsMarquee|visibilitychange|data-paused|userPaused|pageHidden/);
   assert.match(controls, /\[data-count-strip\]/);
   assert.match(controls, /\[data-count-value\]/);
   assert.match(controls, /duration = 1200/);
   assert.match(controls, /1 - Math\.pow\(1 - progress, 3\)/);
   assert.match(controls, /observer\.unobserve\(strip\)/);
   const navigation = await readFile(new URL("../app/components.tsx", import.meta.url), "utf8");
+  assert.match(navigation, /export function WorkflowToolsMarquee/);
+  assert.match(navigation, /aria-label=\{duplicate \? undefined : "Workflow tools"\}/);
+  assert.match(navigation, /aria-hidden=\{duplicate \? "true" : undefined\}/);
   assert.match(navigation, /href: "\/#about"/);
   assert.match(navigation, /href: "\/#selected-work"/);
   assert.match(navigation, /href: "\/#tools"/);

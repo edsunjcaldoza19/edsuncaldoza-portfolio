@@ -11,6 +11,22 @@ const navigationSections = [
   { label: "Contact", href: "/#contact", section: "contact" },
 ] as const;
 
+const workflowTools = [
+  { name: "Adobe Photoshop", icon: "/icons/tools/adobe-photoshop.svg" },
+  { name: "Figma", icon: "/icons/tools/figma.svg" },
+  { name: "Canva", icon: "/icons/tools/canva.svg" },
+  { name: "CapCut", icon: "/icons/tools/capcut.svg" },
+  { name: "WordPress", icon: "/icons/tools/wordpress.svg" },
+  { name: "HTML", icon: "/icons/tools/html.svg" },
+  { name: "CSS", icon: "/icons/tools/css.svg" },
+  { name: "JavaScript", icon: "/icons/tools/javascript.svg" },
+  { name: "PHP", icon: "/icons/tools/php.svg" },
+  { name: "MySQL", icon: "/icons/tools/mysql.svg" },
+  { name: "Microsoft Office Suite", icon: "/icons/tools/microsoft-office.svg" },
+  { name: "Google Workspace", icon: "/icons/tools/google-workspace.svg" },
+  { name: "Google Slides", icon: "/icons/tools/google-slides.svg" },
+] as const;
+
 export function Navigation({ active = "home" }: { active?: string }) {
   return (
     <>
@@ -98,6 +114,30 @@ export function SectionIntro({ number, label, title }: { number: string; label: 
     <div className="section-intro reveal" data-stagger>
       <p className="section-label"><span>{number}</span>{label}</p>
       <h2>{title}</h2>
+    </div>
+  );
+}
+
+function ToolList({ duplicate = false }: { duplicate?: boolean }) {
+  return (
+    <ul className="tools-list" aria-label={duplicate ? undefined : "Workflow tools"} aria-hidden={duplicate ? "true" : undefined}>
+      {workflowTools.map((tool) => (
+        <li className="tool-tile" key={`${duplicate ? "duplicate-" : ""}${tool.name}`} title={tool.name}>
+          <img src={tool.icon} alt="" width="48" height="48" loading="lazy" />
+          <span className="sr-only">{tool.name}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function WorkflowToolsMarquee() {
+  return (
+    <div className="tools-marquee">
+      <div className="tools-track">
+        <ToolList />
+        <ToolList duplicate />
+      </div>
     </div>
   );
 }

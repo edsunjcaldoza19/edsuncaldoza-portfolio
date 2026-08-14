@@ -8,22 +8,6 @@ type Theme = "dark" | "light";
 const themeEvent = "edsun-theme-change";
 export const portfolioRoles = ["Designer", "Video Editor", "Creator"] as const;
 
-const workflowTools = [
-  { name: "Adobe Photoshop", icon: "/icons/tools/adobe-photoshop.svg" },
-  { name: "Figma", icon: "/icons/tools/figma.svg" },
-  { name: "Canva", icon: "/icons/tools/canva.svg" },
-  { name: "CapCut", icon: "/icons/tools/capcut.svg" },
-  { name: "WordPress", icon: "/icons/tools/wordpress.svg" },
-  { name: "HTML", icon: "/icons/tools/html.svg" },
-  { name: "CSS", icon: "/icons/tools/css.svg" },
-  { name: "JavaScript", icon: "/icons/tools/javascript.svg" },
-  { name: "PHP", icon: "/icons/tools/php.svg" },
-  { name: "MySQL", icon: "/icons/tools/mysql.svg" },
-  { name: "Microsoft Office Suite", icon: "/icons/tools/microsoft-office.svg" },
-  { name: "Google Workspace", icon: "/icons/tools/google-workspace.svg" },
-  { name: "Google Slides", icon: "/icons/tools/google-slides.svg" },
-] as const;
-
 function currentTheme(): Theme {
   if (typeof document === "undefined") return "dark";
   return document.documentElement.dataset.theme === "light" ? "light" : "dark";
@@ -220,54 +204,6 @@ export function HeroPointerGlow() {
   }, []);
 
   return <div ref={glowRef} className="hero-pointer-glow" aria-hidden="true" />;
-}
-
-function ToolList({ duplicate = false }: { duplicate?: boolean }) {
-  return (
-    <ul className="tools-list" aria-label={duplicate ? undefined : "Workflow tools"} aria-hidden={duplicate ? "true" : undefined}>
-      {workflowTools.map((tool) => (
-        <li className="tool-tile" key={`${duplicate ? "duplicate-" : ""}${tool.name}`} title={tool.name}>
-          <img src={tool.icon} alt="" width="48" height="48" loading="lazy" />
-          <span className="sr-only">{tool.name}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-export function WorkflowToolsMarquee() {
-  const [userPaused, setUserPaused] = useState(false);
-  const [pageHidden, setPageHidden] = useState(false);
-
-  useEffect(() => {
-    const syncVisibility = () => setPageHidden(document.hidden);
-    syncVisibility();
-    document.addEventListener("visibilitychange", syncVisibility);
-    return () => document.removeEventListener("visibilitychange", syncVisibility);
-  }, []);
-
-  const paused = userPaused || pageHidden;
-
-  return (
-    <div className="tools-marquee-wrap">
-      <button
-        className="tools-marquee-toggle"
-        type="button"
-        aria-pressed={userPaused}
-        aria-label={userPaused ? "Resume tools carousel" : "Pause tools carousel"}
-        onClick={() => setUserPaused((current) => !current)}
-      >
-        <span className={userPaused ? "play-icon" : "pause-icon"} aria-hidden="true" />
-        <span>{userPaused ? "Resume" : "Pause"}</span>
-      </button>
-      <div className="tools-marquee" data-paused={paused ? "true" : "false"}>
-        <div className="tools-track">
-          <ToolList />
-          <ToolList duplicate />
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export function RevealObserver() {

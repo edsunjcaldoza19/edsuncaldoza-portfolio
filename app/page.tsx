@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { HeroPointerGlow, RotatingRole, WorkflowToolsMarquee } from "./client-components";
-import { Footer, Navigation, ProjectCard, SectionIntro } from "./components";
+import { HeroPointerGlow, RotatingRole } from "./client-components";
+import { Footer, Navigation, ProjectCard, SectionIntro, WorkflowToolsMarquee } from "./components";
 import { featuredProjects } from "./data";
 
 export const metadata: Metadata = {
