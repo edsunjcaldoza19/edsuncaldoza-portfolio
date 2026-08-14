@@ -81,7 +81,7 @@ export default function Home() {
         </section>
 
         <section className="selected-work" id="selected-work">
-          <SectionIntro number="02" label="Selected work" title={<>Selected work across<br />design, video, and web.</>} />
+          <SectionIntro number="02" label="Selected work" title={<>Selected work across<br />design, web, and print.</>} />
           <div className="project-grid">
             {featuredProjects.map((project, index) => <ProjectCard key={project.slug} project={project} index={index} />)}
           </div>

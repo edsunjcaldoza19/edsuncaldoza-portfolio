@@ -84,7 +84,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
         <span className="project-open" aria-hidden="true">↗</span>
       </Link>
       <div className="project-meta">
-        <div className="project-overline"><span>{number}</span><span>{project.category}</span></div>
+        <div className="project-overline"><span>{number}</span><span>{project.kicker}</span></div>
         <h3><Link href={`/work/${project.slug}`}>{project.title}</Link></h3>
         <p className="project-summary">{project.summary}</p>
         <Link className="text-link" href={`/work/${project.slug}`}>View case study <span aria-hidden="true">↗</span></Link>

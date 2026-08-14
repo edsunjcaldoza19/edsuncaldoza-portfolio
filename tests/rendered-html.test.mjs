@@ -14,6 +14,10 @@ async function render(path = "/") {
   );
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 test("home presents the role-focused hero and recruiter/client paths", async () => {
   const response = await render();
   assert.equal(response.status, 200);
@@ -50,7 +54,27 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /Design that gets the[s\S]*message across\./);
   assert.match(html, /graphic designer and video editor with seven years of experience/);
   assert.match(html, /Learn more about me/);
-  assert.match(html, /Selected work across[s\S]*design, video, and web\./);
+  assert.match(html, /Selected work across[s\S]*design, web, and print\./);
+  const featuredProjects = [
+    ["AI Business Model Landing Page", "Web Design", "A responsive sales page that turns a detailed AI business offer into a clear path from interest to action.", "/images/project-1.jpg"],
+    ["Digital Marketing Mastery Campaign", "Graphic Design", "A bold webinar campaign system that keeps digital marketing topics clear across presentation and social media assets.", "/images/project-2.jpg"],
+    ["Wealth Webinar Slide System", "Presentation Design", "A flexible Google Slides system that organizes financial lessons, speaker content, and audience activities for live delivery.", "/images/project-3.jpg"],
+    ["Page Whisper Reading App", "UI/UX Design", "A focused mobile reading experience that makes discovering, saving, and reading books simple.", "/images/project-4.jpg"],
+    ["Heart Health Made Simple", "Book Cover Design", "An approachable health book cover designed to stay clear and trustworthy at thumbnail and print size.", "/images/project-5.jpg"],
+    ["Moonlight Car Rental Brochure", "Print Design", "A practical brochure system that makes rental options, service details, and booking information easy to scan.", "/images/project-6.jpg"],
+  ];
+  assert.equal((html.match(/class="project-card reveal"/g) ?? []).length, 6);
+  let previousProjectPosition = -1;
+  for (const [title, tag, summary, image] of featuredProjects) {
+    assert.match(html, new RegExp(escapeRegExp(title)));
+    assert.match(html, new RegExp(escapeRegExp(tag)));
+    assert.match(html, new RegExp(escapeRegExp(summary)));
+    assert.match(html, new RegExp(`src="${escapeRegExp(image)}"`));
+    const currentProjectPosition = html.indexOf(title);
+    assert.ok(currentProjectPosition > previousProjectPosition, `${title} should appear in the approved order`);
+    previousProjectPosition = currentProjectPosition;
+  }
+  assert.doesNotMatch(html, /Motion &amp; Video Reel|Short-form Social Edits/);
   assert.match(html, /View all Projects/);
   assert.match(html, /class="button button-primary selected-work-cta" href="https:\/\/www\.behance\.net\/edsuncaldoza"/);
   assert.match(html, /Client feedback/);
@@ -262,31 +286,29 @@ test("about and work pages expose the requested information architecture", async
   assert.doesNotMatch(about, /1,000\+|Curious by nature|Seven years of practical creative work/);
   assert.doesNotMatch(about, /about-hero-photo|about-headshot\.jpg/);
   assert.doesNotMatch(about, /Available for select projects|Have something in mind\?|Start a conversation/);
-  assert.match(work, /Video Editing/);
   assert.match(work, /Graphic Design/);
   assert.match(work, /Web \/ Digital/);
-  assert.match(work, /motion-video-reel/);
+  assert.doesNotMatch(work, /Video Editing|motion-video-reel|short-form-social-edits/);
   assert.match(work, /Project index/);
-  assert.match(work, /2023 to 2026/);
-  assert.match(work, /Graphic design, video,[\s\S]*and digital work\./);
-  assert.match(work, /A selection of campaigns, presentations, edits, web pages, app concepts, and print projects\./);
+  assert.match(work, /2023 to 2025/);
+  assert.match(work, /Graphic design, web,[\s\S]*and digital work\./);
+  assert.match(work, /A selection of campaign systems, presentations, landing pages, app concepts, book covers, and print projects\./);
+  assert.equal((work.match(/class="project-card reveal"/g) ?? []).length, 6);
   assert.doesNotMatch(work, /Work made to|built with clarity, craft, and purpose/);
   assert.doesNotMatch(work, /Available for select projects|Have something in mind\?|Start a conversation/);
 });
 
 test("project routes render direct case-study copy and navigation", async () => {
   const caseStudies = [
-    ["motion-video-reel", "A reel that is easy to update."],
-    ["digital-marketing-campaign", "One system across every campaign asset."],
-    ["short-form-social-edits", "A repeatable format for short-form content."],
-    ["ai-business-model-landing-page", "A clearer route from offer to action."],
-    ["wealth-webinar-presentation", "A deck built for live delivery."],
-    ["page-whisper-mobile-app", "A smoother path from discovery to reading."],
-    ["heart-health-book-cover", "Clear at thumbnail and print size."],
-    ["moonlight-car-rental-brochure", "Service details that are easy to scan."],
+    ["ai-business-model-landing-page", "A clearer route from offer to action.", "https://www.behance.net/gallery/238027647/AI-Business-Model-Landing-Page-Website-Design", "Digital Marketing Mastery Campaign"],
+    ["digital-marketing-campaign", "One system across every campaign asset.", "https://www.behance.net/gallery/226541053/Digital-Marketing-Mastery-Webinar-Social-Media-Design", "Wealth Webinar Slide System"],
+    ["wealth-webinar-presentation", "A deck built for live delivery.", "https://www.behance.net/gallery/226690009/Wealth-Google-Slides-Webinar-Template", "Page Whisper Reading App"],
+    ["page-whisper-mobile-app", "A smoother path from discovery to reading.", "https://www.behance.net/gallery/226752305/Page-Whisper-Mobile-App-UI", "Heart Health Made Simple"],
+    ["heart-health-book-cover", "Clear at thumbnail and print size.", "https://www.behance.net/gallery/226851791/Heart-Health-Book-Cover-Template", "Moonlight Car Rental Brochure"],
+    ["moonlight-car-rental-brochure", "Service details that are easy to scan.", "https://www.behance.net/gallery/176567239/Dynamic-Brochure-Design-for-Your-Car-Rental-Service", "AI Business Model Landing Page"],
   ];
 
-  for (const [slug, outcomeHeading] of caseStudies) {
+  for (const [slug, outcomeHeading, behanceUrl, nextProject] of caseStudies) {
     const response = await render(`/work/${slug}`);
     assert.equal(response.status, 200);
     const html = await response.text();
@@ -294,13 +316,18 @@ test("project routes render direct case-study copy and navigation", async () => 
     assert.match(html, /Challenge and approach/);
     assert.match(html, /Final work/);
     assert.match(html, /Outcome/);
-    assert.match(html, new RegExp(outcomeHeading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(html, new RegExp(escapeRegExp(outcomeHeading)));
     assert.match(html, /Next project/);
+    assert.match(html, new RegExp(escapeRegExp(nextProject)));
+    assert.match(html, new RegExp(`href="${escapeRegExp(behanceUrl)}"`));
+    assert.match(html, /View project on Behance/);
     assert.doesNotMatch(html, /The brief|Selected outcome|Designed to stay clear at every size/);
   }
 
-  const behanceResponse = await render("/work/digital-marketing-campaign");
-  assert.match(await behanceResponse.text(), /View project on Behance/);
+  for (const removedSlug of ["motion-video-reel", "short-form-social-edits"]) {
+    const response = await render(`/work/${removedSlug}`);
+    assert.equal(response.status, 404);
+  }
 });
 
 test("user-facing copy avoids em dashes", async () => {
