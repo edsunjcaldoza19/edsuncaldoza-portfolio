@@ -14,15 +14,14 @@ const navigationSections = [
 type WorkflowTool = {
   name: string;
   icon: string;
-  monochrome?: boolean;
 };
 
 const workflowTools: readonly WorkflowTool[] = [
   { name: "Adobe Photoshop", icon: "/icons/tools/adobe-photoshop.svg" },
   { name: "Figma", icon: "/icons/tools/figma.svg" },
   { name: "Canva", icon: "/icons/tools/canva.svg" },
-  { name: "CapCut", icon: "/icons/tools/capcut.svg", monochrome: true },
-  { name: "WordPress", icon: "/icons/tools/wordpress.svg", monochrome: true },
+  { name: "CapCut", icon: "/icons/tools/capcut.svg" },
+  { name: "WordPress", icon: "/icons/tools/wordpress.svg" },
   { name: "HTML", icon: "/icons/tools/html.svg" },
   { name: "CSS", icon: "/icons/tools/css.svg" },
   { name: "JavaScript", icon: "/icons/tools/javascript.svg" },
@@ -128,7 +127,7 @@ function ToolList({ duplicate = false }: { duplicate?: boolean }) {
   return (
     <ul className="tools-list" aria-label={duplicate ? undefined : "Workflow tools"} aria-hidden={duplicate ? "true" : undefined}>
       {workflowTools.map((tool) => (
-        <li className={`tool-tile${tool.monochrome ? " tool-tile-monochrome" : ""}`} key={`${duplicate ? "duplicate-" : ""}${tool.name}`} title={tool.name}>
+        <li className="tool-tile" key={`${duplicate ? "duplicate-" : ""}${tool.name}`} title={tool.name}>
           <img src={tool.icon} alt="" width="48" height="48" loading="lazy" />
           <span className="sr-only">{tool.name}</span>
         </li>

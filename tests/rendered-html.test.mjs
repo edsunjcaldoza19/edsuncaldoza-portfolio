@@ -87,7 +87,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   }
   assert.match(html, /aria-label="Workflow tools"/);
   assert.match(html, /class="tools-list" aria-hidden="true"/);
-  assert.match(html, /tool-tile tool-tile-monochrome/);
+  assert.doesNotMatch(html, /tool-tile-monochrome/);
   assert.doesNotMatch(html, /Pause tools carousel|Resume tools carousel|tools-marquee-toggle|data-paused/);
   assert.match(html, /<span>05<\/span>Contact/);
   assert.match(html, /Available worldwide/);
@@ -193,10 +193,10 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /@keyframes tools-marquee-scroll[^}]*translate3d\(0, 0, 0\)[\s\S]*?translate3d\(-50%, 0, 0\)/s);
   assert.match(css, /\.tools-marquee[^}]*overflow:\s*hidden[^}]*-webkit-mask-image:\s*linear-gradient/s);
   assert.match(css, /--tool-icon-background:\s*#ffffff/);
-  assert.match(css, /html\[data-theme="light"\][^}]*--tool-icon-background:\s*#11151a/s);
+  assert.match(css, /html\[data-theme="light"\][^}]*--tool-icon-background:\s*transparent/s);
   assert.match(css, /\.tool-tile[^}]*width:\s*72px[^}]*height:\s*72px[^}]*background:\s*var\(--tool-icon-background\)[^}]*border:\s*0[^}]*border-radius:\s*50%[^}]*box-shadow:\s*none/s);
-  assert.match(css, /\.tool-tile img \{ width:\s*48px; height:\s*48px;[^}]*filter:\s*none;/);
-  assert.match(css, /html\[data-theme="light"\] \.tool-tile-monochrome img \{ filter:\s*brightness\(0\) invert\(1\); \}/);
+  assert.match(css, /\.tool-tile img \{ width:\s*48px; height:\s*48px; object-fit:\s*contain; \}/);
+  assert.doesNotMatch(css, /tool-tile-monochrome|brightness\(0\) invert\(1\)/);
   assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.tool-tile \{ width:\s*60px; height:\s*60px;[^}]*padding:\s*10px;[^}]*\}[\s\S]*?\.tool-tile img \{ width:\s*40px; height:\s*40px;/);
   assert.match(css, /\.tools-list\[aria-hidden="true"\] \{ display:\s*none;/);
   assert.doesNotMatch(css, /tools-marquee-toggle|tools-marquee-wrap|pause-icon|play-icon|data-paused|animation-play-state|\.tools-marquee:hover|--tool-tile(?:-|:)/);
@@ -254,8 +254,7 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.match(navigation, /export function WorkflowToolsMarquee/);
   assert.match(navigation, /aria-label=\{duplicate \? undefined : "Workflow tools"\}/);
   assert.match(navigation, /aria-hidden=\{duplicate \? "true" : undefined\}/);
-  assert.equal((navigation.match(/monochrome: true/g) ?? []).length, 2);
-  assert.match(navigation, /tool\.monochrome \? " tool-tile-monochrome" : ""/);
+  assert.doesNotMatch(navigation, /monochrome|tool-tile-monochrome/);
   assert.match(navigation, /href: "\/#about"/);
   assert.match(navigation, /href: "\/#selected-work"/);
   assert.match(navigation, /href: "\/#tools"/);
