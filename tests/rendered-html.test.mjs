@@ -388,20 +388,20 @@ test("social metadata uses the incoming host and bespoke card", async () => {
 });
 
 test("brand favicon is exposed with compatible fallbacks", async () => {
-  const [layout, favicon, ico] = await Promise.all([
+  const [layout, favicon, fallback, ico] = await Promise.all([
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../public/favicon.svg", import.meta.url), "utf8"),
+    readFile(new URL("../public/favicon.png", import.meta.url)),
+    readFile(new URL("../public/images/ico.png", import.meta.url)),
     readFile(new URL("../public/favicon.ico", import.meta.url)),
   ]);
-  assert.match(layout, /url: "\/favicon\.ico\?v=3", type: "image\/x-icon", sizes: "64x64"/);
-  assert.match(layout, /url: "\/favicon\.svg\?v=3", type: "image\/svg\+xml", sizes: "any"/);
-  assert.match(layout, /shortcut: "\/favicon\.ico\?v=3"/);
-  assert.match(layout, /apple: "\/images\/ico\.png\?v=3"/);
-  assert.match(favicon, /viewBox="0 0 64 64"/);
-  assert.match(favicon, /fill="#2563EB"/);
-  assert.match(favicon, /fill="#FFFFFF"/);
-  assert.match(favicon, /<title>Edsun Caldoza<\/title>/);
+  assert.match(layout, /url: "\/favicon\.ico\?v=4", type: "image\/x-icon", sizes: "150x150"/);
+  assert.match(layout, /url: "\/favicon\.png\?v=4", type: "image\/png", sizes: "150x150"/);
+  assert.match(layout, /shortcut: "\/favicon\.ico\?v=4"/);
+  assert.match(layout, /apple: \{ url: "\/favicon\.png\?v=4", type: "image\/png", sizes: "150x150" \}/);
+  assert.equal(favicon.equals(fallback), true);
+  assert.equal(favicon.readUInt32BE(0), 0x89504e47);
   assert.equal(ico.readUInt16LE(0), 0);
   assert.equal(ico.readUInt16LE(2), 1);
   assert.equal(ico.readUInt16LE(4), 1);
+  assert.equal(ico.subarray(22).equals(favicon), true);
 });
