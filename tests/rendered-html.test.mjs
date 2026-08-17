@@ -24,7 +24,7 @@ test("downloadable resume uses the approved updated PDF", async () => {
   assert.equal(resume.subarray(0, 5).toString("ascii"), "%PDF-");
   assert.equal(
     createHash("sha256").update(resume).digest("hex"),
-    "121533c0efea7c694deabf5708bb4f35143dc3acbb23f7a3c0e5063d8fa41f00",
+    "e10d5de6139099ff20df7e623268d13510880c11fc2664ff2b5639bc72435f6a",
   );
 });
 
