@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
@@ -17,6 +18,15 @@ async function render(path = "/") {
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
+
+test("downloadable resume uses the approved updated PDF", async () => {
+  const resume = await readFile(new URL("../public/resume.pdf", import.meta.url));
+  assert.equal(resume.subarray(0, 5).toString("ascii"), "%PDF-");
+  assert.equal(
+    createHash("sha256").update(resume).digest("hex"),
+    "121533c0efea7c694deabf5708bb4f35143dc3acbb23f7a3c0e5063d8fa41f00",
+  );
+});
 
 test("home presents the role-focused hero and recruiter/client paths", async () => {
   const response = await render();
