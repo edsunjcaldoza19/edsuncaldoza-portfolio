@@ -56,25 +56,28 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /Learn more about me/);
   assert.match(html, /Selected work across[s\S]*design, web, and print\./);
   const featuredProjects = [
-    ["AI Business Model Landing Page", "Web Design", "A responsive sales page that turns a detailed AI business offer into a clear path from interest to action.", "/images/project-1.jpg"],
-    ["Digital Marketing Mastery Campaign", "Graphic Design", "A bold webinar campaign system that keeps digital marketing topics clear across presentation and social media assets.", "/images/project-2.jpg"],
-    ["Wealth Webinar Slide System", "Presentation Design", "A flexible Google Slides system that organizes financial lessons, speaker content, and audience activities for live delivery.", "/images/project-3.jpg"],
-    ["Page Whisper Reading App", "UI/UX Design", "A focused mobile reading experience that makes discovering, saving, and reading books simple.", "/images/project-4.jpg"],
-    ["Heart Health Made Simple", "Book Cover Design", "An approachable health book cover designed to stay clear and trustworthy at thumbnail and print size.", "/images/project-5.jpg"],
-    ["Moonlight Car Rental Brochure", "Print Design", "A practical brochure system that makes rental options, service details, and booking information easy to scan.", "/images/project-6.jpg"],
+    ["AI Business Model Landing Page", "Web Design", "A responsive sales page that turns a detailed AI business offer into a clear path from interest to action.", "/images/project-1.jpg", "https://www.behance.net/gallery/238027647/AI-Business-Model-Landing-Page-Website-Design"],
+    ["Digital Marketing Mastery Campaign", "Graphic Design", "A bold webinar campaign system that keeps digital marketing topics clear across presentation and social media assets.", "/images/project-2.jpg", "https://www.behance.net/gallery/226541053/Digital-Marketing-Mastery-Webinar-Social-Media-Design"],
+    ["Wealth Webinar Slide System", "Presentation Design", "A flexible Google Slides system that organizes financial lessons, speaker content, and audience activities for live delivery.", "/images/project-3.jpg", "https://www.behance.net/gallery/226690009/Wealth-Google-Slides-Webinar-Template"],
+    ["Page Whisper Reading App", "UI/UX Design", "A focused mobile reading experience that makes discovering, saving, and reading books simple.", "/images/project-4.jpg", "https://www.behance.net/gallery/226752305/Page-Whisper-Mobile-App-UI"],
+    ["Heart Health Made Simple", "Book Cover Design", "An approachable health book cover designed to stay clear and trustworthy at thumbnail and print size.", "/images/project-5.jpg", "https://www.behance.net/gallery/226851791/Heart-Health-Book-Cover-Template"],
+    ["Moonlight Car Rental Brochure", "Print Design", "A practical brochure system that makes rental options, service details, and booking information easy to scan.", "/images/project-6.jpg", "https://www.behance.net/gallery/176567239/Dynamic-Brochure-Design-for-Your-Car-Rental-Service"],
   ];
   assert.equal((html.match(/class="project-card reveal"/g) ?? []).length, 6);
   let previousProjectPosition = -1;
-  for (const [title, tag, summary, image] of featuredProjects) {
+  for (const [title, tag, summary, image, projectUrl] of featuredProjects) {
     assert.match(html, new RegExp(escapeRegExp(title)));
     assert.match(html, new RegExp(escapeRegExp(tag)));
     assert.match(html, new RegExp(escapeRegExp(summary)));
     assert.match(html, new RegExp(`src="${escapeRegExp(image)}"`));
+    assert.equal((html.match(new RegExp(`href="${escapeRegExp(projectUrl)}"`, "g")) ?? []).length, 3);
     const currentProjectPosition = html.indexOf(title);
     assert.ok(currentProjectPosition > previousProjectPosition, `${title} should appear in the approved order`);
     previousProjectPosition = currentProjectPosition;
   }
   assert.doesNotMatch(html, /Motion &amp; Video Reel|Short-form Social Edits/);
+  assert.equal((html.match(/>View Project <span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 6);
+  assert.doesNotMatch(html, /View case study/i);
   assert.match(html, /View all Projects/);
   assert.match(html, /class="button button-primary selected-work-cta" href="https:\/\/www\.behance\.net\/edsuncaldoza"/);
   assert.match(html, /Client feedback/);
@@ -326,6 +329,8 @@ test("about and work pages expose the requested information architecture", async
   assert.match(work, /Graphic design, web,[\s\S]*and digital work\./);
   assert.match(work, /A selection of campaign systems, presentations, landing pages, app concepts, book covers, and print projects\./);
   assert.equal((work.match(/class="project-card reveal"/g) ?? []).length, 6);
+  assert.equal((work.match(/>View Project <span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 6);
+  assert.doesNotMatch(work, /View case study/i);
   assert.doesNotMatch(work, /Work made to|built with clarity, craft, and purpose/);
   assert.doesNotMatch(work, /Available for select projects|Have something in mind\?|Start a conversation/);
 });

@@ -96,18 +96,20 @@ export function PageShell({ children, active }: { children: ReactNode; active?: 
 
 export function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
   const number = String(index + 1).padStart(2, "0");
+  const projectUrl = project.behance ?? `/work/${project.slug}`;
+  const externalLinkProps = project.behance ? { target: "_blank", rel: "noreferrer" } : {};
   return (
     <article className="project-card reveal" data-reveal="card" style={{ "--motion-order": index % 2 } as CSSProperties}>
-      <Link className="project-image-wrap" href={`/work/${project.slug}`} aria-label={`View ${project.title} case study`}>
+      <a className="project-image-wrap" href={projectUrl} aria-label={`View ${project.title} project${project.behance ? " on Behance" : ""}`} {...externalLinkProps}>
         {project.video && <span className="play-pill">Video</span>}
         <img src={project.image} alt={`${project.title} project preview`} loading={index > 1 ? "lazy" : "eager"} />
         <span className="project-open" aria-hidden="true">↗</span>
-      </Link>
+      </a>
       <div className="project-meta">
         <div className="project-overline"><span>{number}</span><span>{project.kicker}</span></div>
-        <h3><Link href={`/work/${project.slug}`}>{project.title}</Link></h3>
+        <h3><a href={projectUrl} {...externalLinkProps}>{project.title}</a></h3>
         <p className="project-summary">{project.summary}</p>
-        <Link className="text-link" href={`/work/${project.slug}`}>View case study <span aria-hidden="true">↗</span></Link>
+        <a className="text-link" href={projectUrl} {...externalLinkProps}>View Project <span aria-hidden="true">↗</span></a>
       </div>
     </article>
   );
