@@ -21,7 +21,14 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase,
     title: { default: "Edsun Caldoza | Graphic Designer & Video Editor", template: "%s" },
     description: "Graphic design, video editing, presentation design, and web work by Edsun Caldoza.",
-    icons: { icon: "/images/ico.png", shortcut: "/images/ico.png" },
+    icons: {
+      icon: [
+        { url: "/favicon.svg?v=2", type: "image/svg+xml" },
+        { url: "/images/ico.png", type: "image/png", sizes: "180x180" },
+      ],
+      shortcut: "/favicon.svg?v=2",
+      apple: "/images/ico.png",
+    },
     openGraph: {
       type: "website",
       url: metadataBase,

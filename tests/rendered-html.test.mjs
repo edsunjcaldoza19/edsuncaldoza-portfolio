@@ -386,3 +386,17 @@ test("social metadata uses the incoming host and bespoke card", async () => {
   assert.match(layout, /summary_large_image/);
   assert.match(layout, /Edsun Caldoza/);
 });
+
+test("brand favicon is exposed with compatible fallbacks", async () => {
+  const [layout, favicon] = await Promise.all([
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../public/favicon.svg", import.meta.url), "utf8"),
+  ]);
+  assert.match(layout, /url: "\/favicon\.svg\?v=2", type: "image\/svg\+xml"/);
+  assert.match(layout, /shortcut: "\/favicon\.svg\?v=2"/);
+  assert.match(layout, /apple: "\/images\/ico\.png"/);
+  assert.match(favicon, /viewBox="0 0 64 64"/);
+  assert.match(favicon, /fill="#2563EB"/);
+  assert.match(favicon, /fill="#FFFFFF"/);
+  assert.match(favicon, /<title>Edsun Caldoza<\/title>/);
+});
