@@ -43,7 +43,7 @@ export function Navigation({ active = "home" }: { active?: string }) {
             <span className="brand-name">Edsun Caldoza</span>
           </Link>
           <nav className="desktop-nav" aria-label="Main navigation">
-            {navigationSections.map((item) => <Link key={item.section} href={item.href} data-nav-section={item.section}>{item.label}</Link>)}
+            {navigationSections.map((item) => <a key={item.section} href={item.href} data-section-link data-nav-section={item.section}>{item.label}</a>)}
             <ThemeToggle />
             <a className="nav-resume" href="/resume.pdf" target="_blank" rel="noreferrer">Résumé <span aria-hidden="true">↗</span></a>
           </nav>
@@ -52,7 +52,7 @@ export function Navigation({ active = "home" }: { active?: string }) {
               <span className="hamburger-icon" aria-hidden="true"><span /><span /><span /></span>
             </summary>
             <nav aria-label="Mobile navigation">
-              {navigationSections.map((item) => <Link key={item.section} href={item.href} data-nav-section={item.section}>{item.label}</Link>)}
+              {navigationSections.map((item) => <a key={item.section} href={item.href} data-section-link data-nav-section={item.section}>{item.label}</a>)}
               <a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé <span aria-hidden="true">↗</span></a>
               <ThemeToggle />
             </nav>
@@ -77,8 +77,7 @@ export function Footer() {
             <span>Graphic Designer &amp; Video Editor</span>
           </div>
           <nav className="footer-links" aria-label="Footer navigation">
-            <Link href="/work">Work</Link>
-            <Link href="/about">About</Link>
+            {navigationSections.map((item) => <a key={item.section} href={item.href} data-section-link>{item.label}</a>)}
             <a href="/resume.pdf" target="_blank" rel="noreferrer">Résumé</a>
             <a href={email}>Email</a>
             <a href="https://www.linkedin.com/in/edsun-caldoza/" target="_blank" rel="noreferrer">LinkedIn</a>

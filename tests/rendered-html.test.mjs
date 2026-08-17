@@ -98,10 +98,11 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /aria-valuenow="0"/);
   assert.match(html, /aria-label="Toggle navigation menu"/);
   assert.match(html, /data-scrolled="false"/);
-  assert.equal((html.match(/href="\/#about"/g) ?? []).length, 2);
-  assert.equal((html.match(/href="\/#selected-work"/g) ?? []).length, 2);
-  assert.equal((html.match(/href="\/#tools"/g) ?? []).length, 2);
-  assert.equal((html.match(/href="\/#contact"/g) ?? []).length, 2);
+  assert.equal((html.match(/href="\/#about"/g) ?? []).length, 3);
+  assert.equal((html.match(/href="\/#selected-work"/g) ?? []).length, 3);
+  assert.equal((html.match(/href="\/#tools"/g) ?? []).length, 3);
+  assert.equal((html.match(/href="\/#contact"/g) ?? []).length, 3);
+  assert.equal((html.match(/data-section-link="true"/g) ?? []).length, 12);
   assert.match(html, /id="about"/);
   assert.match(html, /id="tools"/);
   assert.doesNotMatch(html, /id="skills"/);
@@ -188,6 +189,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.doesNotMatch(css, /\.section-intro[^}]*grid-template-columns:\s*220px 1fr/s);
   assert.match(css, /\.proof-strip \{ width:\s*min\(calc\(100% - var\(--page-inset\)\), var\(--content\)\);[^}]*padding:\s*0;/s);
   assert.match(css, /\.home-about, \.selected-work \{ padding:\s*var\(--space-section\) 0/);
+  assert.match(css, /\.home-about\[id\], \.selected-work\[id\], \.tools-section\[id\], \.contact-close\[id\] \{ scroll-margin-top:\s*calc\(var\(--nav-height\) \+ 24px\); \}/);
   assert.match(css, /\.project-grid[^}]*gap:\s*var\(--space-card-row\) 28px/s);
   assert.match(css, /\.tools-track[^}]*animation:\s*tools-marquee-scroll 48s linear infinite/s);
   assert.match(css, /@keyframes tools-marquee-scroll[^}]*translate3d\(0, 0, 0\)[\s\S]*?translate3d\(-50%, 0, 0\)/s);
@@ -209,6 +211,19 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.doesNotMatch(css, /\.section-intro h2 \{ font-size:\s*48px; \}/);
 });
 
+test("section navigation stays native and consistent across application routes", async () => {
+  const routes = ["/", "/about", "/work", "/work/ai-business-model-landing-page"];
+  for (const route of routes) {
+    const response = await render(route);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    for (const destination of ["about", "selected-work", "tools", "contact"]) {
+      assert.equal((html.match(new RegExp(`href="\\/#${destination}"`, "g")) ?? []).length, 3);
+    }
+    assert.equal((html.match(/data-section-link="true"/g) ?? []).length, 12);
+  }
+});
+
 test("navigation and rotating roles use the specified accessible behavior", async () => {
   const controls = await readFile(new URL("../app/client-components.tsx", import.meta.url), "utf8");
   assert.match(controls, /\["Designer", "Video Editor", "Creator"\]/);
@@ -223,6 +238,13 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.match(controls, /\[data-nav-section\]/);
   assert.match(controls, /aria-current", "location"/);
   assert.match(controls, /mobileMenu\?\.removeAttribute\("open"\)/);
+  assert.match(controls, /\[data-section-link\]/);
+  assert.match(controls, /window\.history\.pushState/);
+  assert.match(controls, /scrollIntoView\(\{ behavior:\s*scrollBehavior\(\), block:\s*"start" \}\)/);
+  assert.match(controls, /window\.addEventListener\("hashchange", handleHistoryNavigation\)/);
+  assert.match(controls, /window\.addEventListener\("popstate", handleHistoryNavigation\)/);
+  assert.match(controls, /pathname === "\/" && destination\.pathname === "\/"/);
+  assert.match(controls, /event\.metaKey[\s\S]*event\.ctrlKey[\s\S]*event\.shiftKey[\s\S]*event\.altKey/);
   assert.match(controls, /ResizeObserver/);
   assert.match(controls, /prefers-reduced-motion: reduce/);
   assert.match(controls, /export function HeroPointerGlow/);
@@ -260,6 +282,8 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.match(navigation, /href: "\/#tools"/);
   assert.match(navigation, /href: "\/#contact"/);
   assert.match(navigation, /data-nav-section=\{item\.section\}/);
+  assert.match(navigation, /<a key=\{item\.section\} href=\{item\.href\} data-section-link data-nav-section=\{item\.section\}>/);
+  assert.match(navigation, /<a key=\{item\.section\} href=\{item\.href\} data-section-link>\{item\.label\}<\/a>/);
   assert.doesNotMatch(navigation, /href="\/work" aria-current|href="\/about" aria-current/);
   assert.match(navigation, /hamburger-icon/);
   assert.doesNotMatch(navigation, />Menu<\/summary>/);

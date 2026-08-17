@@ -53,12 +53,15 @@ export function ThemeToggle() {
 }
 
 export function NavigationController() {
+  const pathname = usePathname();
+
   useEffect(() => {
     const header = document.querySelector<HTMLElement>(".site-header");
     const progress = header?.querySelector<HTMLElement>(".scroll-progress");
     if (!header || !progress) return;
 
     const sectionLinks = Array.from(header.querySelectorAll<HTMLAnchorElement>("[data-nav-section]"));
+    const pageSectionLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-section-link]"));
     const sections = Array.from(new Set(sectionLinks.map((link) => link.dataset.navSection)))
       .map((id) => id ? document.getElementById(id) : null)
       .filter((section): section is HTMLElement => section !== null);
@@ -66,6 +69,18 @@ export function NavigationController() {
     const mobileLinks = Array.from(mobileMenu?.querySelectorAll<HTMLAnchorElement>("a") ?? []);
     const closeMobileMenu = () => mobileMenu?.removeAttribute("open");
     mobileLinks.forEach((link) => link.addEventListener("click", closeMobileMenu));
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const scrollBehavior = (): ScrollBehavior => reducedMotion.matches ? "auto" : "smooth";
+
+    const getHashTarget = (hash: string) => {
+      if (!hash) return null;
+      try {
+        return document.getElementById(decodeURIComponent(hash.slice(1)));
+      } catch {
+        return null;
+      }
+    };
 
     let frame = 0;
     let previousState: boolean | null = null;
@@ -111,6 +126,54 @@ export function NavigationController() {
       if (!frame) frame = window.requestAnimationFrame(update);
     };
 
+    const scrollToHash = (hash: string) => {
+      if (!hash) {
+        window.scrollTo({ top: 0, behavior: scrollBehavior() });
+        scheduleUpdate();
+        return true;
+      }
+
+      const target = getHashTarget(hash);
+      if (!target) return false;
+      target.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+      scheduleUpdate();
+      return true;
+    };
+
+    const handleSectionLink = (event: MouseEvent) => {
+      const link = event.currentTarget as HTMLAnchorElement;
+      if (
+        event.defaultPrevented
+        || event.button !== 0
+        || event.metaKey
+        || event.ctrlKey
+        || event.shiftKey
+        || event.altKey
+        || link.target === "_blank"
+        || link.hasAttribute("download")
+      ) return;
+
+      const destination = new URL(link.href, window.location.href);
+      const isHomepageLink = pathname === "/" && destination.pathname === "/";
+      if (!isHomepageLink || !destination.hash || !getHashTarget(destination.hash)) return;
+
+      event.preventDefault();
+      closeMobileMenu();
+      if (window.location.hash !== destination.hash) {
+        window.history.pushState(null, "", `${window.location.pathname}${window.location.search}${destination.hash}`);
+      }
+      scrollToHash(destination.hash);
+    };
+
+    pageSectionLinks.forEach((link) => link.addEventListener("click", handleSectionLink));
+
+    const handleHistoryNavigation = () => {
+      if (pathname === "/") scrollToHash(window.location.hash);
+    };
+
+    window.addEventListener("hashchange", handleHistoryNavigation);
+    window.addEventListener("popstate", handleHistoryNavigation);
+
     update();
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate, { passive: true });
@@ -121,15 +184,26 @@ export function NavigationController() {
       : null;
     resizeObserver?.observe(document.documentElement);
 
+    let initialHashFrame = 0;
+    if (pathname === "/" && window.location.hash) {
+      initialHashFrame = window.requestAnimationFrame(() => {
+        initialHashFrame = window.requestAnimationFrame(() => scrollToHash(window.location.hash));
+      });
+    }
+
     return () => {
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
       window.removeEventListener("load", scheduleUpdate);
+      window.removeEventListener("hashchange", handleHistoryNavigation);
+      window.removeEventListener("popstate", handleHistoryNavigation);
       mobileLinks.forEach((link) => link.removeEventListener("click", closeMobileMenu));
+      pageSectionLinks.forEach((link) => link.removeEventListener("click", handleSectionLink));
       resizeObserver?.disconnect();
       if (frame) window.cancelAnimationFrame(frame);
+      if (initialHashFrame) window.cancelAnimationFrame(initialHashFrame);
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }
