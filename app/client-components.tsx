@@ -226,13 +226,13 @@ export function RotatingRole() {
   );
 }
 
-export function HeroPointerGlow() {
-  const glowRef = useRef<HTMLDivElement>(null);
+export function HeroGridHighlight() {
+  const highlightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const glow = glowRef.current;
-    const hero = glow?.closest<HTMLElement>(".hero-shell");
-    if (!glow || !hero) return;
+    const highlight = highlightRef.current;
+    const hero = highlight?.closest<HTMLElement>(".hero-shell");
+    if (!highlight || !hero) return;
 
     const precisePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -242,42 +242,42 @@ export function HeroPointerGlow() {
     let pointerX = 0;
     let pointerY = 0;
 
-    const renderGlow = () => {
+    const renderHighlight = () => {
       frame = 0;
       const bounds = hero.getBoundingClientRect();
       const x = Math.min(bounds.width, Math.max(0, pointerX - bounds.left));
       const y = Math.min(bounds.height, Math.max(0, pointerY - bounds.top));
-      glow.style.setProperty("--hero-glow-x", `${x}px`);
-      glow.style.setProperty("--hero-glow-y", `${y}px`);
-      glow.dataset.active = "true";
+      highlight.style.setProperty("--hero-grid-x", `${x}px`);
+      highlight.style.setProperty("--hero-grid-y", `${y}px`);
+      highlight.dataset.active = "true";
     };
 
-    const scheduleGlow = (event: PointerEvent) => {
+    const scheduleHighlight = (event: PointerEvent) => {
       if (event.pointerType === "touch") return;
       pointerX = event.clientX;
       pointerY = event.clientY;
-      if (!frame) frame = window.requestAnimationFrame(renderGlow);
+      if (!frame) frame = window.requestAnimationFrame(renderHighlight);
     };
 
-    const hideGlow = () => {
+    const hideHighlight = () => {
       if (frame) window.cancelAnimationFrame(frame);
       frame = 0;
-      delete glow.dataset.active;
+      delete highlight.dataset.active;
     };
 
-    hero.addEventListener("pointerenter", scheduleGlow, { passive: true });
-    hero.addEventListener("pointermove", scheduleGlow, { passive: true });
-    hero.addEventListener("pointerleave", hideGlow, { passive: true });
+    hero.addEventListener("pointerenter", scheduleHighlight, { passive: true });
+    hero.addEventListener("pointermove", scheduleHighlight, { passive: true });
+    hero.addEventListener("pointerleave", hideHighlight, { passive: true });
 
     return () => {
-      hero.removeEventListener("pointerenter", scheduleGlow);
-      hero.removeEventListener("pointermove", scheduleGlow);
-      hero.removeEventListener("pointerleave", hideGlow);
+      hero.removeEventListener("pointerenter", scheduleHighlight);
+      hero.removeEventListener("pointermove", scheduleHighlight);
+      hero.removeEventListener("pointerleave", hideHighlight);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
 
-  return <div ref={glowRef} className="hero-pointer-glow" aria-hidden="true" />;
+  return <div ref={highlightRef} className="hero-grid-highlight" aria-hidden="true" />;
 }
 
 export function RevealObserver() {

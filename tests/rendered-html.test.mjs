@@ -47,7 +47,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /href="\/resume\.pdf"/);
   assert.match(html, /edsunjcaldoza@gmail\.com/);
   assert.match(html, /class="hero-pattern" aria-hidden="true"/);
-  assert.match(html, /class="hero-pointer-glow" aria-hidden="true"/);
+  assert.match(html, /class="hero-grid-highlight" aria-hidden="true"/);
   assert.match(html, /500(?:<!-- -->)?\+/);
   assert.match(html, /Graphic Design Projects/);
   assert.match(html, /50(?:<!-- -->)?\+/);
@@ -63,7 +63,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /About &amp; expertise/);
   assert.match(html, /Design that gets the[s\S]*message across\./);
   assert.match(html, /graphic designer and video editor with seven years of experience/);
-  assert.match(html, /Learn more about me/);
+  assert.doesNotMatch(html, /Learn more about me/);
   assert.match(html, /Selected work across[s\S]*design, web, and print\./);
   const featuredProjects = [
     ["AI Business Model Landing Page", "Web Design", "A responsive sales page that turns a detailed AI business offer into a clear path from interest to action.", "/images/project-1.jpg", "https://www.behance.net/gallery/238027647/AI-Business-Model-Landing-Page-Website-Design"],
@@ -128,15 +128,17 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /\.hero-pattern/);
-  assert.match(css, /\.hero-pointer-glow/);
-  assert.match(css, /--hero-glow-center/);
-  assert.match(css, /radial-gradient\(circle at center/);
-  assert.match(css, /width:\s*clamp\(380px, 34vw, 520px\)/);
+  assert.match(css, /\.hero-grid-highlight/);
+  assert.match(css, /--hero-grid-highlight/);
+  assert.match(css, /background-image:\s*linear-gradient\(var\(--hero-grid-highlight\) 1px, transparent 1px\), linear-gradient\(90deg, var\(--hero-grid-highlight\) 1px, transparent 1px\)/);
+  assert.match(css, /radial-gradient\(circle 220px at var\(--hero-grid-x\) var\(--hero-grid-y\)/);
+  assert.match(css, /\.hero-grid-highlight[^}]*inset:\s*0[^}]*background-size:\s*32px 32px/s);
   assert.match(css, /pointer-events:\s*none/);
-  assert.match(css, /translate3d\(var\(--hero-glow-x\), var\(--hero-glow-y\), 0\)/);
+  assert.doesNotMatch(css, /hero-pointer-glow|--hero-glow-center|--hero-glow-mid|translate3d\(var\(--hero-glow-x\)/);
   assert.match(css, /@media \(hover: none\), \(pointer: coarse\)/);
   assert.match(css, /-webkit-mask-image/);
   assert.match(css, /background-size:\s*32px 32px/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.hero-pattern[^}]*background-size:\s*40px 40px[\s\S]*?\.hero-grid-highlight \{ background-size:\s*40px 40px; \}/);
   assert.match(css, /html\[data-theme="light"\]/);
   assert.match(css, /html\[data-motion="ready"\] \.reveal/);
   assert.match(css, /--motion-fast:\s*180ms/);
@@ -165,9 +167,11 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.hero-copy[^}]*min-width:\s*0[^}]*max-width:\s*100%/s);
   assert.match(css, /\.hero-portrait[^}]*align-self:\s*center/s);
   assert.match(css, /filter:\s*grayscale\(1\)\s+contrast\(1\.06\)/);
-  assert.match(css, /\.role-viewport[^}]*width:\s*13ch[^}]*height:\s*1em[^}]*overflow:\s*hidden/s);
+  assert.match(css, /\.role-viewport[^}]*width:\s*13ch[^}]*height:\s*1\.25em[^}]*overflow:\s*hidden/s);
   assert.match(css, /@keyframes role-scroll-up/);
-  assert.match(css, /animation:\s*role-scroll-up 9s/);
+  assert.match(css, /\.role-track[^}]*grid-auto-rows:\s*1\.25em[^}]*animation:\s*role-scroll-up 4\.5s/s);
+  assert.match(css, /\.role-track-item[^}]*height:\s*1\.25em[^}]*line-height:\s*1\.25/s);
+  assert.match(css, /0%, 26\.67%[^}]*translateY\(0\)[\s\S]*33\.33%, 60%[^}]*translateY\(-25%\)[\s\S]*66\.67%, 93\.33%[^}]*translateY\(-50%\)/);
   assert.match(css, /translateY\(-75%\)/);
   assert.match(css, /\.role-track \{ animation:\s*none !important; transform:\s*none !important;/);
   assert.match(css, /\.hero-actions \.button[^}]*min-height:\s*54px[^}]*padding:\s*0 24px/s);
@@ -260,14 +264,15 @@ test("navigation and rotating roles use the specified accessible behavior", asyn
   assert.match(controls, /event\.metaKey[\s\S]*event\.ctrlKey[\s\S]*event\.shiftKey[\s\S]*event\.altKey/);
   assert.match(controls, /ResizeObserver/);
   assert.match(controls, /prefers-reduced-motion: reduce/);
-  assert.match(controls, /export function HeroPointerGlow/);
+  assert.match(controls, /export function HeroGridHighlight/);
   assert.match(controls, /\(hover: hover\) and \(pointer: fine\)/);
   assert.match(controls, /pointerenter/);
   assert.match(controls, /pointermove/);
   assert.match(controls, /pointerleave/);
   assert.match(controls, /getBoundingClientRect/);
-  assert.match(controls, /--hero-glow-x/);
-  assert.match(controls, /--hero-glow-y/);
+  assert.match(controls, /--hero-grid-x/);
+  assert.match(controls, /--hero-grid-y/);
+  assert.doesNotMatch(controls, /HeroPointerGlow|--hero-glow-x|--hero-glow-y/);
   assert.match(controls, /element\.hasAttribute\("data-stagger"\)/);
   assert.match(controls, /--motion-order/);
   assert.match(controls, /usePathname/);

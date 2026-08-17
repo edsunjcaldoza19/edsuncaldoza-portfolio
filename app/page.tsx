@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { HeroPointerGlow, RotatingRole } from "./client-components";
+import { HeroGridHighlight, RotatingRole } from "./client-components";
 import { Footer, Navigation, ProjectCard, SectionIntro, WorkflowToolsMarquee } from "./components";
 import { featuredProjects } from "./data";
 
@@ -29,7 +28,7 @@ export default function Home() {
       <main id="main-content">
         <section className="hero-shell">
           <div className="hero-pattern" aria-hidden="true" />
-          <HeroPointerGlow />
+          <HeroGridHighlight />
           <div className="hero">
             <div className="hero-copy">
               <RotatingRole />
@@ -67,7 +66,6 @@ export default function Home() {
             <div className="about-expertise-copy reveal">
               <p className="about-lead">I’m Edsun, a graphic designer and video editor with seven years of experience across print, presentations, web design, and digital content.</p>
               <p>I combine strong visual thinking with practical production skills. That means clear communication, organized files, thoughtful revisions, and work that is ready to use.</p>
-              <Link className="text-link" href="/about">Learn more about me <span aria-hidden="true">↗</span></Link>
             </div>
             <div className="expertise-list reveal" data-stagger>
               {expertise.map((item) => (

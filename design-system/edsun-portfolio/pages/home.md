@@ -2,19 +2,19 @@
 
 ## Hero Grid
 
-- The homepage hero uses one low-contrast square grid as its only decorative motif.
+- The homepage hero uses one low-contrast square grid as its only decorative motif, with a localized pointer response that brightens only the existing grid strokes.
 - Build the grid from two CSS linear gradients rather than an image, SVG, canvas, or JavaScript.
 - Use 1px cobalt-family lines, 32px cells on desktop, and 40px cells at the mobile breakpoint.
 - Fade the grid to transparent with an elliptical standard and `-webkit-` mask.
-- Keep the grid static, non-interactive, `aria-hidden`, and behind all hero content.
+- Keep the base grid static, non-interactive, `aria-hidden`, and behind all hero content. On fine pointers, reveal a brighter copy of the aligned grid through a soft mouse-positioned mask without adding a filled glow.
 - Do not add dots, circles, diamonds, diagonal marks, perspective, animation, or extra overlays.
 - The grid adapts through semantic theme tokens and never appears outside the homepage hero.
 
 ## Homepage Rhythm
 
 - Use a vertically centered two-column first viewport with the pitch and supporting content on the left and Edsun’s grayscale portrait on the right.
-- Combine “Hi, I’m Edsun -” with a smaller same-size role phrase that cycles upward through “Designer”, “Video Editor”, and “Creator” every three seconds. Keep the role intact when it wraps on narrow screens.
-- Build the role animation as a vertically clipped CSS track with a repeated first item for a seamless nine-second loop. Reserve the longest phrase’s dimensions and keep reduced-motion experiences static on “Designer”.
+- Combine “Hi, I’m Edsun -” with a smaller same-size role phrase that cycles upward through “Designer”, “Video Editor”, and “Creator” every 1.5 seconds. Keep the role intact when it wraps on narrow screens.
+- Build the role animation as a vertically clipped CSS track with `1.25em` rows and a repeated first item for a seamless 4.5-second loop. Reserve the longest phrase’s dimensions and keep reduced-motion experiences static on “Designer”.
 - Keep the animated phrase hidden from assistive technology, expose one stable text alternative containing the full introduction and all three identities, and use “I build Visuals that Connect and Convert.” as the page’s single H1.
 - Apply one synchronized, soft blue CSS gradient only to “Connect” and “Convert.” Stop the gradient motion for reduced-motion users and retain a readable cobalt fallback when text clipping is unsupported.
 - Keep the larger headline inside its grid column with a flexible `64–80px` desktop scale, a `54–64px` intermediate scale, and a `48–52px` stacked scale, with a `46px` fallback at `360px`. Prefer two lines, permit a third line when the column narrows, and never force a line wider than the copy column.
@@ -37,7 +37,7 @@
 - Stagger the proof points, expertise rows, testimonial content, and contact close using the shared `55ms` motion rhythm.
 - Project cards reveal in each grid row with a short offset between columns. Media lifts by no more than `4px` on precise-pointer hover.
 - Keep the role carousel, blue headline gradient, and slow tools marquee as the only looping motion. Disable all three, all entrance transforms, and interaction transforms under reduced motion.
-- A homepage-only pointer spotlight may sit above the grid and behind all content. Use a `380–520px` feathered cobalt radial gradient, direct `requestAnimationFrame`-throttled pointer tracking, and a short opacity fade. Enable it only for fine hover pointers, disable it for touch and reduced motion, and keep its theme-specific opacity low enough that text and portrait contrast remain unchanged.
+- A homepage-only pointer highlight may sit above the base grid and behind all content. Use a full-size, pixel-aligned grid overlay revealed through a roughly `440px` feathered mask, direct `requestAnimationFrame`-throttled pointer tracking, and a short opacity fade. Only the grid strokes brighten. Enable it only for fine hover pointers, disable it for touch, reduced motion, and browsers without mask support, and keep its theme-specific contrast restrained.
 
 ## Copy Voice
 
