@@ -18,6 +18,33 @@ npm run build
 
 This starter does not use `wrangler.jsonc`.
 
+## Deployment Targets
+
+The default build preserves the existing Sites and Cloudflare Worker output:
+
+```bash
+npm run build
+```
+
+For Vercel, the configuration switches from the Cloudflare adapter to Nitro and
+produces Vercel Build Output API artifacts in `.vercel/output`:
+
+```powershell
+$env:VERCEL="1"
+$env:NITRO_PRESET="vercel"
+npm run build:vercel
+```
+
+Use these Vercel project settings:
+
+- Framework Preset: `Other`
+- Root Directory: `./`
+- Install Command: `npm install`
+- Build Command: `npm run build:vercel`
+- Output Directory: leave the override disabled so Vercel consumes `.vercel/output`
+- Node.js: `24.x` or the project default
+- Environment variable: `NITRO_PRESET=vercel`
+
 ## Included Shape
 
 - edit site code under `app/`
