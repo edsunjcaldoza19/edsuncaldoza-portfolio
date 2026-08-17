@@ -23,11 +23,12 @@ export async function generateMetadata(): Promise<Metadata> {
     description: "Graphic design, video editing, presentation design, and web work by Edsun Caldoza.",
     icons: {
       icon: [
-        { url: "/favicon.svg?v=2", type: "image/svg+xml" },
-        { url: "/images/ico.png", type: "image/png", sizes: "180x180" },
+        { url: "/favicon.ico?v=3", type: "image/x-icon", sizes: "64x64" },
+        { url: "/favicon.svg?v=3", type: "image/svg+xml", sizes: "any" },
+        { url: "/images/ico.png?v=3", type: "image/png", sizes: "180x180" },
       ],
-      shortcut: "/favicon.svg?v=2",
-      apple: "/images/ico.png",
+      shortcut: "/favicon.ico?v=3",
+      apple: "/images/ico.png?v=3",
     },
     openGraph: {
       type: "website",

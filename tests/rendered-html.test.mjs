@@ -388,15 +388,20 @@ test("social metadata uses the incoming host and bespoke card", async () => {
 });
 
 test("brand favicon is exposed with compatible fallbacks", async () => {
-  const [layout, favicon] = await Promise.all([
+  const [layout, favicon, ico] = await Promise.all([
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../public/favicon.svg", import.meta.url), "utf8"),
+    readFile(new URL("../public/favicon.ico", import.meta.url)),
   ]);
-  assert.match(layout, /url: "\/favicon\.svg\?v=2", type: "image\/svg\+xml"/);
-  assert.match(layout, /shortcut: "\/favicon\.svg\?v=2"/);
-  assert.match(layout, /apple: "\/images\/ico\.png"/);
+  assert.match(layout, /url: "\/favicon\.ico\?v=3", type: "image\/x-icon", sizes: "64x64"/);
+  assert.match(layout, /url: "\/favicon\.svg\?v=3", type: "image\/svg\+xml", sizes: "any"/);
+  assert.match(layout, /shortcut: "\/favicon\.ico\?v=3"/);
+  assert.match(layout, /apple: "\/images\/ico\.png\?v=3"/);
   assert.match(favicon, /viewBox="0 0 64 64"/);
   assert.match(favicon, /fill="#2563EB"/);
   assert.match(favicon, /fill="#FFFFFF"/);
   assert.match(favicon, /<title>Edsun Caldoza<\/title>/);
+  assert.equal(ico.readUInt16LE(0), 0);
+  assert.equal(ico.readUInt16LE(2), 1);
+  assert.equal(ico.readUInt16LE(4), 1);
 });
