@@ -1,7 +1,7 @@
 export type Project = {
   slug: string;
   title: string;
-  category: "Graphic Design" | "Video Editing" | "Web / Digital";
+  categoryId: WorkCategoryId;
   kicker: string;
   summary: string;
   image: string;
@@ -20,11 +20,26 @@ export type Project = {
   video?: boolean;
 };
 
+export type WorkCategoryId = "graphic-design" | "webinar-presentations" | "web-design" | "video-editing";
+
+export type WorkCategory = {
+  id: WorkCategoryId;
+  number: string;
+  title: string;
+  description: string;
+  previewImage?: string;
+  previewAlt?: string;
+};
+
+export type ProjectSlot =
+  | { kind: "project"; project: Project }
+  | { kind: "placeholder"; id: string; title: string; summary: string };
+
 export const projects: Project[] = [
   {
     slug: "ai-business-model-landing-page",
     title: "AI Business Model Landing Page",
-    category: "Web / Digital",
+    categoryId: "web-design",
     kicker: "Web Design",
     summary: "A responsive sales page that turns a detailed AI business offer into a clear path from interest to action.",
     image: "/images/project-1.jpg",
@@ -44,7 +59,7 @@ export const projects: Project[] = [
   {
     slug: "digital-marketing-campaign",
     title: "Digital Marketing Mastery Campaign",
-    category: "Graphic Design",
+    categoryId: "graphic-design",
     kicker: "Graphic Design",
     summary: "A bold webinar campaign system that keeps digital marketing topics clear across presentation and social media assets.",
     image: "/images/project-2.jpg",
@@ -64,7 +79,7 @@ export const projects: Project[] = [
   {
     slug: "wealth-webinar-presentation",
     title: "Wealth Webinar Slide System",
-    category: "Graphic Design",
+    categoryId: "webinar-presentations",
     kicker: "Presentation Design",
     summary: "A flexible Google Slides system that organizes financial lessons, speaker content, and audience activities for live delivery.",
     image: "/images/project-3.jpg",
@@ -84,7 +99,7 @@ export const projects: Project[] = [
   {
     slug: "page-whisper-mobile-app",
     title: "Page Whisper Reading App",
-    category: "Web / Digital",
+    categoryId: "web-design",
     kicker: "UI/UX Design",
     summary: "A focused mobile reading experience that makes discovering, saving, and reading books simple.",
     image: "/images/project-4.jpg",
@@ -104,7 +119,7 @@ export const projects: Project[] = [
   {
     slug: "heart-health-book-cover",
     title: "Heart Health Made Simple",
-    category: "Graphic Design",
+    categoryId: "graphic-design",
     kicker: "Book Cover Design",
     summary: "An approachable health book cover designed to stay clear and trustworthy at thumbnail and print size.",
     image: "/images/project-5.jpg",
@@ -124,7 +139,7 @@ export const projects: Project[] = [
   {
     slug: "moonlight-car-rental-brochure",
     title: "Moonlight Car Rental Brochure",
-    category: "Graphic Design",
+    categoryId: "graphic-design",
     kicker: "Print Design",
     summary: "A practical brochure system that makes rental options, service details, and booking information easy to scan.",
     image: "/images/project-6.jpg",
@@ -143,7 +158,69 @@ export const projects: Project[] = [
   },
 ];
 
-export const featuredProjects = projects.filter((project) => project.featured);
+export const workCategories: readonly WorkCategory[] = [
+  {
+    id: "graphic-design",
+    number: "01",
+    title: "Graphic Design",
+    description: "Campaigns, covers, and print pieces built to communicate clearly.",
+    previewImage: "/images/project-2.jpg",
+    previewAlt: "Digital Marketing Mastery campaign graphics",
+  },
+  {
+    id: "webinar-presentations",
+    number: "02",
+    title: "Webinar Presentations",
+    description: "Slide systems designed for structured, confident live delivery.",
+    previewImage: "/images/project-3.jpg",
+    previewAlt: "Wealth webinar presentation slides",
+  },
+  {
+    id: "web-design",
+    number: "03",
+    title: "Web Design",
+    description: "Responsive pages and interfaces that keep the next step clear.",
+    previewImage: "/images/project-1.jpg",
+    previewAlt: "AI Business Model landing page on several devices",
+  },
+  {
+    id: "video-editing",
+    number: "04",
+    title: "Video Editing",
+    description: "Editing work for short-form, promotional, and digital content.",
+  },
+] as const;
+
+const placeholderSlots: Record<WorkCategoryId, readonly ProjectSlot[]> = {
+  "graphic-design": [],
+  "webinar-presentations": [
+    { kind: "placeholder", id: "webinar-presentation-02", title: "Webinar Presentation", summary: "Project coming soon." },
+    { kind: "placeholder", id: "webinar-presentation-03", title: "Webinar Presentation", summary: "Project coming soon." },
+  ],
+  "web-design": [
+    { kind: "placeholder", id: "web-design-03", title: "Web Design Project", summary: "Project coming soon." },
+  ],
+  "video-editing": [
+    { kind: "placeholder", id: "video-editing-01", title: "Video Editing Project", summary: "Project coming soon." },
+    { kind: "placeholder", id: "video-editing-02", title: "Video Editing Project", summary: "Project coming soon." },
+    { kind: "placeholder", id: "video-editing-03", title: "Video Editing Project", summary: "Project coming soon." },
+  ],
+};
+
+export function workCategoryById(id: WorkCategoryId) {
+  return workCategories.find((category) => category.id === id)!;
+}
+
+export function projectSlotsForCategory(id: WorkCategoryId): ProjectSlot[] {
+  const projectSlots: ProjectSlot[] = projects
+    .filter((project) => project.categoryId === id)
+    .map((project) => ({ kind: "project", project }));
+  return [...projectSlots, ...placeholderSlots[id]];
+}
+
+export function realProjectCount(id: WorkCategoryId) {
+  return projects.filter((project) => project.categoryId === id).length;
+}
 
 export function projectBySlug(slug: string) {
   return projects.find((project) => project.slug === slug);

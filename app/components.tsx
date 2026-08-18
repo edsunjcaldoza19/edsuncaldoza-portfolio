@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { CSSProperties, ReactNode } from "react";
 import { NavigationController, ThemeToggle } from "./client-components";
-import type { Project } from "./data";
+import type { Project, ProjectSlot } from "./data";
 
 const email = "mailto:edsunjcaldoza@gmail.com";
 const navigationSections = [
@@ -110,6 +110,22 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
         <h3><a href={projectUrl} {...externalLinkProps}>{project.title}</a></h3>
         <p className="project-summary">{project.summary}</p>
         <a className="text-link" href={projectUrl} {...externalLinkProps}>View Project <span aria-hidden="true">↗</span></a>
+      </div>
+    </article>
+  );
+}
+
+export function ProjectSlotCard({ slot, index = 0 }: { slot: ProjectSlot; index?: number }) {
+  if (slot.kind === "project") return <ProjectCard project={slot.project} index={index} />;
+
+  const number = String(index + 1).padStart(2, "0");
+  return (
+    <article className="project-card project-placeholder reveal" data-reveal="card" style={{ "--motion-order": index % 2 } as CSSProperties}>
+      <div className="project-placeholder-media" aria-hidden="true"><span>Coming soon</span></div>
+      <div className="project-meta">
+        <div className="project-overline"><span>{number}</span><span>Future work</span></div>
+        <h3>{slot.title}</h3>
+        <p className="project-summary">{slot.summary}</p>
       </div>
     </article>
   );

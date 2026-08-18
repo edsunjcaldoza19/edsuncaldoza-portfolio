@@ -44,7 +44,8 @@ Display typography scales continuously between breakpoints. Homepage section hea
 - Navigation: full-width sticky bar at the top that morphs into a compact 960px rectangular bar after 32px. Its About, Work, Tools, and Contact destinations use native `/#section` anchors in the header, mobile menu, and footer. Same-page selections update browser history and scroll to the target; cross-route selections use normal browser navigation back to the homepage. Back, Forward, initial hashes, reduced motion, and mobile-menu closing remain supported. Offset homepage targets by `calc(var(--nav-height) + 24px)` so the sticky bar never hides a heading. Full About and Work pages remain available through content links. A 2px cobalt bar along the bottom edge reports document scroll progress; in the rounded state, inset the track by the corner radius so it never crosses the shell edge. Use an 8px nested radius for the résumé control and 7px for the mobile disclosure control; the current section uses text emphasis and `aria-current="location"` rather than a competing underline.
 - Theme control: dark by default, persisted in `edsun-theme`, initialized before paint, and exposed as a labeled button.
 - Buttons: 48px minimum height, square editorial edges, cobalt primary and bordered secondary styles.
-- Cards: two-column project grid, 4:3 media, project index, category, outcome, and a clearly labeled Behance project link.
+- Category cards: a two-column homepage grid opens a native, accessible project-gallery dialog. The dialog uses three columns on desktop, two on tablet, one on mobile, a labeled 44px close control, a strong modal scrim, native focus containment, Escape and backdrop dismissal, and trigger-focus restoration.
+- Project cards: 4:3 media, project index, category, outcome, and a clearly labeled Behance project link. Future portfolio slots are visibly labeled as coming soon, remain inert, and never generate routes.
 - Sections: visible two-digit numbering, thin dividers, and large display headings.
 - Focus: 3px cobalt-family outline with 4px offset on every interactive element.
 
@@ -63,7 +64,7 @@ Display typography scales continuously between breakpoints. Homepage section hea
 1. Impact-led hero with a supporting rotating role and grayscale portrait
 2. Compact proof strip
 3. About and core expertise
-4. Six selected projects
+4. Four project categories with an accessible gallery dialog
 5. Full-width client testimonial
 6. Workflow tools marquee
 7. Oversized contact close

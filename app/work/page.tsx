@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { PageShell, ProjectCard } from "../components";
-import { projects } from "../data";
+import { PageShell, ProjectSlotCard } from "../components";
+import { projectSlotsForCategory, realProjectCount, workCategories } from "../data";
 
 export const metadata: Metadata = {
   title: "Selected Work | Edsun Caldoza",
   description: "Graphic design, web, presentation, app, book cover, and print work by Edsun Caldoza.",
 };
-
-const groups = ["Graphic Design", "Web / Digital"] as const;
 
 export default function WorkPage() {
   return (
@@ -19,15 +17,18 @@ export default function WorkPage() {
           <p>A selection of campaign systems, presentations, landing pages, app concepts, book covers, and print projects.</p>
         </section>
         <nav className="work-index reveal" data-stagger aria-label="Project categories">
-          {groups.map((group, index) => <a key={group} href={`#${group.toLowerCase().replaceAll(" ", "-").replace("/", "")}`}><span>0{index + 1}</span>{group}</a>)}
+          {workCategories.map((category) => <a key={category.id} href={`#${category.id}`}><span>{category.number}</span>{category.title}</a>)}
         </nav>
-        {groups.map((group, groupIndex) => {
-          const groupProjects = projects.filter((project) => project.category === group);
-          const id = group.toLowerCase().replaceAll(" ", "-").replace("/", "");
+        {workCategories.map((category) => {
+          const slots = projectSlotsForCategory(category.id);
+          const projectCount = realProjectCount(category.id);
           return (
-            <section className="work-group" id={id} key={group}>
-              <div className="work-group-head reveal" data-stagger><p className="section-label"><span>0{groupIndex + 1}</span>{group}</p><span>{groupProjects.length} projects</span></div>
-              <div className="project-grid">{groupProjects.map((project, index) => <ProjectCard key={project.slug} project={project} index={index} />)}</div>
+            <section className="work-group" id={category.id} key={category.id}>
+              <div className="work-group-head reveal" data-stagger>
+                <div><p className="section-label"><span>{category.number}</span>{category.title}</p><p>{category.description}</p></div>
+                <span>{projectCount} {projectCount === 1 ? "project" : "projects"} · {slots.length} slots</span>
+              </div>
+              <div className="project-slot-grid">{slots.map((slot, index) => <ProjectSlotCard key={slot.kind === "project" ? slot.project.slug : slot.id} slot={slot} index={index} />)}</div>
             </section>
           );
         })}

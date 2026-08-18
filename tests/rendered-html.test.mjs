@@ -64,30 +64,27 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /Design that gets the[s\S]*message across\./);
   assert.match(html, /graphic designer and video editor with seven years of experience/);
   assert.doesNotMatch(html, /Learn more about me/);
-  assert.match(html, /Selected work across[s\S]*design, web, and print\./);
-  const featuredProjects = [
-    ["AI Business Model Landing Page", "Web Design", "A responsive sales page that turns a detailed AI business offer into a clear path from interest to action.", "/images/project-1.jpg", "https://www.behance.net/gallery/238027647/AI-Business-Model-Landing-Page-Website-Design"],
-    ["Digital Marketing Mastery Campaign", "Graphic Design", "A bold webinar campaign system that keeps digital marketing topics clear across presentation and social media assets.", "/images/project-2.jpg", "https://www.behance.net/gallery/226541053/Digital-Marketing-Mastery-Webinar-Social-Media-Design"],
-    ["Wealth Webinar Slide System", "Presentation Design", "A flexible Google Slides system that organizes financial lessons, speaker content, and audience activities for live delivery.", "/images/project-3.jpg", "https://www.behance.net/gallery/226690009/Wealth-Google-Slides-Webinar-Template"],
-    ["Page Whisper Reading App", "UI/UX Design", "A focused mobile reading experience that makes discovering, saving, and reading books simple.", "/images/project-4.jpg", "https://www.behance.net/gallery/226752305/Page-Whisper-Mobile-App-UI"],
-    ["Heart Health Made Simple", "Book Cover Design", "An approachable health book cover designed to stay clear and trustworthy at thumbnail and print size.", "/images/project-5.jpg", "https://www.behance.net/gallery/226851791/Heart-Health-Book-Cover-Template"],
-    ["Moonlight Car Rental Brochure", "Print Design", "A practical brochure system that makes rental options, service details, and booking information easy to scan.", "/images/project-6.jpg", "https://www.behance.net/gallery/176567239/Dynamic-Brochure-Design-for-Your-Car-Rental-Service"],
+  assert.match(html, /Selected work by[s\S]*discipline\./);
+  const categories = [
+    ["01", "Graphic Design", "Campaigns, covers, and print pieces built to communicate clearly.", "3 projects", "/images/project-2.jpg"],
+    ["02", "Webinar Presentations", "Slide systems designed for structured, confident live delivery.", "1 project", "/images/project-3.jpg"],
+    ["03", "Web Design", "Responsive pages and interfaces that keep the next step clear.", "2 projects", "/images/project-1.jpg"],
+    ["04", "Video Editing", "Editing work for short-form, promotional, and digital content.", "0 projects", null],
   ];
-  assert.equal((html.match(/class="project-card reveal"/g) ?? []).length, 6);
-  let previousProjectPosition = -1;
-  for (const [title, tag, summary, image, projectUrl] of featuredProjects) {
+  assert.equal((html.match(/class="work-category-card reveal"/g) ?? []).length, 4);
+  assert.equal((html.match(/aria-haspopup="dialog"/g) ?? []).length, 4);
+  for (const [number, title, description, count, image] of categories) {
+    assert.match(html, new RegExp(`>${number}<`));
     assert.match(html, new RegExp(escapeRegExp(title)));
-    assert.match(html, new RegExp(escapeRegExp(tag)));
-    assert.match(html, new RegExp(escapeRegExp(summary)));
-    assert.match(html, new RegExp(`src="${escapeRegExp(image)}"`));
-    assert.equal((html.match(new RegExp(`href="${escapeRegExp(projectUrl)}"`, "g")) ?? []).length, 3);
-    const currentProjectPosition = html.indexOf(title);
-    assert.ok(currentProjectPosition > previousProjectPosition, `${title} should appear in the approved order`);
-    previousProjectPosition = currentProjectPosition;
+    assert.match(html, new RegExp(escapeRegExp(description)));
+    const [countValue, countLabel] = count.split(" ");
+    assert.match(html, new RegExp(`${countValue}(?:<!-- -->)?\\s*(?:<!-- -->)?${countLabel}`));
+    if (image) assert.match(html, new RegExp(`src="${escapeRegExp(image)}"`));
   }
-  assert.doesNotMatch(html, /Motion &amp; Video Reel|Short-form Social Edits/);
-  assert.equal((html.match(/>View Project <span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 6);
-  assert.doesNotMatch(html, /View case study/i);
+  assert.match(html, /class="project-gallery-dialog"/);
+  assert.match(html, /aria-labelledby="project-gallery-title"/);
+  assert.match(html, /href="\/work#graphic-design"/);
+  assert.match(html, /href="\/work#video-editing"/);
   assert.match(html, /View all Projects/);
   assert.match(html, /class="button button-primary selected-work-cta" href="https:\/\/www\.behance\.net\/edsuncaldoza"/);
   assert.match(html, /Client feedback/);
@@ -208,6 +205,15 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.home-about, \.selected-work \{ padding:\s*var\(--space-section\) 0/);
   assert.match(css, /\.home-about\[id\], \.selected-work\[id\], \.tools-section\[id\], \.contact-close\[id\] \{ scroll-margin-top:\s*calc\(var\(--nav-height\) \+ 24px\); \}/);
   assert.match(css, /\.project-grid[^}]*gap:\s*var\(--space-card-row\) 28px/s);
+  assert.match(css, /\.work-category-grid[^}]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/s);
+  assert.match(css, /\.work-category-card[^}]*cursor:\s*pointer/s);
+  assert.match(css, /\.project-gallery-dialog[^}]*1180px[^}]*max-height:\s*min\(90dvh, 900px\)/s);
+  assert.match(css, /\.project-gallery-grid, \.project-slot-grid[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/s);
+  assert.match(css, /@media \(max-width:\s*1024px\)[\s\S]*?\.project-gallery-grid, \.project-slot-grid \{ grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.project-gallery-dialog \{[^}]*width:\s*100%[^}]*height:\s*100dvh/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.project-gallery-grid, \.project-slot-grid \{ grid-template-columns:\s*1fr/);
+  assert.match(css, /html\.dialog-open, html\.dialog-open body \{ overflow:\s*hidden;/);
+  assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*?\.project-gallery-dialog\[open\][^}]*animation:\s*none !important/);
   assert.match(css, /\.tools-track[^}]*animation:\s*tools-marquee-scroll 48s linear infinite/s);
   assert.match(css, /@keyframes tools-marquee-scroll[^}]*translate3d\(0, 0, 0\)[\s\S]*?translate3d\(-50%, 0, 0\)/s);
   assert.match(css, /\.tools-marquee[^}]*overflow:\s*hidden[^}]*-webkit-mask-image:\s*linear-gradient/s);
@@ -226,6 +232,35 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.case-heading h1 \{ font-size:\s*clamp\(44px, 10vw, 56px\)/);
   assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.contact-close h2 \{ font-size:\s*clamp\(60px, 17vw, 88px\)/);
   assert.doesNotMatch(css, /\.section-intro h2 \{ font-size:\s*48px; \}/);
+});
+
+test("categorized work gallery uses native dialog behavior and a shared taxonomy", async () => {
+  const [gallery, data, workPage] = await Promise.all([
+    readFile(new URL("../app/project-gallery.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/data.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/work/page.tsx", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(data, /export type WorkCategoryId = "graphic-design" \| "webinar-presentations" \| "web-design" \| "video-editing"/);
+  assert.match(data, /export type ProjectSlot =/);
+  assert.match(data, /kind: "project"/);
+  assert.match(data, /kind: "placeholder"/);
+  assert.equal((data.match(/summary: "Project coming soon\."/g) ?? []).length, 6);
+  assert.match(data, /categoryId: "graphic-design"/);
+  assert.match(data, /categoryId: "webinar-presentations"/);
+  assert.match(data, /categoryId: "web-design"/);
+  assert.doesNotMatch(data, /categoryId: "video-editing"[\s\S]*?featured: true/);
+  assert.match(gallery, /<dialog/);
+  assert.match(gallery, /showModal\(\)/);
+  assert.match(gallery, /aria-haspopup="dialog"/);
+  assert.match(gallery, /aria-label="Close project gallery"/);
+  assert.match(gallery, /dialog\.addEventListener\("cancel"/);
+  assert.match(gallery, /dialog\.addEventListener\("click", handleBackdropClick\)/);
+  assert.match(gallery, /document\.documentElement\.classList\.add\("dialog-open"\)/);
+  assert.match(gallery, /lastTriggerRef\.current\?\.focus\(\)/);
+  assert.match(gallery, /<noscript>/);
+  assert.match(workPage, /workCategories\.map/);
+  assert.match(workPage, /projectSlotsForCategory/);
 });
 
 test("section navigation stays native and consistent across application routes", async () => {
@@ -337,13 +372,18 @@ test("about and work pages expose the requested information architecture", async
   assert.doesNotMatch(about, /about-hero-photo|about-headshot\.jpg/);
   assert.doesNotMatch(about, /Available for select projects|Have something in mind\?|Start a conversation/);
   assert.match(work, /Graphic Design/);
-  assert.match(work, /Web \/ Digital/);
-  assert.doesNotMatch(work, /Video Editing|motion-video-reel|short-form-social-edits/);
+  assert.match(work, /Webinar Presentations/);
+  assert.match(work, /Web Design/);
+  assert.match(work, /Video Editing/);
+  assert.doesNotMatch(work, /Web \/ Digital|motion-video-reel|short-form-social-edits/);
   assert.match(work, /Project index/);
   assert.match(work, /2023 to 2025/);
   assert.match(work, /Graphic design, web,[\s\S]*and digital work\./);
   assert.match(work, /A selection of campaign systems, presentations, landing pages, app concepts, book covers, and print projects\./);
   assert.equal((work.match(/class="project-card reveal"/g) ?? []).length, 6);
+  assert.equal((work.match(/class="project-card project-placeholder reveal"/g) ?? []).length, 6);
+  assert.ok((work.match(/Project coming soon\./g) ?? []).length >= 6);
+  assert.equal((work.match(/class="work-group"/g) ?? []).length, 4);
   assert.equal((work.match(/>View Project <span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 6);
   assert.doesNotMatch(work, /View case study/i);
   assert.doesNotMatch(work, /Work made to|built with clarity, craft, and purpose/);
@@ -390,6 +430,7 @@ test("user-facing copy avoids em dashes", async () => {
     "../app/work/[slug]/page.tsx",
     "../app/data.ts",
     "../app/layout.tsx",
+    "../app/project-gallery.tsx",
   ].map((path) => readFile(new URL(path, import.meta.url), "utf8")));
   assert.doesNotMatch(copyFiles.join("\n"), /—/);
 });

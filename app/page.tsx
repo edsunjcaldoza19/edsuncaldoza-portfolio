@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HeroGridHighlight, RotatingRole } from "./client-components";
-import { Footer, Navigation, ProjectCard, SectionIntro, WorkflowToolsMarquee } from "./components";
-import { featuredProjects } from "./data";
+import { Footer, Navigation, SectionIntro, WorkflowToolsMarquee } from "./components";
+import { SelectedWorkGallery } from "./project-gallery";
 
 export const metadata: Metadata = {
   title: "Edsun Caldoza | Graphic Designer & Video Editor",
@@ -79,10 +79,8 @@ export default function Home() {
         </section>
 
         <section className="selected-work" id="selected-work">
-          <SectionIntro number="02" label="Selected work" title={<>Selected work across<br />design, web, and print.</>} />
-          <div className="project-grid">
-            {featuredProjects.map((project, index) => <ProjectCard key={project.slug} project={project} index={index} />)}
-          </div>
+          <SectionIntro number="02" label="Selected work" title={<>Selected work by<br />discipline.</>} />
+          <SelectedWorkGallery />
           <a className="button button-primary selected-work-cta" href="https://www.behance.net/edsuncaldoza" target="_blank" rel="noreferrer">View all Projects <span aria-hidden="true">↗</span></a>
         </section>
 

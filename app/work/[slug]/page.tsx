@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageShell } from "../../components";
-import { projectBySlug, projects } from "../../data";
+import { projectBySlug, projects, workCategoryById } from "../../data";
 
 export function generateStaticParams() { return projects.map((project) => ({ slug: project.slug })); }
 
@@ -26,7 +26,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <main className="case-study" id="main-content">
         <header className="case-header">
           <Link className="case-back" href="/work">← All projects</Link>
-          <div className="case-heading reveal" data-stagger><p className="eyebrow">{projectNumber} · {project.category} · {project.year}</p><h1>{project.title}</h1><p>{project.summary}</p></div>
+          <div className="case-heading reveal" data-stagger><p className="eyebrow">{projectNumber} · {workCategoryById(project.categoryId).title} · {project.year}</p><h1>{project.title}</h1><p>{project.summary}</p></div>
           <div className="case-hero-media reveal" data-reveal="media">
             {project.video ? <video controls muted playsInline preload="metadata" poster={project.image}><source src="/videos/edsun-reel.mp4" type="video/mp4" />Your browser does not support video playback.</video> : <img src={project.image} alt={`${project.title} final presentation`} />}
           </div>
