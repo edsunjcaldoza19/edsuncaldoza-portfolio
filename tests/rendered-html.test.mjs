@@ -36,6 +36,9 @@ test("new portfolio project images use the supplied assets", async () => {
     ["webinar-004.jpg", "0676a74f8c280f53efc21b67e0241bdcc80ad698a5fccbde4c3b56ba84d2e77c"],
     ["webinar-005.jpg", "a4f1382ef2e1e53bb132044e861fc3fa71b0c4a415c4ed8b9d48fd0a0410d044"],
     ["web-001.jpg", "166e62788ee0b505980650c1c756cdcd81372b264e21face73a8e7c82b1cd118"],
+    ["video-001.webp", "f3e3306f1ceaa4ba1be8fab39798263f1171a26be3062bfdec0651fbbc56ed5e"],
+    ["video-002.webp", "a100356da18f33b422d9a3c6eceeaafbb59864cac22a8f599e6734da94a6517c"],
+    ["video-003.webp", "a9e85b89ea019f6cd5301983ef1ca96d8b57c598b3899bd4b5d6076b7a14a19c"],
   ];
 
   for (const [name, hash] of expectedAssets) {
@@ -85,7 +88,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
     ["01", "Graphic Design", "Campaigns, covers, and print pieces built to communicate clearly.", "3 projects", "/images/project-2.jpg"],
     ["02", "Webinar Presentations", "Slide systems designed for structured, confident live delivery.", "6 projects", "/images/project-3.jpg"],
     ["03", "Web Design", "Responsive pages and interfaces that keep the next step clear.", "3 projects", "/images/project-1.jpg"],
-    ["04", "Video Editing", "Editing work for short-form, promotional, and digital content.", "0 projects", null],
+    ["04", "Video Editing", "Tutorial edits and digital video content built around clear pacing and visual instruction.", "3 projects", "/images/video-001.webp"],
   ];
   assert.equal((html.match(/class="work-category-card reveal"/g) ?? []).length, 4);
   assert.equal((html.match(/aria-haspopup="dialog"/g) ?? []).length, 4);
@@ -272,7 +275,10 @@ test("categorized work gallery uses native dialog behavior and a shared taxonomy
   assert.match(data, /export type ProjectSlot =/);
   assert.match(data, /kind: "project"/);
   assert.match(data, /kind: "placeholder"/);
-  assert.equal((data.match(/summary: "Project coming soon\."/g) ?? []).length, 3);
+  assert.equal((data.match(/summary: "Project coming soon\."/g) ?? []).length, 0);
+  assert.match(data, /externalUrl\?: string/);
+  assert.match(data, /externalPlatform\?: string/);
+  assert.match(data, /externalAction\?: string/);
   assert.match(data, /categoryId: "graphic-design"/);
   assert.match(data, /categoryId: "webinar-presentations"/);
   for (const [title, image, url] of [
@@ -290,7 +296,21 @@ test("categorized work gallery uses native dialog behavior and a shared taxonomy
   assert.match(data, /categoryId: "web-design"/);
   assert.match(data, /imageAlt: "Smart Income Streams with AI sales page shown on desktop, laptop, tablet, and mobile screens"/);
   assert.doesNotMatch(data, /web-design-03/);
-  assert.doesNotMatch(data, /categoryId: "video-editing"[\s\S]*?featured: true/);
+  assert.equal((data.match(/categoryId: "video-editing"/g) ?? []).length, 3);
+  assert.doesNotMatch(data, /video-editing-0[123]/);
+  for (const [title, image, url] of [
+    ["CapCut Export Settings for Crisp Video", "/images/video-001.webp", "https://www.dropbox.com/scl/fi/zwuvh531mcnep968p83qf/Module-9.1.mp4?rlkey=jlmao5nu6ve4ig41rs61p0jr4&dl=0"],
+    ["Watermark-Free CapCut Exports", "/images/video-002.webp", "https://www.dropbox.com/scl/fi/r2zqv70yj2owfvkym04ad/Module-9.2.mp4?rlkey=lrdzkymohlmhp2gntwm6shk0i&dl=0"],
+    ["CapCut Covers and Thumbnails", "/images/video-003.webp", "https://www.dropbox.com/scl/fi/431bcw042ojmnck7pawzs/Module-9.3.mp4?rlkey=wsmfkjw55y5d88dfwzoic3g08&dl=0"],
+  ]) {
+    assert.match(data, new RegExp(escapeRegExp(title)));
+    assert.match(data, new RegExp(escapeRegExp(image)));
+    assert.match(data, new RegExp(escapeRegExp(url)));
+  }
+  assert.match(data, /previewImage: "\/images\/video-001\.webp"/);
+  assert.match(gallery, /projectActionLabel/);
+  assert.match(gallery, /projectExternalPlatform/);
+  assert.match(gallery, /projectExternalUrl/);
   assert.match(gallery, /<dialog/);
   assert.match(gallery, /showModal\(\)/);
   assert.match(gallery, /aria-haspopup="dialog"/);
@@ -418,14 +438,15 @@ test("about and work pages expose the requested information architecture", async
   assert.match(work, /Video Editing/);
   assert.doesNotMatch(work, /Web \/ Digital|motion-video-reel|short-form-social-edits/);
   assert.match(work, /Project index/);
-  assert.match(work, /2023 to 2025/);
-  assert.match(work, /Graphic design, web,[\s\S]*and digital work\./);
-  assert.match(work, /A selection of campaign systems, presentations, landing pages, app concepts, book covers, and print projects\./);
-  assert.equal((work.match(/class="project-card reveal"/g) ?? []).length, 12);
-  assert.equal((work.match(/class="project-card project-placeholder reveal"/g) ?? []).length, 3);
-  assert.ok((work.match(/Project coming soon\./g) ?? []).length >= 3);
+  assert.match(work, /2023 to 2026/);
+  assert.match(work, /Graphic design, video,[\s\S]*and digital work\./);
+  assert.match(work, /A selection of campaign systems, presentations, landing pages, app concepts, print projects, and tutorial videos\./);
+  assert.equal((work.match(/class="project-card reveal"/g) ?? []).length, 15);
+  assert.equal((work.match(/class="project-card project-placeholder reveal"/g) ?? []).length, 0);
+  assert.doesNotMatch(work, /Project coming soon\./);
   assert.equal((work.match(/class="work-group"/g) ?? []).length, 4);
-  assert.equal((work.match(/>View Project <span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 12);
+  assert.equal((work.match(/>View Project(?:<!-- -->)?\s*<span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 12);
+  assert.equal((work.match(/>Watch Video(?:<!-- -->)?\s*<span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 3);
   for (const [title, image, url] of [
     ["Smart Income Streams with AI Sales Page", "/images/web-001.jpg", "https://www.behance.net/gallery/238320549/Smart-Income-Streams-with-AI-Long-Form-Sales-Page"],
     ["Mastering Your Money Webinar", "/images/webinar-001.jpg", "https://www.behance.net/gallery/226745875/Mastering-Your-Money-Webinar-Template"],
@@ -438,6 +459,16 @@ test("about and work pages expose the requested information architecture", async
     assert.match(work, new RegExp(`src="${escapeRegExp(image)}"`));
     assert.equal((work.match(new RegExp(`href="${escapeRegExp(url)}"`, "g")) ?? []).length, 3);
   }
+  for (const [title, image, url] of [
+    ["CapCut Export Settings for Crisp Video", "/images/video-001.webp", "https://www.dropbox.com/scl/fi/zwuvh531mcnep968p83qf/Module-9.1.mp4?rlkey=jlmao5nu6ve4ig41rs61p0jr4&dl=0"],
+    ["Watermark-Free CapCut Exports", "/images/video-002.webp", "https://www.dropbox.com/scl/fi/r2zqv70yj2owfvkym04ad/Module-9.2.mp4?rlkey=lrdzkymohlmhp2gntwm6shk0i&dl=0"],
+    ["CapCut Covers and Thumbnails", "/images/video-003.webp", "https://www.dropbox.com/scl/fi/431bcw042ojmnck7pawzs/Module-9.3.mp4?rlkey=wsmfkjw55y5d88dfwzoic3g08&dl=0"],
+  ]) {
+    assert.match(work, new RegExp(escapeRegExp(title)));
+    assert.match(work, new RegExp(`src="${escapeRegExp(image)}"`));
+    const renderedUrl = url.replaceAll("&", "&amp;");
+    assert.equal((work.match(new RegExp(`href="${escapeRegExp(renderedUrl)}"`, "g")) ?? []).length, 3);
+  }
   assert.doesNotMatch(work, /View case study/i);
   assert.match(work, /alt="Smart Income Streams with AI sales page shown on desktop, laptop, tablet, and mobile screens"/);
   assert.doesNotMatch(work, /Work made to|built with clarity, craft, and purpose/);
@@ -446,21 +477,24 @@ test("about and work pages expose the requested information architecture", async
 
 test("project routes render direct case-study copy and navigation", async () => {
   const caseStudies = [
-    ["ai-business-model-landing-page", "A clearer route from offer to action.", "https://www.behance.net/gallery/238027647/AI-Business-Model-Landing-Page-Website-Design", "Smart Income Streams with AI Sales Page"],
-    ["smart-income-streams-ai-sales-page", "A detailed offer that stays easy to follow.", "https://www.behance.net/gallery/238320549/Smart-Income-Streams-with-AI-Long-Form-Sales-Page", "Digital Marketing Mastery Campaign"],
-    ["digital-marketing-campaign", "One system across every campaign asset.", "https://www.behance.net/gallery/226541053/Digital-Marketing-Mastery-Webinar-Social-Media-Design", "Wealth Webinar Slide System"],
-    ["wealth-webinar-presentation", "A deck built for live delivery.", "https://www.behance.net/gallery/226690009/Wealth-Google-Slides-Webinar-Template", "Mastering Your Money Webinar"],
-    ["mastering-your-money-webinar", "Financial lessons made easier to follow.", "https://www.behance.net/gallery/226745875/Mastering-Your-Money-Webinar-Template", "Mastering Digital Marketing Webinar"],
-    ["mastering-digital-marketing-webinar", "A clear system for teaching digital marketing.", "https://www.behance.net/gallery/226721607/Mastering-Digital-Marketing-Webinar-Template", "Blue Theme Webinar Deck"],
-    ["blue-theme-webinar-deck", "A versatile deck for different webinar topics.", "https://www.behance.net/gallery/238076371/Blue-Theme-Webinar-Google-Slides-Deck-Template", "Social Media Marketing Webinar"],
-    ["social-media-marketing-webinar", "A lively deck with a clear teaching rhythm.", "https://www.behance.net/gallery/238031503/Social-Media-Marketing-Webinar-Google-Slides-Template", "Unlock Financial Freedom Webinar"],
-    ["unlock-financial-freedom-webinar", "A focused structure for financial education.", "https://www.behance.net/gallery/226718265/Unlock-Financial-Freedom-Webinar-Template", "Page Whisper Reading App"],
-    ["page-whisper-mobile-app", "A smoother path from discovery to reading.", "https://www.behance.net/gallery/226752305/Page-Whisper-Mobile-App-UI", "Heart Health Made Simple"],
-    ["heart-health-book-cover", "Clear at thumbnail and print size.", "https://www.behance.net/gallery/226851791/Heart-Health-Book-Cover-Template", "Moonlight Car Rental Brochure"],
-    ["moonlight-car-rental-brochure", "Service details that are easy to scan.", "https://www.behance.net/gallery/176567239/Dynamic-Brochure-Design-for-Your-Car-Rental-Service", "AI Business Model Landing Page"],
+    ["ai-business-model-landing-page", "A clearer route from offer to action.", "https://www.behance.net/gallery/238027647/AI-Business-Model-Landing-Page-Website-Design", "Smart Income Streams with AI Sales Page", "View project on Behance"],
+    ["smart-income-streams-ai-sales-page", "A detailed offer that stays easy to follow.", "https://www.behance.net/gallery/238320549/Smart-Income-Streams-with-AI-Long-Form-Sales-Page", "Digital Marketing Mastery Campaign", "View project on Behance"],
+    ["digital-marketing-campaign", "One system across every campaign asset.", "https://www.behance.net/gallery/226541053/Digital-Marketing-Mastery-Webinar-Social-Media-Design", "Wealth Webinar Slide System", "View project on Behance"],
+    ["wealth-webinar-presentation", "A deck built for live delivery.", "https://www.behance.net/gallery/226690009/Wealth-Google-Slides-Webinar-Template", "Mastering Your Money Webinar", "View project on Behance"],
+    ["mastering-your-money-webinar", "Financial lessons made easier to follow.", "https://www.behance.net/gallery/226745875/Mastering-Your-Money-Webinar-Template", "Mastering Digital Marketing Webinar", "View project on Behance"],
+    ["mastering-digital-marketing-webinar", "A clear system for teaching digital marketing.", "https://www.behance.net/gallery/226721607/Mastering-Digital-Marketing-Webinar-Template", "Blue Theme Webinar Deck", "View project on Behance"],
+    ["blue-theme-webinar-deck", "A versatile deck for different webinar topics.", "https://www.behance.net/gallery/238076371/Blue-Theme-Webinar-Google-Slides-Deck-Template", "Social Media Marketing Webinar", "View project on Behance"],
+    ["social-media-marketing-webinar", "A lively deck with a clear teaching rhythm.", "https://www.behance.net/gallery/238031503/Social-Media-Marketing-Webinar-Google-Slides-Template", "Unlock Financial Freedom Webinar", "View project on Behance"],
+    ["unlock-financial-freedom-webinar", "A focused structure for financial education.", "https://www.behance.net/gallery/226718265/Unlock-Financial-Freedom-Webinar-Template", "Page Whisper Reading App", "View project on Behance"],
+    ["page-whisper-mobile-app", "A smoother path from discovery to reading.", "https://www.behance.net/gallery/226752305/Page-Whisper-Mobile-App-UI", "Heart Health Made Simple", "View project on Behance"],
+    ["heart-health-book-cover", "Clear at thumbnail and print size.", "https://www.behance.net/gallery/226851791/Heart-Health-Book-Cover-Template", "Moonlight Car Rental Brochure", "View project on Behance"],
+    ["moonlight-car-rental-brochure", "Service details that are easy to scan.", "https://www.behance.net/gallery/176567239/Dynamic-Brochure-Design-for-Your-Car-Rental-Service", "CapCut Export Settings for Crisp Video", "View project on Behance"],
+    ["capcut-export-settings", "Export settings made easier to understand.", "https://www.dropbox.com/scl/fi/zwuvh531mcnep968p83qf/Module-9.1.mp4?rlkey=jlmao5nu6ve4ig41rs61p0jr4&dl=0", "Watermark-Free CapCut Exports", "Watch on Dropbox"],
+    ["watermark-free-capcut-exports", "A clearer route to watermark-free exports.", "https://www.dropbox.com/scl/fi/r2zqv70yj2owfvkym04ad/Module-9.2.mp4?rlkey=lrdzkymohlmhp2gntwm6shk0i&dl=0", "CapCut Covers and Thumbnails", "Watch on Dropbox"],
+    ["capcut-covers-and-thumbnails", "A thumbnail workflow from blank canvas to final cover.", "https://www.dropbox.com/scl/fi/431bcw042ojmnck7pawzs/Module-9.3.mp4?rlkey=wsmfkjw55y5d88dfwzoic3g08&dl=0", "AI Business Model Landing Page", "Watch on Dropbox"],
   ];
 
-  for (const [slug, outcomeHeading, behanceUrl, nextProject] of caseStudies) {
+  for (const [slug, outcomeHeading, externalUrl, nextProject, actionLabel] of caseStudies) {
     const response = await render(`/work/${slug}`);
     assert.equal(response.status, 200);
     const html = await response.text();
@@ -471,8 +505,9 @@ test("project routes render direct case-study copy and navigation", async () => 
     assert.match(html, new RegExp(escapeRegExp(outcomeHeading)));
     assert.match(html, /Next project/);
     assert.match(html, new RegExp(escapeRegExp(nextProject)));
-    assert.match(html, new RegExp(`href="${escapeRegExp(behanceUrl)}"`));
-    assert.match(html, /View project on Behance/);
+    const renderedUrl = externalUrl.replaceAll("&", "&amp;");
+    assert.match(html, new RegExp(`href="${escapeRegExp(renderedUrl)}"`));
+    assert.match(html, new RegExp(escapeRegExp(actionLabel)));
     assert.doesNotMatch(html, /The brief|Selected outcome|Designed to stay clear at every size/);
   }
 

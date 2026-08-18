@@ -17,6 +17,9 @@ export type Project = {
   outcomeHeading: string;
   result: string;
   behance?: string;
+  externalUrl?: string;
+  externalPlatform?: string;
+  externalAction?: string;
   featured?: boolean;
   video?: boolean;
 };
@@ -278,6 +281,78 @@ export const projects: Project[] = [
     behance: "https://www.behance.net/gallery/176567239/Dynamic-Brochure-Design-for-Your-Car-Rental-Service",
     featured: true,
   },
+  {
+    slug: "capcut-export-settings",
+    title: "CapCut Export Settings for Crisp Video",
+    categoryId: "video-editing",
+    kicker: "Video Editing",
+    summary: "A clear tutorial edit that explains aspect ratio, resolution, bit rate, frame rate, and high-quality export settings in CapCut.",
+    image: "/images/video-001.webp",
+    imageAlt: "CapCut tutorial title card about export settings that keep video crisp",
+    accent: "gold",
+    client: "Creator education",
+    year: "2026",
+    role: "Video Editor",
+    tools: "CapCut",
+    deliverables: "Tutorial video, screen-recording edit, motion typography",
+    challenge: "Turn several technical export choices into a short lesson that is easy to follow.",
+    approach: "I combined screen recordings, bold text-led sections, and practical comparisons for aspect ratio, resolution, bit rate, codec, format, and frame rate.",
+    outcomeHeading: "Export settings made easier to understand.",
+    result: "A focused tutorial that moves from setup checks to a practical export checklist in under three minutes.",
+    externalUrl: "https://www.dropbox.com/scl/fi/zwuvh531mcnep968p83qf/Module-9.1.mp4?rlkey=jlmao5nu6ve4ig41rs61p0jr4&dl=0",
+    externalPlatform: "Dropbox",
+    externalAction: "Watch Video",
+    featured: true,
+    video: true,
+  },
+  {
+    slug: "watermark-free-capcut-exports",
+    title: "Watermark-Free CapCut Exports",
+    categoryId: "video-editing",
+    kicker: "Video Editing",
+    summary: "A step-by-step tutorial on avoiding Pro-asset watermarks, protecting video quality, and choosing clean export settings in CapCut.",
+    image: "/images/video-002.webp",
+    imageAlt: "CapCut tutorial title card about removing watermarks without losing video quality",
+    accent: "gold",
+    client: "Creator education",
+    year: "2026",
+    role: "Video Editor",
+    tools: "CapCut",
+    deliverables: "Tutorial video, screen-recording edit, motion typography",
+    challenge: "Explain why watermarks appear without confusing Pro assets with export-quality settings.",
+    approach: "I separated the lesson into asset checks, free-versus-Pro options, and a final quality checklist supported by screen recordings and concise motion graphics.",
+    outcomeHeading: "A clearer route to watermark-free exports.",
+    result: "A short tutorial that helps viewers avoid watermark triggers while keeping their final video quality intact.",
+    externalUrl: "https://www.dropbox.com/scl/fi/r2zqv70yj2owfvkym04ad/Module-9.2.mp4?rlkey=lrdzkymohlmhp2gntwm6shk0i&dl=0",
+    externalPlatform: "Dropbox",
+    externalAction: "Watch Video",
+    featured: true,
+    video: true,
+  },
+  {
+    slug: "capcut-covers-and-thumbnails",
+    title: "CapCut Covers and Thumbnails",
+    categoryId: "video-editing",
+    kicker: "Video Editing",
+    summary: "A practical tutorial edit that shows how to build clear, scroll-stopping covers and thumbnails inside CapCut.",
+    image: "/images/video-003.webp",
+    imageAlt: "CapCut tutorial title card about creating covers and thumbnails that stop the scroll",
+    accent: "gold",
+    client: "Creator education",
+    year: "2026",
+    role: "Video Editor",
+    tools: "CapCut",
+    deliverables: "Tutorial video, screen-recording edit, motion typography",
+    challenge: "Show a complete thumbnail workflow without turning the lesson into a long software walkthrough.",
+    approach: "I used a staged screen-recording edit to demonstrate canvas setup, image placement, headline styling, branding, and final composition.",
+    outcomeHeading: "A thumbnail workflow from blank canvas to final cover.",
+    result: "A concise build-along tutorial that makes each design decision visible and easy to repeat.",
+    externalUrl: "https://www.dropbox.com/scl/fi/431bcw042ojmnck7pawzs/Module-9.3.mp4?rlkey=wsmfkjw55y5d88dfwzoic3g08&dl=0",
+    externalPlatform: "Dropbox",
+    externalAction: "Watch Video",
+    featured: true,
+    video: true,
+  },
 ];
 
 export const workCategories: readonly WorkCategory[] = [
@@ -309,7 +384,9 @@ export const workCategories: readonly WorkCategory[] = [
     id: "video-editing",
     number: "04",
     title: "Video Editing",
-    description: "Editing work for short-form, promotional, and digital content.",
+    description: "Tutorial edits and digital video content built around clear pacing and visual instruction.",
+    previewImage: "/images/video-001.webp",
+    previewAlt: "CapCut export settings tutorial title card",
   },
 ] as const;
 
@@ -317,12 +394,20 @@ const placeholderSlots: Record<WorkCategoryId, readonly ProjectSlot[]> = {
   "graphic-design": [],
   "webinar-presentations": [],
   "web-design": [],
-  "video-editing": [
-    { kind: "placeholder", id: "video-editing-01", title: "Video Editing Project", summary: "Project coming soon." },
-    { kind: "placeholder", id: "video-editing-02", title: "Video Editing Project", summary: "Project coming soon." },
-    { kind: "placeholder", id: "video-editing-03", title: "Video Editing Project", summary: "Project coming soon." },
-  ],
+  "video-editing": [],
 };
+
+export function projectExternalUrl(project: Project) {
+  return project.externalUrl ?? project.behance;
+}
+
+export function projectExternalPlatform(project: Project) {
+  return project.externalPlatform ?? (project.behance ? "Behance" : undefined);
+}
+
+export function projectActionLabel(project: Project) {
+  return project.externalAction ?? "View Project";
+}
 
 export function workCategoryById(id: WorkCategoryId) {
   return workCategories.find((category) => category.id === id)!;

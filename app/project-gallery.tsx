@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
+  projectActionLabel,
+  projectExternalPlatform,
+  projectExternalUrl,
   projectSlotsForCategory,
   realProjectCount,
   workCategories,
@@ -25,18 +28,23 @@ function GallerySlot({ slot }: { slot: ProjectSlot }) {
   }
 
   const { project } = slot;
-  const projectUrl = project.behance ?? `/work/${project.slug}`;
+  const externalUrl = projectExternalUrl(project);
+  const projectUrl = externalUrl ?? `/work/${project.slug}`;
+  const externalPlatform = projectExternalPlatform(project);
+  const actionLabel = projectActionLabel(project);
+  const externalLinkProps = externalUrl ? { target: "_blank", rel: "noreferrer" } : {};
   return (
     <article className="gallery-project">
-      <a className="gallery-project-image" href={projectUrl} target="_blank" rel="noreferrer" aria-label={`View ${project.title} on Behance`}>
+      <a className="gallery-project-image" href={projectUrl} aria-label={`${actionLabel}: ${project.title}${externalPlatform ? ` on ${externalPlatform}` : ""}`} {...externalLinkProps}>
+        {project.video && <span className="play-pill">Video</span>}
         <img src={project.image} alt={project.imageAlt ?? `${project.title} project preview`} loading="lazy" />
-        <span aria-hidden="true">↗</span>
+        <span className="gallery-project-open" aria-hidden="true">↗</span>
       </a>
       <div className="gallery-project-copy">
         <p className="project-overline"><span>{project.kicker}</span><span>{project.year}</span></p>
-        <h3><a href={projectUrl} target="_blank" rel="noreferrer">{project.title}</a></h3>
+        <h3><a href={projectUrl} {...externalLinkProps}>{project.title}</a></h3>
         <p>{project.summary}</p>
-        <a className="text-link" href={projectUrl} target="_blank" rel="noreferrer">View Project <span aria-hidden="true">↗</span></a>
+        <a className="text-link" href={projectUrl} {...externalLinkProps}>{actionLabel} <span aria-hidden="true">↗</span></a>
       </div>
     </article>
   );

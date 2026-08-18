@@ -28,7 +28,7 @@
 - Give About, Selected Work, Tools, and Contact stable IDs reached through native `/#section` links. Preserve the URL hash and browser history, and offset each target by the sticky navigation height plus 24px.
 - Replace the homepage project list with four two-column category cards for Graphic Design, Webinar Presentations, Web Design, and Video Editing. Each card shows a representative visual, concise description, real-project count, and visible open-gallery affordance; stack the cards on mobile.
 - Open category work in one native dialog with a sticky heading, labeled 44px close control, three project columns on desktop, two on tablet, and one on mobile. Make the dialog full-screen below 768px, preserve Escape and backdrop dismissal, keep focus inside while open, restore focus to the trigger, and lock document scrolling.
-- Keep all twelve real projects linked to Behance. The Webinar Presentations gallery contains six completed projects and Web Design contains three. Show three separate, inert “Project coming soon” placeholders in Video Editing without links or generated case-study routes.
+- Keep all fifteen real projects connected to their reviewed external destination. Behance remains the destination for design work, while the three Video Editing projects use Dropbox previews and a clear “Watch Video” action. The Webinar Presentations gallery contains six completed projects, Web Design contains three, and Video Editing contains three completed CapCut tutorials with authentic frame-based thumbnails.
 - Provide native `/work#category` links in a no-JavaScript fallback. Use a short fade-and-rise dialog entrance and remove transforms under reduced motion.
 - Close Selected Work with a primary “View all Projects” button linking to Edsun’s Behance profile.
 - Follow the testimonial with section 04, Tools & workflow. Use the heading “Tools I use to get the work done.” and a continuous slow right-to-left carousel of locally stored, full-color workflow icons. Place each icon in a flat 72px circle on desktop and a 60px circle on mobile. Use white circle backgrounds in dark mode and transparent icon containers in light mode so the original brand colors remain visible. Keep one semantic tool list, mark the duplicate loop group as hidden from assistive technology, do not pause on hover or expose a pause control, and replace the marquee with a static wrapping grid under reduced motion.
@@ -46,7 +46,7 @@
 
 - Keep the homepage hero copy unchanged.
 - Use direct, specific language everywhere else. Prefer concrete deliverables, decisions, and outcomes over abstract phrases about craft or purpose.
-- Present video editing through the existing reel and project work without adding unverified software, employers, or performance metrics.
+- Present video editing through the three CapCut tutorial projects without adding unverified employers or performance metrics.
 - Preserve approved statistics and client quotations exactly.
 - Use vertical bars in page titles, the word `to` in date ranges, and no em dashes in user-facing copy.
 - Lead every case study with a clear challenge and approach, then use a project-specific outcome heading rather than one generic result statement.

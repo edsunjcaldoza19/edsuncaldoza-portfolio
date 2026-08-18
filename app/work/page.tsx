@@ -12,9 +12,9 @@ export default function WorkPage() {
     <PageShell active="work">
       <main className="inner-page work-page" id="main-content">
         <section className="work-hero reveal" data-stagger>
-          <p className="eyebrow">Project index · 2023 to 2025</p>
-          <h1>Graphic design, web,<br /><span>and digital work.</span></h1>
-          <p>A selection of campaign systems, presentations, landing pages, app concepts, book covers, and print projects.</p>
+          <p className="eyebrow">Project index · 2023 to 2026</p>
+          <h1>Graphic design, video,<br /><span>and digital work.</span></h1>
+          <p>A selection of campaign systems, presentations, landing pages, app concepts, print projects, and tutorial videos.</p>
         </section>
         <nav className="work-index reveal" data-stagger aria-label="Project categories">
           {workCategories.map((category) => <a key={category.id} href={`#${category.id}`}><span>{category.number}</span>{category.title}</a>)}

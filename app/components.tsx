@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { CSSProperties, ReactNode } from "react";
 import { NavigationController, ThemeToggle } from "./client-components";
-import type { Project, ProjectSlot } from "./data";
+import {
+  projectActionLabel,
+  projectExternalPlatform,
+  projectExternalUrl,
+  type Project,
+  type ProjectSlot,
+} from "./data";
 
 const email = "mailto:edsunjcaldoza@gmail.com";
 const navigationSections = [
@@ -96,11 +102,14 @@ export function PageShell({ children, active }: { children: ReactNode; active?: 
 
 export function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
   const number = String(index + 1).padStart(2, "0");
-  const projectUrl = project.behance ?? `/work/${project.slug}`;
-  const externalLinkProps = project.behance ? { target: "_blank", rel: "noreferrer" } : {};
+  const externalUrl = projectExternalUrl(project);
+  const projectUrl = externalUrl ?? `/work/${project.slug}`;
+  const externalPlatform = projectExternalPlatform(project);
+  const actionLabel = projectActionLabel(project);
+  const externalLinkProps = externalUrl ? { target: "_blank", rel: "noreferrer" } : {};
   return (
     <article className="project-card reveal" data-reveal="card" style={{ "--motion-order": index % 2 } as CSSProperties}>
-      <a className="project-image-wrap" href={projectUrl} aria-label={`View ${project.title} project${project.behance ? " on Behance" : ""}`} {...externalLinkProps}>
+      <a className="project-image-wrap" href={projectUrl} aria-label={`${actionLabel}: ${project.title}${externalPlatform ? ` on ${externalPlatform}` : ""}`} {...externalLinkProps}>
         {project.video && <span className="play-pill">Video</span>}
         <img src={project.image} alt={project.imageAlt ?? `${project.title} project preview`} loading={index > 1 ? "lazy" : "eager"} />
         <span className="project-open" aria-hidden="true">↗</span>
@@ -109,7 +118,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
         <div className="project-overline"><span>{number}</span><span>{project.kicker}</span></div>
         <h3><a href={projectUrl} {...externalLinkProps}>{project.title}</a></h3>
         <p className="project-summary">{project.summary}</p>
-        <a className="text-link" href={projectUrl} {...externalLinkProps}>View Project <span aria-hidden="true">↗</span></a>
+        <a className="text-link" href={projectUrl} {...externalLinkProps}>{actionLabel} <span aria-hidden="true">↗</span></a>
       </div>
     </article>
   );
