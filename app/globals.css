@@ -378,6 +378,7 @@ html.dialog-open, html.dialog-open body { overflow: hidden; }
 .case-art { margin-bottom: var(--space-section); padding: clamp(22px, 4vw, 56px); background: var(--surface); border: 1px solid var(--border); }
 .case-art.project-orange { background: color-mix(in srgb, #f97316 8%, var(--surface)); }
 .case-art.project-blue, .case-art.project-cyan, .case-art.project-navy { background: color-mix(in srgb, var(--accent) 9%, var(--surface)); }
+.case-art.project-green { background: color-mix(in srgb, #10b981 8%, var(--surface)); }
 .case-art.project-coral { background: color-mix(in srgb, #fb7185 8%, var(--surface)); }
 .case-art.project-gold { background: color-mix(in srgb, #eab308 8%, var(--surface)); }
 .case-art > span { margin-bottom: 24px; display: block; color: var(--muted); font-size: 10px; font-weight: 650; text-transform: uppercase; letter-spacing: .12em; }
