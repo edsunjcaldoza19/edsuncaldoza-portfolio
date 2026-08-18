@@ -226,6 +226,11 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.project-grid[^}]*gap:\s*var\(--space-card-row\) 28px/s);
   assert.match(css, /\.work-category-grid[^}]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/s);
   assert.match(css, /\.work-category-card[^}]*cursor:\s*pointer/s);
+  assert.match(css, /\.work-category-meta \{[^}]*position:\s*relative;[^}]*display:\s*flex;[^}]*flex-direction:\s*column;[^}]*align-items:\s*flex-start;/s);
+  assert.match(css, /\.work-category-number \{[^}]*position:\s*absolute;[^}]*top:\s*clamp\(24px, 3vw, 36px\);[^}]*right:\s*clamp\(24px, 3vw, 36px\);/s);
+  assert.match(css, /\.work-category-title \{[^}]*width:\s*100%;[^}]*padding-right:\s*56px;/s);
+  assert.match(css, /\.work-category-count \{[^}]*margin-top:\s*auto;[^}]*padding-top:\s*24px;/s);
+  assert.doesNotMatch(css, /\.work-category-description[^}]*grid-column:/s);
   assert.match(css, /\.project-gallery-dialog[^}]*1180px[^}]*max-height:\s*min\(90dvh, 900px\)/s);
   assert.match(css, /\.project-gallery-grid, \.project-slot-grid[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/s);
   assert.match(css, /--scrollbar-thumb:\s*#2563eb/);
