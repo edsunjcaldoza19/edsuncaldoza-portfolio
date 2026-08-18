@@ -29,7 +29,7 @@ function GallerySlot({ slot }: { slot: ProjectSlot }) {
   return (
     <article className="gallery-project">
       <a className="gallery-project-image" href={projectUrl} target="_blank" rel="noreferrer" aria-label={`View ${project.title} on Behance`}>
-        <img src={project.image} alt={`${project.title} project preview`} loading="lazy" />
+        <img src={project.image} alt={project.imageAlt ?? `${project.title} project preview`} loading="lazy" />
         <span aria-hidden="true">↗</span>
       </a>
       <div className="gallery-project-copy">

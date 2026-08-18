@@ -102,7 +102,7 @@ export function ProjectCard({ project, index = 0 }: { project: Project; index?: 
     <article className="project-card reveal" data-reveal="card" style={{ "--motion-order": index % 2 } as CSSProperties}>
       <a className="project-image-wrap" href={projectUrl} aria-label={`View ${project.title} project${project.behance ? " on Behance" : ""}`} {...externalLinkProps}>
         {project.video && <span className="play-pill">Video</span>}
-        <img src={project.image} alt={`${project.title} project preview`} loading={index > 1 ? "lazy" : "eager"} />
+        <img src={project.image} alt={project.imageAlt ?? `${project.title} project preview`} loading={index > 1 ? "lazy" : "eager"} />
         <span className="project-open" aria-hidden="true">↗</span>
       </a>
       <div className="project-meta">

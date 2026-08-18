@@ -28,7 +28,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <Link className="case-back" href="/work">← All projects</Link>
           <div className="case-heading reveal" data-stagger><p className="eyebrow">{projectNumber} · {workCategoryById(project.categoryId).title} · {project.year}</p><h1>{project.title}</h1><p>{project.summary}</p></div>
           <div className="case-hero-media reveal" data-reveal="media">
-            {project.video ? <video controls muted playsInline preload="metadata" poster={project.image}><source src="/videos/edsun-reel.mp4" type="video/mp4" />Your browser does not support video playback.</video> : <img src={project.image} alt={`${project.title} final presentation`} />}
+            {project.video ? <video controls muted playsInline preload="metadata" poster={project.image}><source src="/videos/edsun-reel.mp4" type="video/mp4" />Your browser does not support video playback.</video> : <img src={project.image} alt={project.imageAlt ?? `${project.title} final presentation`} />}
           </div>
         </header>
         <section className="case-facts reveal" data-stagger aria-label="Project details">

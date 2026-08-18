@@ -5,6 +5,7 @@ export type Project = {
   kicker: string;
   summary: string;
   image: string;
+  imageAlt?: string;
   accent: string;
   client: string;
   year: string;
@@ -54,6 +55,27 @@ export const projects: Project[] = [
     outcomeHeading: "A clearer route from offer to action.",
     result: "A desktop and mobile layout that keeps the offer easy to follow and the next step visible.",
     behance: "https://www.behance.net/gallery/238027647/AI-Business-Model-Landing-Page-Website-Design",
+    featured: true,
+  },
+  {
+    slug: "smart-income-streams-ai-sales-page",
+    title: "Smart Income Streams with AI Sales Page",
+    categoryId: "web-design",
+    kicker: "Web Design",
+    summary: "A responsive long-form sales page that organizes a detailed AI income offer into a clear path from benefits to action.",
+    image: "/images/web-001.jpg",
+    imageAlt: "Smart Income Streams with AI sales page shown on desktop, laptop, tablet, and mobile screens",
+    accent: "gold",
+    client: "ProfitWithAI.com",
+    year: "2025",
+    role: "Web & graphic designer",
+    tools: "WordPress, Adobe Photoshop",
+    deliverables: "Long-form sales page, responsive layouts, visual assets",
+    challenge: "Organize a long-form AI income offer without overwhelming visitors or losing the main call to action.",
+    approach: "I divided the page into focused benefit sections, used responsive product visuals to explain the offer, and repeated calls to action at natural decision points.",
+    outcomeHeading: "A detailed offer that stays easy to follow.",
+    result: "A responsive sales page that keeps a detailed offer easy to scan across desktop, tablet, and mobile screens.",
+    behance: "https://www.behance.net/gallery/238320549/Smart-Income-Streams-with-AI-Long-Form-Sales-Page",
     featured: true,
   },
   {
@@ -294,9 +316,7 @@ export const workCategories: readonly WorkCategory[] = [
 const placeholderSlots: Record<WorkCategoryId, readonly ProjectSlot[]> = {
   "graphic-design": [],
   "webinar-presentations": [],
-  "web-design": [
-    { kind: "placeholder", id: "web-design-03", title: "Web Design Project", summary: "Project coming soon." },
-  ],
+  "web-design": [],
   "video-editing": [
     { kind: "placeholder", id: "video-editing-01", title: "Video Editing Project", summary: "Project coming soon." },
     { kind: "placeholder", id: "video-editing-02", title: "Video Editing Project", summary: "Project coming soon." },

@@ -28,13 +28,14 @@ test("downloadable resume uses the approved updated PDF", async () => {
   );
 });
 
-test("webinar project images use the supplied assets", async () => {
+test("new portfolio project images use the supplied assets", async () => {
   const expectedAssets = [
     ["webinar-001.jpg", "2703304697c7e7c8cb82e2bf382948bb84d977605578bf414a5aae7d44b4af5a"],
     ["webinar-002.jpg", "0e1717a9e2c7281f8758273d78efced4f3230d5b26faebc00b8da5d9d114b888"],
     ["webinar-003.jpg", "22c0e4a3c9c15c0ea5df22c493bb22603042170635a42dbc716c4b5a7e4d5372"],
     ["webinar-004.jpg", "0676a74f8c280f53efc21b67e0241bdcc80ad698a5fccbde4c3b56ba84d2e77c"],
     ["webinar-005.jpg", "a4f1382ef2e1e53bb132044e861fc3fa71b0c4a415c4ed8b9d48fd0a0410d044"],
+    ["web-001.jpg", "166e62788ee0b505980650c1c756cdcd81372b264e21face73a8e7c82b1cd118"],
   ];
 
   for (const [name, hash] of expectedAssets) {
@@ -83,7 +84,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   const categories = [
     ["01", "Graphic Design", "Campaigns, covers, and print pieces built to communicate clearly.", "3 projects", "/images/project-2.jpg"],
     ["02", "Webinar Presentations", "Slide systems designed for structured, confident live delivery.", "6 projects", "/images/project-3.jpg"],
-    ["03", "Web Design", "Responsive pages and interfaces that keep the next step clear.", "2 projects", "/images/project-1.jpg"],
+    ["03", "Web Design", "Responsive pages and interfaces that keep the next step clear.", "3 projects", "/images/project-1.jpg"],
     ["04", "Video Editing", "Editing work for short-form, promotional, and digital content.", "0 projects", null],
   ];
   assert.equal((html.match(/class="work-category-card reveal"/g) ?? []).length, 4);
@@ -224,6 +225,17 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.work-category-card[^}]*cursor:\s*pointer/s);
   assert.match(css, /\.project-gallery-dialog[^}]*1180px[^}]*max-height:\s*min\(90dvh, 900px\)/s);
   assert.match(css, /\.project-gallery-grid, \.project-slot-grid[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/s);
+  assert.match(css, /--scrollbar-thumb:\s*#2563eb/);
+  assert.match(css, /--scrollbar-thumb-hover:\s*#3b82f6/);
+  assert.match(css, /scrollbar-color:\s*var\(--scrollbar-thumb\) var\(--scrollbar-track\)/);
+  assert.match(css, /\*::-webkit-scrollbar-thumb \{[^}]*background:\s*var\(--scrollbar-thumb\);[^}]*border-radius:\s*5px;/s);
+  assert.match(css, /\.gallery-project \{[^}]*height:\s*100%[^}]*display:\s*grid[^}]*grid-template-rows:\s*auto 1fr/s);
+  assert.match(css, /\.gallery-project-copy \{[^}]*display:\s*flex[^}]*flex-direction:\s*column/s);
+  assert.match(css, /\.gallery-project-copy h3 \{[^}]*min-height:\s*2\.24em/s);
+  assert.match(css, /\.gallery-project-copy \.text-link \{ margin-top:\s*auto; \}/);
+  assert.match(css, /\.project-card \{[^}]*height:\s*100%[^}]*display:\s*grid/s);
+  assert.match(css, /\.project-meta h3 \{[^}]*min-height:\s*2\.16em/s);
+  assert.match(css, /\.project-meta \.text-link \{ margin-top:\s*auto; \}/);
   assert.match(css, /@media \(max-width:\s*1024px\)[\s\S]*?\.project-gallery-grid, \.project-slot-grid \{ grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
   assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.project-gallery-dialog \{[^}]*width:\s*100%[^}]*height:\s*100dvh/);
   assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.project-gallery-grid, \.project-slot-grid \{ grid-template-columns:\s*1fr/);
@@ -260,10 +272,11 @@ test("categorized work gallery uses native dialog behavior and a shared taxonomy
   assert.match(data, /export type ProjectSlot =/);
   assert.match(data, /kind: "project"/);
   assert.match(data, /kind: "placeholder"/);
-  assert.equal((data.match(/summary: "Project coming soon\."/g) ?? []).length, 4);
+  assert.equal((data.match(/summary: "Project coming soon\."/g) ?? []).length, 3);
   assert.match(data, /categoryId: "graphic-design"/);
   assert.match(data, /categoryId: "webinar-presentations"/);
   for (const [title, image, url] of [
+    ["Smart Income Streams with AI Sales Page", "/images/web-001.jpg", "https://www.behance.net/gallery/238320549/Smart-Income-Streams-with-AI-Long-Form-Sales-Page"],
     ["Mastering Your Money Webinar", "/images/webinar-001.jpg", "https://www.behance.net/gallery/226745875/Mastering-Your-Money-Webinar-Template"],
     ["Mastering Digital Marketing Webinar", "/images/webinar-002.jpg", "https://www.behance.net/gallery/226721607/Mastering-Digital-Marketing-Webinar-Template"],
     ["Blue Theme Webinar Deck", "/images/webinar-003.jpg", "https://www.behance.net/gallery/238076371/Blue-Theme-Webinar-Google-Slides-Deck-Template"],
@@ -275,6 +288,8 @@ test("categorized work gallery uses native dialog behavior and a shared taxonomy
     assert.match(data, new RegExp(escapeRegExp(url)));
   }
   assert.match(data, /categoryId: "web-design"/);
+  assert.match(data, /imageAlt: "Smart Income Streams with AI sales page shown on desktop, laptop, tablet, and mobile screens"/);
+  assert.doesNotMatch(data, /web-design-03/);
   assert.doesNotMatch(data, /categoryId: "video-editing"[\s\S]*?featured: true/);
   assert.match(gallery, /<dialog/);
   assert.match(gallery, /showModal\(\)/);
@@ -406,12 +421,13 @@ test("about and work pages expose the requested information architecture", async
   assert.match(work, /2023 to 2025/);
   assert.match(work, /Graphic design, web,[\s\S]*and digital work\./);
   assert.match(work, /A selection of campaign systems, presentations, landing pages, app concepts, book covers, and print projects\./);
-  assert.equal((work.match(/class="project-card reveal"/g) ?? []).length, 11);
-  assert.equal((work.match(/class="project-card project-placeholder reveal"/g) ?? []).length, 4);
-  assert.ok((work.match(/Project coming soon\./g) ?? []).length >= 4);
+  assert.equal((work.match(/class="project-card reveal"/g) ?? []).length, 12);
+  assert.equal((work.match(/class="project-card project-placeholder reveal"/g) ?? []).length, 3);
+  assert.ok((work.match(/Project coming soon\./g) ?? []).length >= 3);
   assert.equal((work.match(/class="work-group"/g) ?? []).length, 4);
-  assert.equal((work.match(/>View Project <span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 11);
+  assert.equal((work.match(/>View Project <span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 12);
   for (const [title, image, url] of [
+    ["Smart Income Streams with AI Sales Page", "/images/web-001.jpg", "https://www.behance.net/gallery/238320549/Smart-Income-Streams-with-AI-Long-Form-Sales-Page"],
     ["Mastering Your Money Webinar", "/images/webinar-001.jpg", "https://www.behance.net/gallery/226745875/Mastering-Your-Money-Webinar-Template"],
     ["Mastering Digital Marketing Webinar", "/images/webinar-002.jpg", "https://www.behance.net/gallery/226721607/Mastering-Digital-Marketing-Webinar-Template"],
     ["Blue Theme Webinar Deck", "/images/webinar-003.jpg", "https://www.behance.net/gallery/238076371/Blue-Theme-Webinar-Google-Slides-Deck-Template"],
@@ -423,13 +439,15 @@ test("about and work pages expose the requested information architecture", async
     assert.equal((work.match(new RegExp(`href="${escapeRegExp(url)}"`, "g")) ?? []).length, 3);
   }
   assert.doesNotMatch(work, /View case study/i);
+  assert.match(work, /alt="Smart Income Streams with AI sales page shown on desktop, laptop, tablet, and mobile screens"/);
   assert.doesNotMatch(work, /Work made to|built with clarity, craft, and purpose/);
   assert.doesNotMatch(work, /Available for select projects|Have something in mind\?|Start a conversation/);
 });
 
 test("project routes render direct case-study copy and navigation", async () => {
   const caseStudies = [
-    ["ai-business-model-landing-page", "A clearer route from offer to action.", "https://www.behance.net/gallery/238027647/AI-Business-Model-Landing-Page-Website-Design", "Digital Marketing Mastery Campaign"],
+    ["ai-business-model-landing-page", "A clearer route from offer to action.", "https://www.behance.net/gallery/238027647/AI-Business-Model-Landing-Page-Website-Design", "Smart Income Streams with AI Sales Page"],
+    ["smart-income-streams-ai-sales-page", "A detailed offer that stays easy to follow.", "https://www.behance.net/gallery/238320549/Smart-Income-Streams-with-AI-Long-Form-Sales-Page", "Digital Marketing Mastery Campaign"],
     ["digital-marketing-campaign", "One system across every campaign asset.", "https://www.behance.net/gallery/226541053/Digital-Marketing-Mastery-Webinar-Social-Media-Design", "Wealth Webinar Slide System"],
     ["wealth-webinar-presentation", "A deck built for live delivery.", "https://www.behance.net/gallery/226690009/Wealth-Google-Slides-Webinar-Template", "Mastering Your Money Webinar"],
     ["mastering-your-money-webinar", "Financial lessons made easier to follow.", "https://www.behance.net/gallery/226745875/Mastering-Your-Money-Webinar-Template", "Mastering Digital Marketing Webinar"],
