@@ -4,7 +4,7 @@ import { projectSlotsForCategory, realProjectCount, workCategories } from "../da
 
 export const metadata: Metadata = {
   title: "Selected Work | Edsun Caldoza",
-  description: "Graphic design, web, presentation, app, book cover, and print work by Edsun Caldoza.",
+  description: "Explore graphic design, webinar presentations, web design, and video editing projects by Edsun Caldoza.",
 };
 
 export default function WorkPage() {
@@ -13,8 +13,8 @@ export default function WorkPage() {
       <main className="inner-page work-page" id="main-content">
         <section className="work-hero reveal" data-stagger>
           <p className="eyebrow">Project index · 2023 to 2026</p>
-          <h1>Graphic design, video,<br /><span>and digital work.</span></h1>
-          <p>A selection of campaign systems, presentations, landing pages, app concepts, print projects, and tutorial videos.</p>
+          <h1>See the work behind<br /><span>the ideas.</span></h1>
+          <p>Explore campaigns, presentations, web pages, app concepts, print pieces, and tutorial videos built to make the next message easier to understand.</p>
         </section>
         <nav className="work-index reveal" data-stagger aria-label="Project categories">
           {workCategories.map((category) => <a key={category.id} href={`#${category.id}`}><span>{category.number}</span>{category.title}</a>)}

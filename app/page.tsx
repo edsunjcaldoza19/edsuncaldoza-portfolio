@@ -5,13 +5,13 @@ import { SelectedWorkGallery } from "./project-gallery";
 
 export const metadata: Metadata = {
   title: "Edsun Caldoza | Graphic Designer & Video Editor",
-  description: "Graphic design, video editing, presentation design, and web work by Edsun Caldoza.",
+  description: "Explore graphic design, video editing, presentation design, and web work that helps messages land clearly.",
 };
 
 const expertise = [
-  { number: "01", title: "Graphic Design", text: "Campaign graphics, presentations, book covers, social content, and print materials built around a clear message.", tools: "Photoshop · Canva · Google Slides" },
-  { number: "02", title: "Video Editing", text: "Short-form edits, promotional videos, captions, titles, pacing, and simple motion graphics for digital platforms.", tools: "Short-form · Captions · Motion graphics" },
-  { number: "03", title: "Web & Digital", text: "Landing pages and responsive layouts that organize content and keep the next step easy to find.", tools: "Figma · WordPress · HTML · CSS" },
+  { number: "01", title: "Graphic Design", text: "If you need a message to land clearly, I create campaign graphics, presentations, book covers, social content, and print materials around it.", tools: "Photoshop · Canva · Google Slides" },
+  { number: "02", title: "Video Editing", text: "If your video needs to hold attention, I shape short edits with clear captions, titles, pacing, and simple motion graphics.", tools: "Short-form · Captions · Motion graphics" },
+  { number: "03", title: "Web & Digital", text: "If your audience needs a clear next step, I design landing pages and responsive layouts that make it easy to find.", tools: "Figma · WordPress · HTML · CSS" },
 ];
 
 const portfolioStats = [
@@ -61,11 +61,11 @@ export default function Home() {
         </section>
 
         <section className="home-about" id="about">
-          <SectionIntro number="01" label="About & expertise" title={<>Design that gets the<br />message across.</>} />
+          <SectionIntro number="01" label="About & expertise" title={<>Design that helps your<br />message land.</>} />
           <div className="about-expertise-grid">
             <div className="about-expertise-copy reveal">
-              <p className="about-lead">I’m Edsun, a graphic designer and video editor with seven years of experience across print, presentations, web design, and digital content.</p>
-              <p>I combine strong visual thinking with practical production skills. That means clear communication, organized files, thoughtful revisions, and work that is ready to use.</p>
+              <p className="about-lead">If you need a clear way to share your message, I bring seven years of experience across print, presentations, web design, and digital content.</p>
+              <p>You can expect thoughtful visual direction, organized files, useful revisions, and work that is ready to use.</p>
             </div>
             <div className="expertise-list reveal" data-stagger>
               {expertise.map((item) => (
@@ -93,17 +93,17 @@ export default function Home() {
         <section className="tools-section" id="tools">
           <SectionIntro number="04" label="Tools & workflow" title={<>Tools I use to get<br />the work done.</>} />
           <div className="tools-copy-row reveal">
-            <p>Here are the tools I use to move an idea from first layout to final delivery across print, video, and web.</p>
+            <p>Here are the tools I rely on to move your idea from first layout to final delivery across print, video, and web.</p>
           </div>
           <WorkflowToolsMarquee />
         </section>
 
         <section className="contact-close reveal" data-stagger id="contact">
           <div className="contact-topline"><p className="section-label"><span>05</span>Contact</p><span>Based in the Philippines · Available worldwide</span></div>
-          <h2>Let’s work<br /><span>together.</span></h2>
+          <h2>Have a project<br /><span>in mind?</span></h2>
           <div className="contact-bottom">
-            <p>I’m available for freelance projects and remote roles in graphic design, video editing, and web design.</p>
-            <a className="contact-email" href="mailto:edsunjcaldoza@gmail.com">Email me <span aria-hidden="true">↗</span></a>
+            <p>Tell me what you need to communicate. I’m available for freelance projects and remote roles in graphic design, video editing, and web design.</p>
+            <a className="contact-email" href="mailto:edsunjcaldoza@gmail.com">Start a conversation <span aria-hidden="true">↗</span></a>
           </div>
         </section>
       </main>

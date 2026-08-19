@@ -31,7 +31,7 @@
 - Keep all fifteen real projects connected to their reviewed external destination. Behance remains the destination for design work, while the three Video Editing projects use Dropbox previews and a clear “Watch Video” action. The Webinar Presentations gallery contains six completed projects, Web Design contains three, and Video Editing contains three completed CapCut tutorials with authentic frame-based thumbnails.
 - Provide native `/work#category` links in a no-JavaScript fallback. Use a short fade-and-rise dialog entrance and remove transforms under reduced motion.
 - Close Selected Work with a primary “View all Projects” button linking to Edsun’s Behance profile.
-- Follow the testimonial with section 04, Tools & workflow. Use the direct title “Tools I use to get the work done.” and the supporting line “Here are the tools I use to move an idea from first layout to final delivery across print, video, and web.” Add a continuous slow right-to-left carousel of locally stored, full-color workflow icons. Place each icon in a flat 72px circle on desktop and a 60px circle on mobile. Use white circle backgrounds in dark mode and transparent icon containers in light mode so the original brand colors remain visible. Keep one semantic tool list, mark the duplicate loop group as hidden from assistive technology, do not pause on hover or expose a pause control, and replace the marquee with a static wrapping grid under reduced motion.
+- Follow the testimonial with section 04, Tools & workflow. Use the direct title “Tools I use to get the work done.” and the supporting line “Here are the tools I rely on to move your idea from first layout to final delivery across print, video, and web.” Add a continuous slow right-to-left carousel of locally stored, full-color workflow icons. Place each icon in a flat 72px circle on desktop and a 60px circle on mobile. Use white circle backgrounds in dark mode and transparent icon containers in light mode so the original brand colors remain visible. Keep one semantic tool list, mark the duplicate loop group as hidden from assistive technology, do not pause on hover or expose a pause control, and replace the marquee with a static wrapping grid under reduced motion.
 - Renumber the oversized Contact close to section 05.
 
 ## Motion Override
@@ -45,7 +45,9 @@
 ## Copy Voice
 
 - Keep the homepage hero copy unchanged.
-- Use direct, specific language everywhere else. Prefer concrete deliverables, decisions, and outcomes over abstract phrases about craft or purpose.
+- Speak directly to visitors across the homepage, About, Work, and case studies. Use concise, active sentences that explain what they can explore, what Edsun can help them communicate, and how they can get in touch.
+- Balance client and recruiter needs: describe practical outcomes for client work while showing the range, reliability, and collaboration that remote teams expect.
+- Prefer concrete deliverables, decisions, and outcomes over abstract phrases about craft or purpose. Use “you” naturally, without forcing it into every sentence or making claims that the portfolio cannot support.
 - Present video editing through the three CapCut tutorial projects without adding unverified employers or performance metrics.
 - Preserve approved statistics and client quotations exactly.
 - Use vertical bars in page titles, the word `to` in date ranges, and no em dashes in user-facing copy.
