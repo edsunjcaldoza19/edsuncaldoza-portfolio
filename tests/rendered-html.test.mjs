@@ -83,12 +83,12 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /Design that gets the[s\S]*message across\./);
   assert.match(html, /graphic designer and video editor with seven years of experience/);
   assert.doesNotMatch(html, /Learn more about me/);
-  assert.match(html, /Selected work by[s\S]*discipline\./);
+  assert.match(html, /Get to know me[s\S]*through my work\./);
   const categories = [
-    ["01", "Graphic Design", "Campaigns, covers, and print pieces built to communicate clearly.", "3 projects", "/images/project-2.jpg"],
-    ["02", "Webinar Presentations", "Slide systems designed for structured, confident live delivery.", "6 projects", "/images/project-3.jpg"],
-    ["03", "Web Design", "Responsive pages and interfaces that keep the next step clear.", "3 projects", "/images/project-1.jpg"],
-    ["04", "Video Editing", "Tutorial edits and digital video content built around clear pacing and visual instruction.", "3 projects", "/images/video-001.webp"],
+    ["01", "Graphic Design", "See how I turn ideas into clear graphics, covers, and campaign pieces.", "3 projects", "/images/project-2.jpg"],
+    ["02", "Webinar Presentations", "Explore slide systems that help people follow the story and stay engaged.", "6 projects", "/images/project-3.jpg"],
+    ["03", "Web Design", "See how I organize content into pages and interfaces that guide the next step.", "3 projects", "/images/project-1.jpg"],
+    ["04", "Video Editing", "Watch tutorials and edits built to keep each idea clear and moving.", "3 projects", "/images/video-001.webp"],
   ];
   assert.equal((html.match(/class="work-category-card reveal"/g) ?? []).length, 4);
   assert.equal((html.match(/aria-haspopup="dialog"/g) ?? []).length, 4);
@@ -110,7 +110,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /Such a great experience working with Edsun/);
   assert.match(html, /Tools &amp; workflow/);
   assert.match(html, /Tools I use to get[\s\S]*the work done\./);
-  assert.match(html, /From first layouts to final edits, I use these tools to design, build, and deliver work across print, video, and web\./);
+  assert.match(html, /Here are the tools I use to move an idea from first layout to final delivery across print, video, and web\./);
   for (const tool of ["Adobe Photoshop", "Figma", "Canva", "CapCut", "WordPress", "HTML", "CSS", "JavaScript", "PHP", "MySQL", "Microsoft Office Suite", "Google Workspace", "Google Slides"]) {
     assert.match(html, new RegExp(tool));
   }

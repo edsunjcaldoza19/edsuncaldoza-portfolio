@@ -79,7 +79,7 @@ export default function Home() {
         </section>
 
         <section className="selected-work" id="selected-work">
-          <SectionIntro number="02" label="Selected work" title={<>Selected work by<br />discipline.</>} />
+          <SectionIntro number="02" label="Selected work" title={<>Get to know me<br />through my work.</>} />
           <SelectedWorkGallery />
           <a className="button button-primary selected-work-cta" href="https://www.behance.net/edsuncaldoza" target="_blank" rel="noreferrer">View all Projects <span aria-hidden="true">↗</span></a>
         </section>
@@ -93,7 +93,7 @@ export default function Home() {
         <section className="tools-section" id="tools">
           <SectionIntro number="04" label="Tools & workflow" title={<>Tools I use to get<br />the work done.</>} />
           <div className="tools-copy-row reveal">
-            <p>From first layouts to final edits, I use these tools to design, build, and deliver work across print, video, and web.</p>
+            <p>Here are the tools I use to move an idea from first layout to final delivery across print, video, and web.</p>
           </div>
           <WorkflowToolsMarquee />
         </section>
