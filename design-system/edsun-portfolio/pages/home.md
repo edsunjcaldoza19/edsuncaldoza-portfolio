@@ -33,6 +33,7 @@
 - Close Selected Work with a primary “View all Projects” button linking to Edsun’s Behance profile.
 - Follow the testimonial with section 04, Tools & workflow. Use the direct title “Tools I use to get the work done.” and the supporting line “Here are the tools I rely on to move your idea from first layout to final delivery across print, video, and web.” Add a continuous slow right-to-left carousel of locally stored, full-color workflow icons. Place each icon in a flat 72px circle on desktop and a 60px circle on mobile. Use white circle backgrounds in dark mode and transparent icon containers in light mode so the original brand colors remain visible. Keep one semantic tool list, mark the duplicate loop group as hidden from assistive technology, do not pause on hover or expose a pause control, and replace the marquee with a static wrapping grid under reduced motion.
 - Renumber the oversized Contact close to section 05.
+- Keep the oversized Contact heading readable with a `.92` desktop line-height and `.94` mobile line-height so its two lines never overlap.
 
 ## Motion Override
 

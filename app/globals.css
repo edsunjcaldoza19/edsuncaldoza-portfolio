@@ -313,7 +313,7 @@ html.dialog-open, html.dialog-open body { overflow: hidden; }
 .home-about[id], .selected-work[id], .tools-section[id], .contact-close[id] { scroll-margin-top: calc(var(--nav-height) + 24px); }
 .contact-topline { display: flex; justify-content: space-between; align-items: center; gap: 32px; }
 .contact-topline > span { color: var(--muted); font-size: 11px; }
-.contact-close h2 { margin: clamp(48px, 6vw, 70px) 0 clamp(40px, 5vw, 64px); font-size: clamp(76px, 12vw, 176px); line-height: .78; letter-spacing: -.085em; font-weight: 620; text-wrap: balance; }
+.contact-close h2 { margin: clamp(48px, 6vw, 70px) 0 clamp(40px, 5vw, 64px); font-size: clamp(76px, 12vw, 176px); line-height: .92; letter-spacing: -.085em; font-weight: 620; text-wrap: balance; }
 .contact-close h2 span { color: var(--accent); }
 .contact-bottom { display: flex; justify-content: space-between; align-items: end; gap: 64px; }
 .contact-bottom p { max-width: 540px; margin: 0; color: var(--muted); font-size: 17px; }
@@ -497,7 +497,7 @@ html[data-motion="ready"] .reveal[data-stagger].is-visible > * { opacity: 1; tra
   .tool-tile img { width: 40px; height: 40px; }
   .contact-topline { align-items: start; }
   .contact-topline > span { max-width: 145px; text-align: right; }
-  .contact-close h2 { font-size: clamp(60px, 17vw, 88px); line-height: .82; }
+  .contact-close h2 { font-size: clamp(60px, 17vw, 88px); line-height: .94; }
   .contact-bottom { flex-direction: column; align-items: stretch; gap: 32px; }
   .contact-email { width: 100%; }
   .footer { padding: 28px 0; }

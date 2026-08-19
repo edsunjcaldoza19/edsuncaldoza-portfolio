@@ -268,7 +268,8 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(css, /\.about-story div p, \.case-narrative div > p[^}]*max-width:\s*var\(--reading\)[^}]*font-size:\s*clamp\(16px, 1\.4vw, 17px\)/s);
   assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.work-hero h1, \.about-hero h1 \{ font-size:\s*clamp\(44px, 10vw, 56px\)/);
   assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.case-heading h1 \{ font-size:\s*clamp\(44px, 10vw, 56px\)/);
-  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.contact-close h2 \{ font-size:\s*clamp\(60px, 17vw, 88px\)/);
+  assert.match(css, /\.contact-close h2 \{[^}]*font-size:\s*clamp\(76px, 12vw, 176px\)[^}]*line-height:\s*\.92/s);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.contact-close h2 \{ font-size:\s*clamp\(60px, 17vw, 88px\); line-height:\s*\.94;/);
   assert.doesNotMatch(css, /\.section-intro h2 \{ font-size:\s*48px; \}/);
 });
 
