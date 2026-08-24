@@ -120,42 +120,66 @@ test("all project categories and projects are visible directly on the homepage",
 });
 
 test("horizontal project lanes implement responsive and accessible browsing", async () => {
-  const [gallery, css] = await Promise.all([
+  const [gallery, css, packageJson] = await Promise.all([
     readFile(new URL("../app/project-gallery.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
-  assert.match(gallery, /projectCount > 3/);
+  assert.match(packageJson, /"embla-carousel-react": "\^8\.6\.0"/);
+  assert.match(packageJson, /"lucide-react": "\^1\.34\.0"/);
+  assert.match(gallery, /import useEmblaCarousel from "embla-carousel-react"/);
+  assert.match(gallery, /import \{ ChevronLeft, ChevronRight \} from "lucide-react"/);
+  assert.match(gallery, /align: "start"/);
+  assert.match(gallery, /containScroll: "trimSnaps"/);
+  assert.match(gallery, /loop: false/);
+  assert.match(gallery, /slidesToScroll: 1/);
+  assert.match(gallery, /"\(prefers-reduced-motion: reduce\)": \{ duration: 0 \}/);
   assert.match(gallery, /tabIndex=\{0\}/);
   assert.match(gallery, /role="region"/);
   assert.match(gallery, /event\.key === "ArrowLeft"/);
   assert.match(gallery, /event\.key === "ArrowRight"/);
-  assert.match(gallery, /track\.scrollBy/);
-  assert.match(gallery, /cards\[1\]\.offsetLeft - first\.offsetLeft/);
+  assert.match(gallery, /emblaApi\.scrollPrev\(jump\)/);
+  assert.match(gallery, /emblaApi\.scrollNext\(jump\)/);
+  assert.match(gallery, /scrollSnapList\(\)\.length > 1/);
+  assert.match(gallery, /canScrollPrev\(\)/);
+  assert.match(gallery, /canScrollNext\(\)/);
+  assert.match(gallery, /emblaApi\.on\("select", syncCarouselState\)/);
+  assert.match(gallery, /emblaApi\.on\("reInit", syncCarouselState\)/);
+  assert.match(gallery, /emblaApi\.off\("select", syncCarouselState\)/);
+  assert.match(gallery, /emblaApi\.off\("reInit", syncCarouselState\)/);
   assert.match(gallery, /prefers-reduced-motion: reduce/);
   assert.match(gallery, /ResizeObserver/);
-  assert.match(gallery, /requestAnimationFrame/);
-  assert.match(gallery, /addEventListener\("scroll", scheduleEdgeUpdate, \{ passive: true \}\)/);
   assert.match(gallery, /--project-media-center/);
   assert.match(gallery, /mediaBox\.top - shellBox\.top \+ mediaBox\.height \/ 2/);
-  assert.match(gallery, /disabled=\{!edges\.canPrevious\}/);
-  assert.match(gallery, /tabIndex=\{edges\.canPrevious \? 0 : -1\}/);
-  assert.match(gallery, /aria-hidden=\{edges\.canPrevious \? undefined : true\}/);
-  assert.match(gallery, /disabled=\{!edges\.canNext\}/);
+  assert.match(gallery, /\{carouselState\.hasOverflow && \(/);
+  assert.match(gallery, /disabled=\{!carouselState\.canPrevious\}/);
+  assert.match(gallery, /tabIndex=\{carouselState\.canPrevious \? 0 : -1\}/);
+  assert.match(gallery, /aria-hidden=\{carouselState\.canPrevious \? undefined : true\}/);
+  assert.match(gallery, /disabled=\{!carouselState\.canNext\}/);
+  assert.match(gallery, /<ChevronLeft[^>]*size=\{22\}/);
+  assert.match(gallery, /<ChevronRight[^>]*size=\{22\}/);
+  assert.doesNotMatch(gallery, /track\.scrollBy|cards\[1\]\.offsetLeft|addEventListener\("scroll"|scheduleEdgeUpdate/);
   assert.doesNotMatch(gallery, /Project category|category\.number/);
-  assert.doesNotMatch(gallery, /<dialog|showModal|aria-haspopup|dialog-open|lastTriggerRef|<noscript>/);
+  assert.doesNotMatch(gallery, /project-carousel-fade|<dialog|showModal|aria-haspopup|dialog-open|lastTriggerRef|<noscript>/);
 
   assert.match(css, /\.project-category-header[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto/s);
   assert.match(css, /\.project-carousel-controls[^}]*position:\s*absolute[^}]*top:\s*var\(--project-media-center, 0\)/s);
   assert.match(css, /\.project-carousel-controls button[^}]*position:\s*absolute[^}]*width:\s*48px[^}]*height:\s*48px[^}]*border-radius:\s*50%/s);
   assert.match(css, /\.project-carousel-controls button\.is-hidden[^}]*visibility:\s*hidden[^}]*opacity:\s*0[^}]*pointer-events:\s*none/s);
   assert.match(css, /\.project-carousel-shell[^}]*overflow:\s*hidden/s);
-  assert.match(css, /\.project-carousel-track[^}]*grid-auto-columns:\s*calc\(\(100% - 72px\) \/ 3\.4\)[^}]*overflow-x:\s*auto[^}]*scroll-snap-type:\s*x proximity/s);
-  assert.match(css, /\.project-category-row\[data-project-count="3"\] \.project-carousel-track[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)[^}]*overflow-x:\s*visible/s);
-  assert.match(css, /@media \(max-width:\s*1024px\)[\s\S]*?grid-auto-columns:\s*calc\(\(100% - 48px\) \/ 2\.25\)/);
-  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?grid-auto-columns:\s*min\(82vw, 360px\)/);
-  assert.match(css, /data-can-previous="true"[\s\S]*project-carousel-fade-left[\s\S]*data-can-next="true"[\s\S]*project-carousel-fade-right/);
-  assert.match(css, /\.project-carousel-fade[^}]*width:\s*clamp\(40px, 4\.5vw, 64px\)/s);
+  assert.match(css, /\.project-carousel-viewport[^}]*overflow-x:\s*auto[^}]*scroll-snap-type:\s*x proximity/s);
+  assert.match(css, /data-carousel-ready="true"[^}]*\.project-carousel-viewport[^}]*overflow:\s*hidden/s);
+  assert.match(css, /\.project-carousel-track[^}]*display:\s*flex[^}]*gap:\s*24px[^}]*touch-action:\s*pan-y pinch-zoom/s);
+  assert.match(css, /\.gallery-project[^}]*flex:\s*0 0 calc\(\(100% - 72px\) \/ 3\.4\)/s);
+  assert.match(css, /data-project-count="3"[^}]*\.gallery-project[^}]*flex-basis:\s*calc\(\(100% - 48px\) \/ 3\)/s);
+  assert.match(css, /@media \(max-width:\s*1024px\)[\s\S]*?flex-basis:\s*calc\(\(100% - 24px\) \/ 2\)/);
+  assert.match(css, /@media \(max-width:\s*767px\)[\s\S]*?flex-basis:\s*100%/);
+  assert.match(css, /data-can-previous="false"\]\[data-can-next="true"\][^}]*-webkit-mask-image:[^}]*transparent 100%/s);
+  assert.match(css, /data-can-previous="true"\]\[data-can-next="true"\][^}]*-webkit-mask-image:[^}]*transparent 0[^}]*transparent 100%/s);
+  assert.match(css, /data-can-previous="true"\]\[data-can-next="false"\][^}]*-webkit-mask-image:[^}]*transparent 0/s);
+  assert.match(css, /@supports not[\s\S]*?\.project-carousel-shell::before[^}]*left:\s*-1px[\s\S]*?\.project-carousel-shell::after[^}]*right:\s*-1px/);
+  assert.doesNotMatch(css, /\.project-carousel-fade|grid-auto-columns:\s*calc\(\(100% - 48px\) \/ 2\.25\)|grid-auto-columns:\s*min\(82vw, 360px\)/);
   assert.doesNotMatch(css, /project-gallery-dialog|dialog-open|work-category-card|category-open/);
 });
 

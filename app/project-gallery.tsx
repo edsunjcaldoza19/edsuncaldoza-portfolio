@@ -2,6 +2,8 @@
 
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex -- Scroll lanes are focusable regions with arrow-key browsing. */
 
+import useEmblaCarousel from "embla-carousel-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import {
   projectActionLabel,
@@ -13,6 +15,8 @@ import {
   type ProjectSlot,
   type WorkCategory,
 } from "./data";
+
+type EmblaApi = NonNullable<ReturnType<typeof useEmblaCarousel>[1]>;
 
 function GallerySlot({ slot }: { slot: ProjectSlot }) {
   if (slot.kind === "placeholder") {
@@ -55,75 +59,74 @@ function GallerySlot({ slot }: { slot: ProjectSlot }) {
 function CategoryProjectRow({ category }: { category: WorkCategory }) {
   const slots = projectSlotsForCategory(category.id);
   const projectCount = realProjectCount(category.id);
-  const hasControls = projectCount > 3;
   const shellRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const frameRef = useRef<number | null>(null);
-  const [edges, setEdges] = useState({ canPrevious: false, canNext: hasControls });
-
-  const updateEdges = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const maximum = Math.max(0, track.scrollWidth - track.clientWidth);
-    const next = {
-      canPrevious: track.scrollLeft > 2,
-      canNext: track.scrollLeft < maximum - 2,
-    };
-    setEdges((current) => current.canPrevious === next.canPrevious && current.canNext === next.canNext ? current : next);
-  }, []);
+  const [viewportRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    containScroll: "trimSnaps",
+    dragFree: false,
+    loop: false,
+    skipSnaps: false,
+    slidesToScroll: 1,
+    breakpoints: {
+      "(prefers-reduced-motion: reduce)": { duration: 0 },
+    },
+  });
+  const [carouselState, setCarouselState] = useState({
+    isReady: false,
+    hasOverflow: projectCount > 3,
+    canPrevious: false,
+    canNext: projectCount > 3,
+  });
 
   const updateMediaCenter = useCallback(() => {
     const shell = shellRef.current;
-    const media = trackRef.current?.querySelector<HTMLElement>(".gallery-project-image, .gallery-placeholder-visual");
+    const media = shell?.querySelector<HTMLElement>(".gallery-project-image, .gallery-placeholder-visual");
     if (!shell || !media) return;
     const shellBox = shell.getBoundingClientRect();
     const mediaBox = media.getBoundingClientRect();
     shell.style.setProperty("--project-media-center", `${mediaBox.top - shellBox.top + mediaBox.height / 2}px`);
   }, []);
 
-  const scheduleEdgeUpdate = useCallback(() => {
-    if (frameRef.current !== null) return;
-    frameRef.current = window.requestAnimationFrame(() => {
-      frameRef.current = null;
-      updateEdges();
+  const syncCarouselState = useCallback((api: EmblaApi) => {
+    setCarouselState({
+      isReady: true,
+      hasOverflow: api.scrollSnapList().length > 1,
+      canPrevious: api.canScrollPrev(),
+      canNext: api.canScrollNext(),
     });
-  }, [updateEdges]);
+  }, []);
 
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    updateMediaCenter();
-    scheduleEdgeUpdate();
-    track.addEventListener("scroll", scheduleEdgeUpdate, { passive: true });
-    const updateLayout = () => {
-      updateMediaCenter();
-      scheduleEdgeUpdate();
-    };
-    window.addEventListener("resize", updateLayout, { passive: true });
-
-    const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateLayout);
-    resizeObserver?.observe(track);
-    Array.from(track.children).forEach((card) => resizeObserver?.observe(card));
+    if (!emblaApi) return;
+    const initialStateFrame = window.requestAnimationFrame(() => syncCarouselState(emblaApi));
+    emblaApi.on("select", syncCarouselState);
+    emblaApi.on("reInit", syncCarouselState);
 
     return () => {
-      track.removeEventListener("scroll", scheduleEdgeUpdate);
-      window.removeEventListener("resize", updateLayout);
-      resizeObserver?.disconnect();
-      if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
+      window.cancelAnimationFrame(initialStateFrame);
+      emblaApi.off("select", syncCarouselState);
+      emblaApi.off("reInit", syncCarouselState);
     };
-  }, [scheduleEdgeUpdate, updateMediaCenter]);
+  }, [emblaApi, syncCarouselState]);
+
+  useEffect(() => {
+    const shell = shellRef.current;
+    const media = shell?.querySelector<HTMLElement>(".gallery-project-image, .gallery-placeholder-visual");
+    if (!shell || !media) return;
+
+    updateMediaCenter();
+    const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateMediaCenter);
+    resizeObserver?.observe(shell);
+    resizeObserver?.observe(media);
+    return () => resizeObserver?.disconnect();
+  }, [updateMediaCenter]);
 
   const moveOneCard = useCallback((direction: -1 | 1) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const cards = Array.from(track.querySelectorAll<HTMLElement>(".gallery-project"));
-    const first = cards[0];
-    if (!first) return;
-    const measuredStep = cards[1] ? cards[1].offsetLeft - first.offsetLeft : first.offsetWidth;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    track.scrollBy({ left: measuredStep * direction, behavior: reducedMotion ? "auto" : "smooth" });
-  }, []);
+    if (!emblaApi) return;
+    const jump = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (direction < 0) emblaApi.scrollPrev(jump);
+    else emblaApi.scrollNext(jump);
+  }, [emblaApi]);
 
   const handleTrackKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
@@ -139,10 +142,12 @@ function CategoryProjectRow({ category }: { category: WorkCategory }) {
 
   return (
     <section
-      className={`project-category-row${hasControls ? " project-category-row-overflow" : ""}`}
+      className={`project-category-row${carouselState.hasOverflow ? " project-category-row-overflow" : ""}`}
       data-project-count={projectCount}
-      data-can-previous={edges.canPrevious}
-      data-can-next={edges.canNext}
+      data-carousel-ready={carouselState.isReady}
+      data-carousel-overflow={carouselState.hasOverflow}
+      data-can-previous={carouselState.canPrevious}
+      data-can-next={carouselState.canNext}
       aria-labelledby={`${category.id}-title`}
     >
       <header className="project-category-header reveal" data-stagger>
@@ -157,41 +162,41 @@ function CategoryProjectRow({ category }: { category: WorkCategory }) {
 
       <div className="project-carousel-shell" ref={shellRef}>
         <div
-          className="project-carousel-track"
-          ref={trackRef}
+          className="project-carousel-viewport"
+          ref={viewportRef}
           tabIndex={0}
           role="region"
           aria-label={`${category.title} projects. Use the left and right arrow keys to browse.`}
           onKeyDown={handleTrackKeyDown}
         >
-          {slots.map((slot) => <GallerySlot key={slot.kind === "project" ? slot.project.slug : slot.id} slot={slot} />)}
+          <div className="project-carousel-track">
+            {slots.map((slot) => <GallerySlot key={slot.kind === "project" ? slot.project.slug : slot.id} slot={slot} />)}
+          </div>
         </div>
-        {hasControls && (
-          <div className="project-carousel-controls" aria-label={`${category.title} carousel controls`}>
+        {carouselState.hasOverflow && (
+          <div className="project-carousel-controls" role="group" aria-label={`${category.title} carousel controls`}>
             <button
-              className={`project-carousel-previous${edges.canPrevious ? "" : " is-hidden"}`}
+              className={`project-carousel-previous${carouselState.canPrevious ? "" : " is-hidden"}`}
               type="button"
               onClick={() => moveOneCard(-1)}
-              disabled={!edges.canPrevious}
-              tabIndex={edges.canPrevious ? 0 : -1}
-              aria-hidden={edges.canPrevious ? undefined : true}
+              disabled={!carouselState.canPrevious}
+              tabIndex={carouselState.canPrevious ? 0 : -1}
+              aria-hidden={carouselState.canPrevious ? undefined : true}
               aria-label={`Show previous ${category.title} project`}
             >
-              <span aria-hidden="true">←</span>
+              <ChevronLeft aria-hidden="true" size={22} strokeWidth={2} />
             </button>
             <button
               className="project-carousel-next"
               type="button"
               onClick={() => moveOneCard(1)}
-              disabled={!edges.canNext}
+              disabled={!carouselState.canNext}
               aria-label={`Show next ${category.title} project`}
             >
-              <span aria-hidden="true">→</span>
+              <ChevronRight aria-hidden="true" size={22} strokeWidth={2} />
             </button>
           </div>
         )}
-        <span className="project-carousel-fade project-carousel-fade-left" aria-hidden="true" />
-        <span className="project-carousel-fade project-carousel-fade-right" aria-hidden="true" />
       </div>
     </section>
   );
