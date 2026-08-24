@@ -1,13 +1,6 @@
 import Link from "next/link";
-import { CSSProperties, ReactNode } from "react";
+import { ReactNode } from "react";
 import { NavigationController, ThemeToggle } from "./client-components";
-import {
-  projectActionLabel,
-  projectExternalPlatform,
-  projectExternalUrl,
-  type Project,
-  type ProjectSlot,
-} from "./data";
 
 const email = "mailto:edsunjcaldoza@gmail.com";
 const navigationSections = [
@@ -93,50 +86,6 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
-
-export function PageShell({ children, active }: { children: ReactNode; active?: string }) {
-  return <><Navigation active={active} />{children}<Footer /></>;
-}
-
-export function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
-  const number = String(index + 1).padStart(2, "0");
-  const externalUrl = projectExternalUrl(project);
-  const projectUrl = externalUrl ?? `/work/${project.slug}`;
-  const externalPlatform = projectExternalPlatform(project);
-  const actionLabel = projectActionLabel(project);
-  const externalLinkProps = externalUrl ? { target: "_blank", rel: "noreferrer" } : {};
-  return (
-    <article className="project-card reveal" data-reveal="card" style={{ "--motion-order": index % 2 } as CSSProperties}>
-      <a className="project-image-wrap" href={projectUrl} aria-label={`${actionLabel}: ${project.title}${externalPlatform ? ` on ${externalPlatform}` : ""}`} {...externalLinkProps}>
-        {project.video && <span className="play-pill">Video</span>}
-        <img src={project.image} alt={project.imageAlt ?? `${project.title} project preview`} loading={index > 1 ? "lazy" : "eager"} />
-        <span className="project-open" aria-hidden="true">↗</span>
-      </a>
-      <div className="project-meta">
-        <div className="project-overline"><span>{number}</span><span>{project.kicker}</span></div>
-        <h3><a href={projectUrl} {...externalLinkProps}>{project.title}</a></h3>
-        <p className="project-summary">{project.summary}</p>
-        <a className="text-link" href={projectUrl} {...externalLinkProps}>{actionLabel} <span aria-hidden="true">↗</span></a>
-      </div>
-    </article>
-  );
-}
-
-export function ProjectSlotCard({ slot, index = 0 }: { slot: ProjectSlot; index?: number }) {
-  if (slot.kind === "project") return <ProjectCard project={slot.project} index={index} />;
-
-  const number = String(index + 1).padStart(2, "0");
-  return (
-    <article className="project-card project-placeholder reveal" data-reveal="card" style={{ "--motion-order": index % 2 } as CSSProperties}>
-      <div className="project-placeholder-media" aria-hidden="true"><span>Coming soon</span></div>
-      <div className="project-meta">
-        <div className="project-overline"><span>{number}</span><span>Future work</span></div>
-        <h3>{slot.title}</h3>
-        <p className="project-summary">{slot.summary}</p>
-      </div>
-    </article>
   );
 }
 

@@ -10,7 +10,7 @@
 
 1. Oversized editorial type establishes a distinctive point of view without competing with project media.
 2. Cobalt is the only accent; all other surfaces remain charcoal or neutral.
-3. Numbered sections, thin borders, and generous whitespace create rhythm across every route.
+3. Numbered sections, thin borders, and generous whitespace create rhythm across the one-page experience.
 4. Motion follows a restrained editorial system: a coordinated hero entrance, 12–16px section and card reveals, short child staggers, subtle media scaling, and direct interaction feedback. Every effect has a full reduced-motion fallback.
 5. Every interactive control is keyboard accessible, visibly focused, and at least 44px tall.
 
@@ -37,15 +37,16 @@ Use semantic responsive spacing tokens rather than route-specific values:
 - Section-heading gap: `clamp(48px, 5vw, 72px)`, reduced to `40px` on mobile.
 - Project-card row gap: `clamp(64px, 6vw, 88px)`, reduced to `56px` on mobile.
 
-Display typography scales continuously between breakpoints. Homepage section headings use `48–80px` on larger screens and `36–48px` on mobile. Work and About page headings use `56–112px`, case-study headings use `56–124px`, and both reduce to `44–56px` on mobile. Descriptive body copy remains at least `16px` with a `1.6–1.75` line-height.
+Display typography scales continuously between breakpoints. Homepage section headings use `48–80px` on larger screens and `36–48px` on mobile. Descriptive body copy remains at least `16px` with a `1.6–1.75` line-height.
 
 ## Components
 
-- Navigation: full-width sticky bar at the top that morphs into a compact 960px rectangular bar after 32px. Its About, Work, Tools, and Contact destinations use native `/#section` anchors in the header, mobile menu, and footer. Same-page selections update browser history and scroll to the target; cross-route selections use normal browser navigation back to the homepage. Back, Forward, initial hashes, reduced motion, and mobile-menu closing remain supported. Offset homepage targets by `calc(var(--nav-height) + 24px)` so the sticky bar never hides a heading. Full About and Work pages remain available through content links. A 2px cobalt bar along the bottom edge reports document scroll progress; in the rounded state, inset the track by the corner radius so it never crosses the shell edge. Use an 8px nested radius for the résumé control and 7px for the mobile disclosure control; the current section uses text emphasis and `aria-current="location"` rather than a competing underline.
+- Navigation: full-width sticky bar at the top that morphs into a compact 960px rectangular bar after 32px. Its About, Work, Tools, and Contact destinations use native `/#section` anchors in the header, mobile menu, and footer. Same-page selections update browser history and scroll to the target. Back, Forward, initial hashes, reduced motion, and mobile-menu closing remain supported. Offset homepage targets by `calc(var(--nav-height) + 24px)` so the sticky bar never hides a heading. A 2px cobalt bar along the bottom edge reports document scroll progress; in the rounded state, inset the track by the corner radius so it never crosses the shell edge. Use an 8px nested radius for the résumé control and 7px for the mobile disclosure control; the current section uses text emphasis and `aria-current="location"` rather than a competing underline.
 - Theme control: dark by default, persisted in `edsun-theme`, initialized before paint, and exposed as a labeled button.
 - Buttons: 48px minimum height, square editorial edges, cobalt primary and bordered secondary styles.
-- Category cards: a two-column homepage grid opens a native, accessible project-gallery dialog. Within each card, align the title, description, and project count to one left edge; position the two-digit category number independently at the upper-right of the copy area. The dialog uses three columns on desktop, two on tablet, one on mobile, a labeled 44px close control, a strong modal scrim, native focus containment, Escape and backdrop dismissal, and trigger-focus restoration.
-- Project cards: 4:3 media, project index, category, outcome, and a destination-specific action. Use “View Project” for Behance work and “Watch Video” for Dropbox-hosted videos, with the external provider included in accessible labels. In multi-column galleries, use equal-height copy areas, reserve two title lines, and anchor actions to the bottom for clean row alignment. Remove reserved title height in single-column layouts.
+- Project categories: four visible homepage rows place the category number, name, and description on the left and the completed-project count on the right. Each row exposes its work immediately without a modal.
+- Horizontal project lanes: use three equal cards for three-project categories on desktop. Longer rows show three complete cards plus a partial fourth, with state-aware edge fades and paired 48px circular controls. Tablet and mobile keep native touch scrolling, proximity snapping, partial-card discovery, keyboard access, and page-level overflow containment. Controls move one card and appear only when a category has more than three projects.
+- Project cards: 4:3 media, category, year, outcome, and a destination-specific action. Use “View Project” for Behance work and “Watch Video” for Dropbox-hosted videos, with the external provider included in accessible labels. Use equal-height copy areas, reserve two title lines in multi-card layouts, and anchor actions to the bottom for clean alignment. Remove reserved title height on mobile.
 - Scrollbars: use the cobalt accent on a transparent track across the document and internal scroll regions. Keep the thumb narrow with a restrained 5px radius and preserve native keyboard, wheel, and touch scrolling.
 - Sections: visible two-digit numbering, thin dividers, and large display headings.
 - Focus: 3px cobalt-family outline with 4px offset on every interactive element.
@@ -65,7 +66,7 @@ Display typography scales continuously between breakpoints. Homepage section hea
 1. Impact-led hero with a supporting rotating role and grayscale portrait
 2. Compact proof strip
 3. About and core expertise
-4. Four project categories with an accessible gallery dialog
+4. Four visible project categories with horizontal project lanes
 5. Full-width client testimonial
 6. Workflow tools marquee
 7. Oversized contact close
@@ -77,6 +78,12 @@ Display typography scales continuously between breakpoints. Homepage section hea
 - Parallax, cursor tracking outside the homepage hero spotlight, scroll-jacking, animation libraries, or motion without meaning
 - Hover-only meaning, layout-shifting effects, and hidden focus rings
 - Long résumé content on the homepage
+
+## One-Page Routing
+
+- The homepage is the complete portfolio experience.
+- `/about` permanently redirects to `/#about` and `/work` permanently redirects to `/#selected-work`.
+- Known `/work/[slug]` routes permanently redirect to the project’s reviewed Behance or Dropbox destination. Unknown slugs retain the not-found response.
 
 ## Delivery Checks
 
