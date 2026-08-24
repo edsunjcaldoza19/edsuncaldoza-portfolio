@@ -173,8 +173,10 @@ test("horizontal project lanes implement responsive and accessible browsing", as
   assert.match(css, /\.project-carousel-track[^}]*display:\s*flex[^}]*gap:\s*24px[^}]*touch-action:\s*pan-y pinch-zoom/s);
   assert.match(css, /\.gallery-project[^}]*flex:\s*0 0 calc\(\(100% - 72px\) \/ 3\.4\)/s);
   assert.match(css, /data-project-count="3"[^}]*\.gallery-project[^}]*flex-basis:\s*calc\(\(100% - 48px\) \/ 3\)/s);
-  assert.match(css, /@media \(max-width:\s*1024px\)[\s\S]*?flex-basis:\s*calc\(\(100% - 24px\) \/ 2\)/);
-  assert.match(css, /@media \(max-width:\s*767px\)[\s\S]*?flex-basis:\s*100%/);
+  assert.match(css, /@media \(max-width:\s*1024px\)[\s\S]*?flex-basis:\s*calc\(\(100% - 48px\) \/ 2\.3\)/);
+  assert.match(css, /@media \(max-width:\s*767px\)[\s\S]*?flex-basis:\s*calc\(\(100% - 16px\) \/ 1\.2\)/);
+  assert.doesNotMatch(css, /@media \(max-width:\s*1024px\)[\s\S]*?flex-basis:\s*calc\(\(100% - 24px\) \/ 2\)/);
+  assert.doesNotMatch(css, /@media \(max-width:\s*767px\)[\s\S]*?flex-basis:\s*100%/);
   assert.match(css, /data-can-previous="false"\]\[data-can-next="true"\][^}]*-webkit-mask-image:[^}]*transparent 100%/s);
   assert.match(css, /data-can-previous="true"\]\[data-can-next="true"\][^}]*-webkit-mask-image:[^}]*transparent 0[^}]*transparent 100%/s);
   assert.match(css, /data-can-previous="true"\]\[data-can-next="false"\][^}]*-webkit-mask-image:[^}]*transparent 0/s);
