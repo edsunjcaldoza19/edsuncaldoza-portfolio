@@ -88,10 +88,10 @@ test("all project categories and projects are visible directly on the homepage",
   const response = await render();
   const html = await response.text();
   const categories = [
-    ["01", "Graphic Design", "3"],
-    ["02", "Webinar Presentations", "6"],
-    ["03", "Web Design", "3"],
-    ["04", "Video Editing", "3"],
+    ["Graphic Design", "3"],
+    ["Webinar Presentations", "6"],
+    ["Web Design", "3"],
+    ["Video Editing", "3"],
   ];
 
   assert.equal((html.match(/class="project-category-row(?: project-category-row-overflow)?"/g) ?? []).length, 4);
@@ -100,13 +100,14 @@ test("all project categories and projects are visible directly on the homepage",
   assert.equal((html.match(/class="project-carousel-controls"/g) ?? []).length, 1);
   assert.doesNotMatch(html, /<dialog|aria-haspopup="dialog"|Close project gallery|dialog-open|<noscript>/);
 
-  for (const [number, title, count] of categories) {
-    assert.match(html, new RegExp(`>${number}<`));
+  assert.doesNotMatch(html, /Project category/);
+
+  for (const [title, count] of categories) {
     assert.match(html, new RegExp(escapeRegExp(title)));
     assert.match(html, new RegExp(`${count}(?:<!-- -->)?\\s*(?:<!-- -->)?projects`));
   }
 
-  assert.match(html, /disabled=""[^>]*aria-label="Show previous Webinar Presentations project"/);
+  assert.match(html, /project-carousel-previous is-hidden[^>]*disabled=""[^>]*tabindex="-1"[^>]*aria-hidden="true"/);
   assert.match(html, /aria-label="Show next Webinar Presentations project"/);
   assert.equal((html.match(/>View Project(?:<!-- -->)?\s*<span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 12);
   assert.equal((html.match(/>Watch Video(?:<!-- -->)?\s*<span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 3);
@@ -135,18 +136,26 @@ test("horizontal project lanes implement responsive and accessible browsing", as
   assert.match(gallery, /ResizeObserver/);
   assert.match(gallery, /requestAnimationFrame/);
   assert.match(gallery, /addEventListener\("scroll", scheduleEdgeUpdate, \{ passive: true \}\)/);
+  assert.match(gallery, /--project-media-center/);
+  assert.match(gallery, /mediaBox\.top - shellBox\.top \+ mediaBox\.height \/ 2/);
   assert.match(gallery, /disabled=\{!edges\.canPrevious\}/);
+  assert.match(gallery, /tabIndex=\{edges\.canPrevious \? 0 : -1\}/);
+  assert.match(gallery, /aria-hidden=\{edges\.canPrevious \? undefined : true\}/);
   assert.match(gallery, /disabled=\{!edges\.canNext\}/);
+  assert.doesNotMatch(gallery, /Project category|category\.number/);
   assert.doesNotMatch(gallery, /<dialog|showModal|aria-haspopup|dialog-open|lastTriggerRef|<noscript>/);
 
   assert.match(css, /\.project-category-header[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto/s);
-  assert.match(css, /\.project-carousel-controls button[^}]*width:\s*48px[^}]*height:\s*48px[^}]*border-radius:\s*50%/s);
+  assert.match(css, /\.project-carousel-controls[^}]*position:\s*absolute[^}]*top:\s*var\(--project-media-center, 0\)/s);
+  assert.match(css, /\.project-carousel-controls button[^}]*position:\s*absolute[^}]*width:\s*48px[^}]*height:\s*48px[^}]*border-radius:\s*50%/s);
+  assert.match(css, /\.project-carousel-controls button\.is-hidden[^}]*visibility:\s*hidden[^}]*opacity:\s*0[^}]*pointer-events:\s*none/s);
   assert.match(css, /\.project-carousel-shell[^}]*overflow:\s*hidden/s);
-  assert.match(css, /\.project-carousel-track[^}]*grid-auto-columns:\s*calc\(\(100% - 72px\) \/ 3\.25\)[^}]*overflow-x:\s*auto[^}]*scroll-snap-type:\s*x proximity/s);
+  assert.match(css, /\.project-carousel-track[^}]*grid-auto-columns:\s*calc\(\(100% - 72px\) \/ 3\.4\)[^}]*overflow-x:\s*auto[^}]*scroll-snap-type:\s*x proximity/s);
   assert.match(css, /\.project-category-row\[data-project-count="3"\] \.project-carousel-track[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)[^}]*overflow-x:\s*visible/s);
   assert.match(css, /@media \(max-width:\s*1024px\)[\s\S]*?grid-auto-columns:\s*calc\(\(100% - 48px\) \/ 2\.25\)/);
   assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?grid-auto-columns:\s*min\(82vw, 360px\)/);
   assert.match(css, /data-can-previous="true"[\s\S]*project-carousel-fade-left[\s\S]*data-can-next="true"[\s\S]*project-carousel-fade-right/);
+  assert.match(css, /\.project-carousel-fade[^}]*width:\s*clamp\(40px, 4\.5vw, 64px\)/s);
   assert.doesNotMatch(css, /project-gallery-dialog|dialog-open|work-category-card|category-open/);
 });
 

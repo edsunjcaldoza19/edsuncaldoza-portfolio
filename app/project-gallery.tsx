@@ -56,6 +56,7 @@ function CategoryProjectRow({ category }: { category: WorkCategory }) {
   const slots = projectSlotsForCategory(category.id);
   const projectCount = realProjectCount(category.id);
   const hasControls = projectCount > 3;
+  const shellRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number | null>(null);
   const [edges, setEdges] = useState({ canPrevious: false, canNext: hasControls });
@@ -71,6 +72,15 @@ function CategoryProjectRow({ category }: { category: WorkCategory }) {
     setEdges((current) => current.canPrevious === next.canPrevious && current.canNext === next.canNext ? current : next);
   }, []);
 
+  const updateMediaCenter = useCallback(() => {
+    const shell = shellRef.current;
+    const media = trackRef.current?.querySelector<HTMLElement>(".gallery-project-image, .gallery-placeholder-visual");
+    if (!shell || !media) return;
+    const shellBox = shell.getBoundingClientRect();
+    const mediaBox = media.getBoundingClientRect();
+    shell.style.setProperty("--project-media-center", `${mediaBox.top - shellBox.top + mediaBox.height / 2}px`);
+  }, []);
+
   const scheduleEdgeUpdate = useCallback(() => {
     if (frameRef.current !== null) return;
     frameRef.current = window.requestAnimationFrame(() => {
@@ -83,21 +93,26 @@ function CategoryProjectRow({ category }: { category: WorkCategory }) {
     const track = trackRef.current;
     if (!track) return;
 
+    updateMediaCenter();
     scheduleEdgeUpdate();
     track.addEventListener("scroll", scheduleEdgeUpdate, { passive: true });
-    window.addEventListener("resize", scheduleEdgeUpdate, { passive: true });
+    const updateLayout = () => {
+      updateMediaCenter();
+      scheduleEdgeUpdate();
+    };
+    window.addEventListener("resize", updateLayout, { passive: true });
 
-    const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(scheduleEdgeUpdate);
+    const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateLayout);
     resizeObserver?.observe(track);
     Array.from(track.children).forEach((card) => resizeObserver?.observe(card));
 
     return () => {
       track.removeEventListener("scroll", scheduleEdgeUpdate);
-      window.removeEventListener("resize", scheduleEdgeUpdate);
+      window.removeEventListener("resize", updateLayout);
       resizeObserver?.disconnect();
       if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
     };
-  }, [scheduleEdgeUpdate]);
+  }, [scheduleEdgeUpdate, updateMediaCenter]);
 
   const moveOneCard = useCallback((direction: -1 | 1) => {
     const track = trackRef.current;
@@ -132,26 +147,15 @@ function CategoryProjectRow({ category }: { category: WorkCategory }) {
     >
       <header className="project-category-header reveal" data-stagger>
         <div className="project-category-heading">
-          <p className="section-label"><span>{category.number}</span>Project category</p>
           <h3 id={`${category.id}-title`}>{category.title}</h3>
           <p>{category.description}</p>
         </div>
         <div className="project-category-meta">
           <span>{projectCount} {projectCount === 1 ? "project" : "projects"}</span>
-          {hasControls && (
-            <div className="project-carousel-controls" aria-label={`${category.title} carousel controls`}>
-              <button type="button" onClick={() => moveOneCard(-1)} disabled={!edges.canPrevious} aria-label={`Show previous ${category.title} project`}>
-                <span aria-hidden="true">←</span>
-              </button>
-              <button type="button" onClick={() => moveOneCard(1)} disabled={!edges.canNext} aria-label={`Show next ${category.title} project`}>
-                <span aria-hidden="true">→</span>
-              </button>
-            </div>
-          )}
         </div>
       </header>
 
-      <div className="project-carousel-shell">
+      <div className="project-carousel-shell" ref={shellRef}>
         <div
           className="project-carousel-track"
           ref={trackRef}
@@ -162,6 +166,30 @@ function CategoryProjectRow({ category }: { category: WorkCategory }) {
         >
           {slots.map((slot) => <GallerySlot key={slot.kind === "project" ? slot.project.slug : slot.id} slot={slot} />)}
         </div>
+        {hasControls && (
+          <div className="project-carousel-controls" aria-label={`${category.title} carousel controls`}>
+            <button
+              className={`project-carousel-previous${edges.canPrevious ? "" : " is-hidden"}`}
+              type="button"
+              onClick={() => moveOneCard(-1)}
+              disabled={!edges.canPrevious}
+              tabIndex={edges.canPrevious ? 0 : -1}
+              aria-hidden={edges.canPrevious ? undefined : true}
+              aria-label={`Show previous ${category.title} project`}
+            >
+              <span aria-hidden="true">←</span>
+            </button>
+            <button
+              className="project-carousel-next"
+              type="button"
+              onClick={() => moveOneCard(1)}
+              disabled={!edges.canNext}
+              aria-label={`Show next ${category.title} project`}
+            >
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        )}
         <span className="project-carousel-fade project-carousel-fade-left" aria-hidden="true" />
         <span className="project-carousel-fade project-carousel-fade-right" aria-hidden="true" />
       </div>
