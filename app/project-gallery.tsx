@@ -99,7 +99,6 @@ function CategoryProjectRow({ category, stackIndex }: { category: WorkCategory; 
   });
   const incomingY = useTransform(scrollYProgress, [0, 1], [48, 0]);
   const incomingScale = useTransform(scrollYProgress, [0, 1], [0.985, 1]);
-  const incomingOpacity = useTransform(scrollYProgress, [0, 1], [0.78, 1]);
   const animateIncomingCard = isStackedViewport && !shouldReduceMotion;
   const stackStyle = {
     "--stack-index": stackIndex + 1,
@@ -199,7 +198,7 @@ function CategoryProjectRow({ category, stackIndex }: { category: WorkCategory; 
     >
       <motion.div
         className="project-category-card"
-        style={animateIncomingCard ? { y: incomingY, scale: incomingScale, opacity: incomingOpacity } : undefined}
+        style={animateIncomingCard ? { y: incomingY, scale: incomingScale } : undefined}
       >
         <header className="project-category-header">
           <div className="project-category-heading">

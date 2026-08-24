@@ -203,7 +203,7 @@ test("project categories use indexed sticky cards with accessible motion fallbac
   assert.match(gallery, /trackContentSize: true/);
   assert.match(gallery, /useTransform\(scrollYProgress, \[0, 1\], \[48, 0\]\)/);
   assert.match(gallery, /useTransform\(scrollYProgress, \[0, 1\], \[0\.985, 1\]\)/);
-  assert.match(gallery, /useTransform\(scrollYProgress, \[0, 1\], \[0\.78, 1\]\)/);
+  assert.doesNotMatch(gallery, /incomingOpacity|opacity: incomingOpacity|\[0\.78, 1\]/);
   assert.match(gallery, /animateIncomingCard = isStackedViewport && !shouldReduceMotion/);
   assert.match(gallery, /"--stack-index": stackIndex \+ 1/);
   assert.match(gallery, /"--stack-offset": `\$\{stackIndex \* 16\}px`/);
@@ -211,13 +211,16 @@ test("project categories use indexed sticky cards with accessible motion fallbac
   assert.match(gallery, /workCategories\.map\(\(category, stackIndex\)/);
   assert.doesNotMatch(gallery, /project-category-header reveal|data-stagger/);
 
-  assert.match(css, /\.project-category-card[^}]*padding:\s*clamp\(24px, 3\.5vw, 48px\)[^}]*background:\s*var\(--surface\)[^}]*border-radius:\s*12px[^}]*box-shadow:\s*var\(--stack-card-shadow\)/s);
+  assert.match(css, /\.project-category-card[^}]*padding:\s*clamp\(24px, 3\.5vw, 48px\)[^}]*opacity:\s*1[^}]*background:\s*var\(--surface\)[^}]*border-radius:\s*12px[^}]*box-shadow:\s*var\(--stack-card-shadow\)/s);
+  assert.match(css, /--stack-card-shadow:\s*0 -6px 18px rgba\(0, 0, 0, \.06\)/);
+  assert.match(css, /--stack-card-shadow:\s*0 -6px 18px rgba\(17, 19, 23, \.035\)/);
   assert.match(css, /@media \(min-width:\s*768px\)[\s\S]*?\.project-category-row\s*\{[^}]*position:\s*sticky[^}]*top:\s*calc\(var\(--nav-height\) \+ 24px \+ var\(--stack-offset\)\)/);
   assert.match(css, /\.project-category-row[^}]*z-index:\s*var\(--stack-index\)/s);
   assert.match(css, /@media \(max-width:\s*767px\)[\s\S]*?\.project-category-row[^}]*position:\s*relative[^}]*top:\s*auto[^}]*z-index:\s*auto/);
   assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*?\.project-category-row[^}]*position:\s*relative !important[^}]*top:\s*auto !important[\s\S]*?\.project-category-card[^}]*opacity:\s*1 !important[^}]*transform:\s*none !important/);
   assert.match(master, /Offset each successive card by 16px/);
   assert.match(home, /Motion only on the inner category card/);
+  assert.match(home, /Keep opacity fixed at `1` throughout the entrance/);
 });
 
 test("legacy pages permanently redirect and unknown project slugs remain not found", async () => {
