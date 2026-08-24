@@ -95,6 +95,7 @@ test("all project categories and projects are visible directly on the homepage",
   ];
 
   assert.equal((html.match(/class="project-category-row(?: project-category-row-overflow)?"/g) ?? []).length, 4);
+  assert.equal((html.match(/class="project-category-card"/g) ?? []).length, 4);
   assert.equal((html.match(/class="gallery-project"/g) ?? []).length, 15);
   assert.equal((html.match(/class="project-carousel-track"/g) ?? []).length, 4);
   assert.equal((html.match(/class="project-carousel-controls"/g) ?? []).length, 1);
@@ -128,6 +129,7 @@ test("horizontal project lanes implement responsive and accessible browsing", as
 
   assert.match(packageJson, /"embla-carousel-react": "\^8\.6\.0"/);
   assert.match(packageJson, /"lucide-react": "\^1\.34\.0"/);
+  assert.match(packageJson, /"motion": "\^13\.1\.1"/);
   assert.match(gallery, /import useEmblaCarousel from "embla-carousel-react"/);
   assert.match(gallery, /import \{ ChevronLeft, ChevronRight \} from "lucide-react"/);
   assert.match(gallery, /align: "start"/);
@@ -183,6 +185,39 @@ test("horizontal project lanes implement responsive and accessible browsing", as
   assert.match(css, /@supports not[\s\S]*?\.project-carousel-shell::before[^}]*left:\s*-1px[\s\S]*?\.project-carousel-shell::after[^}]*right:\s*-1px/);
   assert.doesNotMatch(css, /\.project-carousel-fade|grid-auto-columns:\s*calc\(\(100% - 48px\) \/ 2\.25\)|grid-auto-columns:\s*min\(82vw, 360px\)/);
   assert.doesNotMatch(css, /project-gallery-dialog|dialog-open|work-category-card|category-open/);
+});
+
+test("project categories use indexed sticky cards with accessible motion fallbacks", async () => {
+  const [gallery, css, master, home] = await Promise.all([
+    readFile(new URL("../app/project-gallery.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../design-system/edsun-portfolio/MASTER.md", import.meta.url), "utf8"),
+    readFile(new URL("../design-system/edsun-portfolio/pages/home.md", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(gallery, /import \{ motion, useReducedMotion, useScroll, useTransform \} from "motion\/react"/);
+  assert.match(gallery, /const stackedCategoryQuery = "\(min-width: 768px\)"/);
+  assert.match(gallery, /useSyncExternalStore\(/);
+  assert.match(gallery, /target: stackRef/);
+  assert.match(gallery, /offset: \["start 90%", "start 25%"\]/);
+  assert.match(gallery, /trackContentSize: true/);
+  assert.match(gallery, /useTransform\(scrollYProgress, \[0, 1\], \[48, 0\]\)/);
+  assert.match(gallery, /useTransform\(scrollYProgress, \[0, 1\], \[0\.985, 1\]\)/);
+  assert.match(gallery, /useTransform\(scrollYProgress, \[0, 1\], \[0\.78, 1\]\)/);
+  assert.match(gallery, /animateIncomingCard = isStackedViewport && !shouldReduceMotion/);
+  assert.match(gallery, /"--stack-index": stackIndex \+ 1/);
+  assert.match(gallery, /"--stack-offset": `\$\{stackIndex \* 16\}px`/);
+  assert.match(gallery, /<motion\.div[\s\S]*?className="project-category-card"/);
+  assert.match(gallery, /workCategories\.map\(\(category, stackIndex\)/);
+  assert.doesNotMatch(gallery, /project-category-header reveal|data-stagger/);
+
+  assert.match(css, /\.project-category-card[^}]*padding:\s*clamp\(24px, 3\.5vw, 48px\)[^}]*background:\s*var\(--surface\)[^}]*border-radius:\s*12px[^}]*box-shadow:\s*var\(--stack-card-shadow\)/s);
+  assert.match(css, /@media \(min-width:\s*768px\)[\s\S]*?\.project-category-row\s*\{[^}]*position:\s*sticky[^}]*top:\s*calc\(var\(--nav-height\) \+ 24px \+ var\(--stack-offset\)\)/);
+  assert.match(css, /\.project-category-row[^}]*z-index:\s*var\(--stack-index\)/s);
+  assert.match(css, /@media \(max-width:\s*767px\)[\s\S]*?\.project-category-row[^}]*position:\s*relative[^}]*top:\s*auto[^}]*z-index:\s*auto/);
+  assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)[\s\S]*?\.project-category-row[^}]*position:\s*relative !important[^}]*top:\s*auto !important[\s\S]*?\.project-category-card[^}]*opacity:\s*1 !important[^}]*transform:\s*none !important/);
+  assert.match(master, /Offset each successive card by 16px/);
+  assert.match(home, /Motion only on the inner category card/);
 });
 
 test("legacy pages permanently redirect and unknown project slugs remain not found", async () => {
