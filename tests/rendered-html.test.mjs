@@ -80,16 +80,16 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /data-count-suffix="\+ years"/);
   assert.doesNotMatch(html, /1,000\+|Cover templates designed|Worldwide|Remote collaboration|Professional creative work/);
   assert.match(html, /About &amp; expertise/);
-  assert.match(html, /Design that helps your[s\S]*message land\./);
-  assert.match(html, /If you need a clear way to share your message/);
-  assert.match(html, /If your video needs to hold attention/);
+  assert.match(html, /You bring the message\.[\s\S]*I help make it clear\./);
+  assert.match(html, /I’m Edsun, a graphic designer and video editor with more than seven years of experience/);
+  assert.match(html, /Need to keep viewers watching\?/);
   assert.doesNotMatch(html, /Learn more about me/);
   assert.match(html, /Get to know me[s\S]*through my work\./);
   const categories = [
-    ["01", "Graphic Design", "See how I turn ideas into clear graphics, covers, and campaign pieces.", "3 projects", "/images/project-2.jpg"],
-    ["02", "Webinar Presentations", "Explore slide systems that help people follow the story and stay engaged.", "6 projects", "/images/project-3.jpg"],
-    ["03", "Web Design", "See how I organize content into pages and interfaces that guide the next step.", "3 projects", "/images/project-1.jpg"],
-    ["04", "Video Editing", "Watch tutorials and edits built to keep each idea clear and moving.", "3 projects", "/images/video-001.webp"],
+    ["01", "Graphic Design", "See how I turn ideas into campaign graphics, covers, and print pieces that communicate clearly.", "3 projects", "/images/project-2.jpg"],
+    ["02", "Webinar Presentations", "Explore slide systems designed to help speakers teach clearly and keep audiences engaged.", "6 projects", "/images/project-3.jpg"],
+    ["03", "Web Design", "See how I organize content into responsive pages and interfaces with a clear next step.", "3 projects", "/images/project-1.jpg"],
+    ["04", "Video Editing", "Watch how I turn screen recordings and raw ideas into focused, easy-to-follow edits.", "3 projects", "/images/video-001.webp"],
   ];
   assert.equal((html.match(/class="work-category-card reveal"/g) ?? []).length, 4);
   assert.equal((html.match(/aria-haspopup="dialog"/g) ?? []).length, 4);
@@ -105,13 +105,13 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /aria-labelledby="project-gallery-title"/);
   assert.match(html, /href="\/work#graphic-design"/);
   assert.match(html, /href="\/work#video-editing"/);
-  assert.match(html, /View all Projects/);
+  assert.match(html, /See more work on Behance/);
   assert.match(html, /class="button button-primary selected-work-cta" href="https:\/\/www\.behance\.net\/edsuncaldoza"/);
   assert.match(html, /Client feedback/);
   assert.match(html, /Such a great experience working with Edsun/);
   assert.match(html, /Tools &amp; workflow/);
   assert.match(html, /Tools I use to get[\s\S]*the work done\./);
-  assert.match(html, /Here are the tools I rely on to move your idea from first layout to final delivery across print, video, and web\./);
+  assert.match(html, /These are the tools I use to take your project from first layout to final delivery across print, video, and web\./);
   for (const tool of ["Adobe Photoshop", "Figma", "Canva", "CapCut", "WordPress", "HTML", "CSS", "JavaScript", "PHP", "MySQL", "Microsoft Office Suite", "Google Workspace", "Google Slides"]) {
     assert.match(html, new RegExp(tool));
   }
@@ -122,7 +122,7 @@ test("home presents the role-focused hero and recruiter/client paths", async () 
   assert.match(html, /<span>05<\/span>Contact/);
   assert.match(html, /Available worldwide/);
   assert.match(html, /Have a project[\s\S]*in mind\?/);
-  assert.match(html, /Tell me what you need to communicate\./);
+  assert.match(html, /Tell me what you’re working on\./);
   assert.match(html, /Start a conversation/);
   assert.match(html, /aria-label="Switch to light theme"/);
   assert.match(html, /role="progressbar"/);
@@ -429,11 +429,13 @@ test("about and work pages expose the requested information architecture", async
   assert.equal(aboutResponse.status, 200);
   assert.equal(workResponse.status, 200);
   const [about, work] = await Promise.all([aboutResponse.text(), workResponse.text()]);
-  assert.match(about, /Designer, editor, and[\s\S]*ready to help you communicate\./);
-  assert.match(about, /My work starts with what your audience needs to understand\./);
-  assert.match(about, /Experience across the formats your work may need\./);
-  assert.match(about, /Start with what you need to say/);
-  assert.match(about, /Share, review, and refine/);
+  assert.match(about, /Here’s how I turn ideas[\s\S]*into clear visual work\./);
+  assert.match(about, /Good design starts with knowing what people need to understand\./);
+  assert.match(about, /The experience I bring to your project\./);
+  assert.match(about, /What working together looks like/);
+  assert.match(about, /Tell me what you need to communicate/);
+  assert.match(about, /I build the visual direction/);
+  assert.match(about, /We review and refine/);
   assert.match(about, /Unica Publications/);
   assert.match(about, /Bachelor of Science in Information Technology/);
   assert.match(about, /Philippines/);
@@ -448,8 +450,8 @@ test("about and work pages expose the requested information architecture", async
   assert.doesNotMatch(work, /Web \/ Digital|motion-video-reel|short-form-social-edits/);
   assert.match(work, /Project index/);
   assert.match(work, /2023 to 2026/);
-  assert.match(work, /See the work behind[\s\S]*the ideas\./);
-  assert.match(work, /Explore campaigns, presentations, web pages, app concepts, print pieces, and tutorial videos built to make the next message easier to understand\./);
+  assert.match(work, /Explore the work behind[\s\S]*the ideas\./);
+  assert.match(work, /Browse campaigns, presentations, websites, app concepts, print pieces, and video tutorials\.[\s\S]*Each project shows the problem, the decisions, and the final result\./);
   assert.equal((work.match(/class="project-card reveal"/g) ?? []).length, 15);
   assert.equal((work.match(/class="project-card project-placeholder reveal"/g) ?? []).length, 0);
   assert.doesNotMatch(work, /Project coming soon\./);
@@ -517,6 +519,7 @@ test("project routes render direct case-study copy and navigation", async () => 
     const renderedUrl = externalUrl.replaceAll("&", "&amp;");
     assert.match(html, new RegExp(`href="${escapeRegExp(renderedUrl)}"`));
     assert.match(html, new RegExp(escapeRegExp(actionLabel)));
+    assert.doesNotMatch(html, /See how|Explore a|Watch how/);
     assert.doesNotMatch(html, /The brief|Selected outcome|Designed to stay clear at every size/);
   }
 
@@ -562,10 +565,10 @@ test("social metadata uses the incoming host and bespoke card", async () => {
   assert.match(layout, /x-forwarded-host/);
   assert.match(layout, /new URL\("\/og\.png", metadataBase\)/);
   assert.match(layout, /summary_large_image/);
-  assert.match(layout, /Explore graphic design, video editing, presentation design, and web work that helps messages land clearly\./);
-  assert.match(home, /Explore graphic design, video editing, presentation design, and web work that helps messages land clearly\./);
-  assert.match(about, /Learn how Edsun Caldoza turns ideas into clear print, presentation, web, and digital work/);
-  assert.match(work, /Explore graphic design, webinar presentations, web design, and video editing projects by Edsun Caldoza\./);
+  assert.match(layout, /See how Edsun Caldoza helps clients and remote teams communicate through graphic design, video editing, presentation design, and web design\./);
+  assert.match(home, /See how Edsun Caldoza helps clients and remote teams communicate through graphic design, video editing, presentation design, and web design\./);
+  assert.match(about, /Learn how Edsun Caldoza works with clients and remote teams to turn ideas into clear visual content\./);
+  assert.match(work, /Browse graphic design, webinar presentations, web design, and video editing projects by Edsun Caldoza\./);
 });
 
 test("brand favicon is exposed with compatible fallbacks", async () => {

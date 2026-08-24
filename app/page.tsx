@@ -5,13 +5,13 @@ import { SelectedWorkGallery } from "./project-gallery";
 
 export const metadata: Metadata = {
   title: "Edsun Caldoza | Graphic Designer & Video Editor",
-  description: "Explore graphic design, video editing, presentation design, and web work that helps messages land clearly.",
+  description: "See how Edsun Caldoza helps clients and remote teams communicate through graphic design, video editing, presentation design, and web design.",
 };
 
 const expertise = [
-  { number: "01", title: "Graphic Design", text: "If you need a message to land clearly, I create campaign graphics, presentations, book covers, social content, and print materials around it.", tools: "Photoshop · Canva · Google Slides" },
-  { number: "02", title: "Video Editing", text: "If your video needs to hold attention, I shape short edits with clear captions, titles, pacing, and simple motion graphics.", tools: "Short-form · Captions · Motion graphics" },
-  { number: "03", title: "Web & Digital", text: "If your audience needs a clear next step, I design landing pages and responsive layouts that make it easy to find.", tools: "Figma · WordPress · HTML · CSS" },
+  { number: "01", title: "Graphic Design", text: "Need a campaign, presentation, cover, or print piece? I build the visual system around the message you want people to remember.", tools: "Photoshop · Canva · Google Slides" },
+  { number: "02", title: "Video Editing", text: "Need to keep viewers watching? I shape footage with clear pacing, captions, titles, and motion that supports the story.", tools: "Short-form · Captions · Motion graphics" },
+  { number: "03", title: "Web & Digital", text: "Need a page that guides people to the next step? I organize the content into a responsive, easy-to-follow experience.", tools: "Figma · WordPress · HTML · CSS" },
 ];
 
 const portfolioStats = [
@@ -61,11 +61,11 @@ export default function Home() {
         </section>
 
         <section className="home-about" id="about">
-          <SectionIntro number="01" label="About & expertise" title={<>Design that helps your<br />message land.</>} />
+          <SectionIntro number="01" label="About & expertise" title={<>You bring the message.<br />I help make it clear.</>} />
           <div className="about-expertise-grid">
             <div className="about-expertise-copy reveal">
-              <p className="about-lead">If you need a clear way to share your message, I bring seven years of experience across print, presentations, web design, and digital content.</p>
-              <p>You can expect thoughtful visual direction, organized files, useful revisions, and work that is ready to use.</p>
+              <p className="about-lead">I’m Edsun, a graphic designer and video editor with more than seven years of experience across print, presentations, web, and digital content.</p>
+              <p>Whether you need one asset or a complete visual system, you can expect clear communication, organized files, practical revisions, and work that is ready to use.</p>
             </div>
             <div className="expertise-list reveal" data-stagger>
               {expertise.map((item) => (
@@ -81,7 +81,7 @@ export default function Home() {
         <section className="selected-work" id="selected-work">
           <SectionIntro number="02" label="Selected work" title={<>Get to know me<br />through my work.</>} />
           <SelectedWorkGallery />
-          <a className="button button-primary selected-work-cta" href="https://www.behance.net/edsuncaldoza" target="_blank" rel="noreferrer">View all Projects <span aria-hidden="true">↗</span></a>
+          <a className="button button-primary selected-work-cta" href="https://www.behance.net/edsuncaldoza" target="_blank" rel="noreferrer">See more work on Behance <span aria-hidden="true">↗</span></a>
         </section>
 
         <section className="testimonial reveal" data-stagger>
@@ -93,7 +93,7 @@ export default function Home() {
         <section className="tools-section" id="tools">
           <SectionIntro number="04" label="Tools & workflow" title={<>Tools I use to get<br />the work done.</>} />
           <div className="tools-copy-row reveal">
-            <p>Here are the tools I rely on to move your idea from first layout to final delivery across print, video, and web.</p>
+            <p>These are the tools I use to take your project from first layout to final delivery across print, video, and web.</p>
           </div>
           <WorkflowToolsMarquee />
         </section>
@@ -102,7 +102,7 @@ export default function Home() {
           <div className="contact-topline"><p className="section-label"><span>05</span>Contact</p><span>Based in the Philippines · Available worldwide</span></div>
           <h2>Have a project<br /><span>in mind?</span></h2>
           <div className="contact-bottom">
-            <p>Tell me what you need to communicate. I’m available for freelance projects and remote roles in graphic design, video editing, and web design.</p>
+            <p>Tell me what you’re working on. If you need graphic design, video editing, or web design, I’d be glad to hear about it.</p>
             <a className="contact-email" href="mailto:edsunjcaldoza@gmail.com">Start a conversation <span aria-hidden="true">↗</span></a>
           </div>
         </section>

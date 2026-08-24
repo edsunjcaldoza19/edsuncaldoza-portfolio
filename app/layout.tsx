@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase,
     title: { default: "Edsun Caldoza | Graphic Designer & Video Editor", template: "%s" },
-    description: "Explore graphic design, video editing, presentation design, and web work that helps messages land clearly.",
+    description: "See how Edsun Caldoza helps clients and remote teams communicate through graphic design, video editing, presentation design, and web design.",
     icons: {
       icon: [
         { url: "/favicon.ico?v=4", type: "image/x-icon", sizes: "150x150" },
@@ -33,13 +33,13 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       url: metadataBase,
       title: "Edsun Caldoza | Graphic Designer & Video Editor",
-      description: "Explore graphic design, video editing, presentation design, and web work that helps messages land clearly.",
+      description: "See how Edsun Caldoza helps clients and remote teams communicate through graphic design, video editing, presentation design, and web design.",
       images: [{ url: socialImage, width: 1536, height: 1024, alt: "Edsun Caldoza | Graphic Designer & Video Editor" }],
     },
     twitter: {
       card: "summary_large_image",
       title: "Edsun Caldoza | Graphic Designer & Video Editor",
-      description: "Explore graphic design, video editing, presentation design, and web work that helps messages land clearly.",
+      description: "See how Edsun Caldoza helps clients and remote teams communicate through graphic design, video editing, presentation design, and web design.",
       images: [socialImage],
     },
   };
