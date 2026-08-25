@@ -225,7 +225,8 @@ test("project categories use indexed sticky cards with accessible motion fallbac
   assert.match(master, /Offset each successive card by 16px/);
   assert.match(home, /Motion only on the inner category card/);
   assert.match(home, /keep opacity fixed at `1` throughout the entrance/i);
-  assert.match(home, /alternating rotation from `-1\.25deg` or `1\.25deg` to `0deg`/);
+  assert.match(home, /alternating rotation from `-1\.25deg` or `1\.25deg` to a level `0deg` final state/);
+  assert.match(home, /settles above earlier cards through the indexed sticky wrapper/);
 });
 
 test("legacy pages permanently redirect and unknown project slugs remain not found", async () => {
