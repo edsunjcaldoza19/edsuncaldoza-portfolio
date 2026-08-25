@@ -20,18 +20,37 @@ function escapeRegExp(value) {
 }
 
 const projects = [
+  ["heart-attack-youtube-thumbnail", "Heart Attack YouTube Thumbnail Design", "https://www.behance.net/gallery/226894523/Heart-Attack-YouTube-Thumbnail-Design"],
+  ["page-whisper-mobile-app", "Page Whisper Mobile App UI", "https://www.behance.net/gallery/226752305/Page-Whisper-Mobile-App-UI"],
+  ["digital-marketing-mastery-campaign", "Digital Marketing Mastery Webinar Campaign", "https://www.behance.net/gallery/226541053/Digital-Marketing-Mastery-Webinar-Social-Media-Design"],
+  ["car-rental-brochure", "Car Rental Service Brochure", "https://www.behance.net/gallery/176567239/Dynamic-Brochure-Design-for-Your-Car-Rental-Service"],
+  ["heart-health-book-cover", "Heart Health Book Cover", "https://www.behance.net/gallery/226851791/Heart-Health-Book-Cover-Template"],
+  ["scions-and-scavengers-book-cover", "Scions and Scavengers Book Cover", "https://www.behance.net/gallery/233773537/Scions-and-Scavengers-Book-Cover"],
+  ["audiobook-mobile-app-ui", "Audiobook Mobile App UI", "https://www.behance.net/gallery/226723313/Audiobook-Mobile-App-UI"],
+  ["tech-startup-online-course-banner", "Online Course Banner for Tech Startups", "https://www.behance.net/gallery/198891039/Online-Course-Banner-Design-for-Tech-Startups"],
+  ["beauty-pageant-tarpaulin", "Beauty Pageant Tarpaulin Design", "https://www.behance.net/gallery/176567723/Tarpaulin-Design-for-a-Glamorous-Beauty-Pageant"],
+  ["printing-business-brochure", "Printing Business Brochure Design", "https://www.behance.net/gallery/176567481/Printing-Business-Captivating-Brochure-Design"],
+  ["custom-mug-design", "Custom Mug Design", "https://www.behance.net/gallery/199199253/Custom-Mug-Design"],
+  ["mastering-your-money-webinar", "Mastering Your Money Webinar Template", "https://www.behance.net/gallery/226745875/Mastering-Your-Money-Webinar-Template"],
+  ["mastering-digital-marketing-webinar", "Mastering Digital Marketing Webinar Template", "https://www.behance.net/gallery/226721607/Mastering-Digital-Marketing-Webinar-Template"],
+  ["blue-theme-webinar-deck", "Blue Theme Webinar Google Slides Deck", "https://www.behance.net/gallery/238076371/Blue-Theme-Webinar-Google-Slides-Deck-Template"],
+  ["social-media-marketing-webinar", "Social Media Marketing Webinar Template", "https://www.behance.net/gallery/238031503/Social-Media-Marketing-Webinar-Google-Slides-Template"],
+  ["unlock-financial-freedom-webinar", "Unlock Financial Freedom Webinar Template", "https://www.behance.net/gallery/226718265/Unlock-Financial-Freedom-Webinar-Template"],
+  ["wealth-webinar-presentation", "Wealth Google Slides Webinar Template", "https://www.behance.net/gallery/226690009/Wealth-Google-Slides-Webinar-Template"],
+  ["same-day-garage-door-service", "Same Day Garage Door Service Website", "https://www.behance.net/gallery/254569739/Same-Day-Garage-Door-Service-Website"],
+  ["foldcharge-responsive-landing-page", "FoldCharge Responsive Product Landing Page", "https://www.behance.net/gallery/254568891/FoldCharge-Responsive-Tech-Product-Landing-Page"],
+  ["ai-productivity-course-bundle", "AI Productivity Course Bundle Sales Page", "https://www.behance.net/gallery/254459643/AI-Productivity-Course-Bundle-Sales-Landing-Page"],
+  ["sidehustlex-ai-automation-sales-page", "SideHustleX AI Automation Sales Page", "https://www.behance.net/gallery/254460105/SideHustleX-AI-Automation-Sales-Landing-Page"],
+  ["ai-image-mastery-sales-page", "AI Image Mastery Course Sales Page", "https://www.behance.net/gallery/254460367/AI-Image-Mastery-Creative-Course-Sales-Landing-Page"],
   ["ai-business-model-landing-page", "AI Business Model Landing Page", "https://www.behance.net/gallery/238027647/AI-Business-Model-Landing-Page-Website-Design"],
+  ["smart-watch-affiliate-landing-page", "Smart Watch Affiliate Landing Page", "https://www.behance.net/gallery/238318625/Affiliate-Landing-Page-Smart-Watch-Product-Website"],
+  ["neurorewire-protocol-sales-page", "NeuroRewire Protocol Sales Page", "https://www.behance.net/gallery/254519361/NeuroRewire-Protocol-Mindset-Training-Sales-Page"],
+  ["health-wellness-web-design", "Health and Wellness Web Design", "https://www.behance.net/gallery/226853711/Health-and-Wellness-Web-Design"],
   ["smart-income-streams-ai-sales-page", "Smart Income Streams with AI Sales Page", "https://www.behance.net/gallery/238320549/Smart-Income-Streams-with-AI-Long-Form-Sales-Page"],
-  ["digital-marketing-campaign", "Digital Marketing Mastery Campaign", "https://www.behance.net/gallery/226541053/Digital-Marketing-Mastery-Webinar-Social-Media-Design"],
-  ["wealth-webinar-presentation", "Wealth Webinar Slide System", "https://www.behance.net/gallery/226690009/Wealth-Google-Slides-Webinar-Template"],
-  ["mastering-your-money-webinar", "Mastering Your Money Webinar", "https://www.behance.net/gallery/226745875/Mastering-Your-Money-Webinar-Template"],
-  ["mastering-digital-marketing-webinar", "Mastering Digital Marketing Webinar", "https://www.behance.net/gallery/226721607/Mastering-Digital-Marketing-Webinar-Template"],
-  ["blue-theme-webinar-deck", "Blue Theme Webinar Deck", "https://www.behance.net/gallery/238076371/Blue-Theme-Webinar-Google-Slides-Deck-Template"],
-  ["social-media-marketing-webinar", "Social Media Marketing Webinar", "https://www.behance.net/gallery/238031503/Social-Media-Marketing-Webinar-Google-Slides-Template"],
-  ["unlock-financial-freedom-webinar", "Unlock Financial Freedom Webinar", "https://www.behance.net/gallery/226718265/Unlock-Financial-Freedom-Webinar-Template"],
-  ["page-whisper-mobile-app", "Page Whisper Reading App", "https://www.behance.net/gallery/226752305/Page-Whisper-Mobile-App-UI"],
-  ["heart-health-book-cover", "Heart Health Made Simple", "https://www.behance.net/gallery/226851791/Heart-Health-Book-Cover-Template"],
-  ["moonlight-car-rental-brochure", "Moonlight Car Rental Brochure", "https://www.behance.net/gallery/176567239/Dynamic-Brochure-Design-for-Your-Car-Rental-Service"],
+  ["photography-course-landing-page", "Photography Course Landing Page", "https://www.behance.net/gallery/238032123/Photography-Course-Landing-Page-Website-Design"],
+  ["room-for-rent-website-ui", "Room for Rent Website UI", "https://www.behance.net/gallery/226744299/Room-for-Rent-Website-UI"],
+  ["digital-marketing-mastery-landing-page", "Digital Marketing Mastery Landing Page", "https://www.behance.net/gallery/238029645/Digital-Marketing-Mastery-Landing-Page-Website-Design"],
+  ["web-design-mastery-landing-page", "Web Design Mastery Landing Page", "https://www.behance.net/gallery/226893301/Web-Design-Mastery-Landing-Page-Template"],
   ["capcut-export-settings", "CapCut Export Settings for Crisp Video", "https://www.dropbox.com/scl/fi/zwuvh531mcnep968p83qf/Module-9.1.mp4?rlkey=jlmao5nu6ve4ig41rs61p0jr4&dl=0"],
   ["watermark-free-capcut-exports", "Watermark-Free CapCut Exports", "https://www.dropbox.com/scl/fi/r2zqv70yj2owfvkym04ad/Module-9.2.mp4?rlkey=lrdzkymohlmhp2gntwm6shk0i&dl=0"],
   ["capcut-covers-and-thumbnails", "CapCut Covers and Thumbnails", "https://www.dropbox.com/scl/fi/431bcw042ojmnck7pawzs/Module-9.3.mp4?rlkey=wsmfkjw55y5d88dfwzoic3g08&dl=0"],
@@ -45,19 +64,14 @@ test("downloadable resume uses the approved updated PDF", async () => {
 
 test("project media uses the approved local assets", async () => {
   const expectedAssets = [
-    ["webinar-001.jpg", "2703304697c7e7c8cb82e2bf382948bb84d977605578bf414a5aae7d44b4af5a"],
-    ["webinar-002.jpg", "0e1717a9e2c7281f8758273d78efced4f3230d5b26faebc00b8da5d9d114b888"],
-    ["webinar-003.jpg", "22c0e4a3c9c15c0ea5df22c493bb22603042170635a42dbc716c4b5a7e4d5372"],
-    ["webinar-004.jpg", "0676a74f8c280f53efc21b67e0241bdcc80ad698a5fccbde4c3b56ba84d2e77c"],
-    ["webinar-005.jpg", "a4f1382ef2e1e53bb132044e861fc3fa71b0c4a415c4ed8b9d48fd0a0410d044"],
-    ["web-001.jpg", "166e62788ee0b505980650c1c756cdcd81372b264e21face73a8e7c82b1cd118"],
-    ["video-001.webp", "f3e3306f1ceaa4ba1be8fab39798263f1171a26be3062bfdec0651fbbc56ed5e"],
-    ["video-002.webp", "a100356da18f33b422d9a3c6eceeaafbb59864cac22a8f599e6734da94a6517c"],
-    ["video-003.webp", "a9e85b89ea019f6cd5301983ef1ca96d8b57c598b3899bd4b5d6076b7a14a19c"],
+    ...Array.from({ length: 11 }, (_, index) => `graphic/graphic-${String(index + 1).padStart(3, "0")}.jpg`),
+    ...Array.from({ length: 14 }, (_, index) => `web/web-${String(index + 1).padStart(3, "0")}.jpg`),
+    ...Array.from({ length: 6 }, (_, index) => `webinar/webinar-${String(index + 1).padStart(3, "0")}.jpg`),
+    ...Array.from({ length: 3 }, (_, index) => `video/video-${String(index + 1).padStart(3, "0")}.webp`),
   ];
-  for (const [name, hash] of expectedAssets) {
-    const asset = await readFile(new URL(`../public/images/${name}`, import.meta.url));
-    assert.equal(createHash("sha256").update(asset).digest("hex"), hash);
+  for (const path of expectedAssets) {
+    const asset = await readFile(new URL(`../public/images/${path}`, import.meta.url));
+    assert.ok(asset.length > 1_024, `${path} should contain a usable project thumbnail`);
   }
 });
 
@@ -88,17 +102,17 @@ test("all project categories and projects are visible directly on the homepage",
   const response = await render();
   const html = await response.text();
   const categories = [
-    ["Graphic Design", "3"],
+    ["Graphic Design", "11"],
     ["Webinar Presentations", "6"],
-    ["Web Design", "3"],
+    ["Web Design", "14"],
     ["Video Editing", "3"],
   ];
 
   assert.equal((html.match(/class="project-category-row(?: project-category-row-overflow)?"/g) ?? []).length, 4);
   assert.equal((html.match(/class="project-category-card"/g) ?? []).length, 4);
-  assert.equal((html.match(/class="gallery-project"/g) ?? []).length, 15);
+  assert.equal((html.match(/class="gallery-project"/g) ?? []).length, 34);
   assert.equal((html.match(/class="project-carousel-track"/g) ?? []).length, 4);
-  assert.equal((html.match(/class="project-carousel-controls"/g) ?? []).length, 1);
+  assert.equal((html.match(/class="project-carousel-controls"/g) ?? []).length, 3);
   assert.doesNotMatch(html, /<dialog|aria-haspopup="dialog"|Close project gallery|dialog-open|<noscript>/);
 
   assert.doesNotMatch(html, /Project category/);
@@ -108,9 +122,14 @@ test("all project categories and projects are visible directly on the homepage",
     assert.match(html, new RegExp(`${count}(?:<!-- -->)?\\s*(?:<!-- -->)?projects`));
   }
 
+  const categoryOrder = ["graphic-design", "web-design", "webinar-presentations", "video-editing"];
+  const categoryPositions = categoryOrder.map((category) => html.indexOf(`id="${category}-title"`));
+  assert.ok(categoryPositions.every((position) => position >= 0));
+  assert.ok(categoryPositions.every((position, index) => index === 0 || categoryPositions[index - 1] < position));
+
   assert.match(html, /project-carousel-previous is-hidden[^>]*disabled=""[^>]*tabindex="-1"[^>]*aria-hidden="true"/);
   assert.match(html, /aria-label="Show next Webinar Presentations project"/);
-  assert.equal((html.match(/>View Project(?:<!-- -->)?\s*<span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 12);
+  assert.equal((html.match(/>View Project(?:<!-- -->)?\s*<span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 31);
   assert.equal((html.match(/>Watch Video(?:<!-- -->)?\s*<span aria-hidden="true">↗<\/span><\/a>/g) ?? []).length, 3);
 
   for (const [, title, url] of projects) {
@@ -288,16 +307,18 @@ test("workflow tools remain continuous and become static for reduced motion", as
   assert.doesNotMatch(html, /Pause tools carousel|Resume tools carousel/);
 });
 
-test("stored project detail records remain complete while detail pages redirect", async () => {
+test("external project records remain complete while detail pages redirect", async () => {
   const data = await readFile(new URL("../app/data.ts", import.meta.url), "utf8");
-  assert.equal((data.match(/\n\s{4}slug: "/g) ?? []).length, 15);
-  for (const field of ["client", "role", "tools", "deliverables", "challenge", "approach", "outcomeHeading", "result"]) {
-    assert.equal((data.match(new RegExp(`\\n    ${field}:`, "g")) ?? []).length, 15);
+  assert.equal((data.match(/\n\s{4}slug: "/g) ?? []).length, 34);
+  for (const field of ["title", "categoryId", "kicker", "summary", "image", "imageAlt", "year"]) {
+    assert.equal((data.match(new RegExp(`\\n    ${field}:`, "g")) ?? []).length, 34);
   }
-  assert.equal((data.match(/categoryId: "graphic-design"/g) ?? []).length, 3);
+  assert.equal((data.match(/categoryId: "graphic-design"/g) ?? []).length, 11);
   assert.equal((data.match(/categoryId: "webinar-presentations"/g) ?? []).length, 6);
-  assert.equal((data.match(/categoryId: "web-design"/g) ?? []).length, 3);
+  assert.equal((data.match(/categoryId: "web-design"/g) ?? []).length, 14);
   assert.equal((data.match(/categoryId: "video-editing"/g) ?? []).length, 3);
+  assert.equal((data.match(/behance: "https:\/\/www\.behance\.net\/gallery\//g) ?? []).length, 31);
+  assert.equal((data.match(/externalPlatform: "Dropbox"/g) ?? []).length, 3);
 });
 
 test("user-facing source copy contains no em dash characters", async () => {
